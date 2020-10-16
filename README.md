@@ -89,6 +89,12 @@ Los turnos se pueden pedir y cancelar
 se pueden ver los turnos anteriores
 
 ### Profesional
+Se ven los turnos, solo del profesional
+- filtrar por especialidad
+se pueden aceptar o rechazar (mail al usuario)
+
+cargar historia clinica
+
 
 
 

@@ -12,6 +12,7 @@ import { FbAuthService } from '../../../services/fb-auth.service';
 export class MenuComponent implements OnInit {
 
     @Input() navLinks: iMenu;
+    @Input() isMainMenu: boolean;
     constructor(private route: ActivatedRoute, private fbauthservice: FbAuthService, private router: Router) {}
 
     public isLogged$: Subject<boolean>;

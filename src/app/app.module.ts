@@ -23,6 +23,12 @@ import { AttentionSurveyComponent } from './components/pages/patients/attention-
 import { AppointmentNewPatComponent } from './components/pages/patients/appointment-new-pat/appointment-new-pat.component';
 import { AppointmentListPatComponent } from './components/pages/patients/appointment-list-pat/appointment-list-pat.component';
 import { PatientsComponent } from './components/pages/patients/patients.component';
+import { ProfecionalsComponent } from './components/pages/profecionals/profecionals.component';
+import { AppointmentListProComponent } from './components/pages/profecionals/appointment-list-pro/appointment-list-pro.component';
+import { ClinicHistoryFormComponent } from './components/pages/profecionals/clinic-history-form/clinic-history-form.component';
+import { AdminComponent } from './components/pages/admin/admin.component';
+import { ProfesionalsListComponent } from './components/pages/admin/profesionals-list/profesionals-list.component';
+import { SpecialtiesListComponent } from './components/pages/admin/specialties-list/specialties-list.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +44,13 @@ import { PatientsComponent } from './components/pages/patients/patients.componen
     AttentionSurveyComponent,
     AppointmentNewPatComponent,
     AppointmentListPatComponent,
-    PatientsComponent
+    PatientsComponent,
+    ProfecionalsComponent,
+    AppointmentListProComponent,
+    ClinicHistoryFormComponent,
+    AdminComponent,
+    ProfesionalsListComponent,
+    SpecialtiesListComponent
   ],
   imports: [
     BrowserModule,
