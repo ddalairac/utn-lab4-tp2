@@ -1,0 +1,67 @@
+@import "src/assets/scss/variables";
+
+
+.mat-button-base {
+    color: $textColor;
+
+    &.mat-primary {
+        color: $acent;
+    }
+    &.mat-secondary {
+        color: $warn;
+    }
+}
+.mat-raised-button {
+    color: $textColor;
+
+    &.mat-primary {
+        color: white;
+        background: $acent;
+    }
+    &.mat-secondary {
+        color: white;
+        background: $warn;
+    }
+}
+.mat-mini-fab {
+    color: $textColor;
+    &.mat-primary {
+        color: white;
+        background: $acent;
+    }
+    &.mat-secondary {
+        color: white;
+        background: $warn;
+    }
+}
+.mat-icon-button{
+    &:focus {
+        outline:none!important;
+        background: rgba(0, 0, 0, 0.25);
+    }
+}
+// // }
+// .mat-flat-button {
+//     &.mat-primary,
+//     .mat-raised-button.mat-primary,
+//     .mat-fab.mat-primary,
+//     .mat-mini-fab.mat-primary {
+//         background: $acent;
+//     }
+// }
+// .mat-flat-button.mat-secondary,
+// .mat-raised-button.mat-secondary,
+// .mat-fab.mat-secondary,
+// .mat-mini-fab.mat-secondary {
+//     background: $warn;
+// }
+
+
+.mat-form-field {
+    width: 100%;
+    &.is-invalid{
+        .mat-form-field-flex{
+            background: rgba(255, 0, 0, 0.2);   
+        }
+    }
+}

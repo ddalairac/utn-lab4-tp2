@@ -1,0 +1,26 @@
+:host{
+    display: block;
+    margin-top: 30px; 
+    min-height: 295px;
+}
+// .form-control{
+//     padding-right: 180px;
+// }
+.mat-raised-button {
+    margin-right: 20px;
+}
+.action{
+    padding-bottom: 5px;
+
+    &.a{
+
+    }
+    &.b{
+        position: absolute;
+        bottom: 0;
+        padding-bottom: 5px;
+        width: 100%;
+        display: none;
+
+    }
+}

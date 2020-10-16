@@ -2,13 +2,54 @@ import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { Error404Component } from './components/pages/error404/error404.component';
+import { HomeComponent } from './components/pages/home/home.component';
+import { CommonModule } from '@angular/common';
+import { AngularFireModule } from '@angular/fire';
+import { AngularFireAuthModule } from '@angular/fire/auth';
+import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { FormsModule } from '@angular/forms';
+import { environment } from '../environments/environment';
+import { AppRoutingModule } from './app-routing.module';
+import { GoBackComponent } from './components/cross/go-back/go-back.component';
+import { LoaderComponent } from './components/cross/loader/loader.component';
+import { MenuComponent } from './components/cross/menu/menu.component';
+import { AuthUserComponent } from './components/pages/auth-user/auth-user.component';
+import { LoginComponent } from './components/pages/auth-user/login/login.component';
+import { RegisterComponent } from './components/pages/auth-user/registro/register.component';
+import { MaterialModule } from './vendors/material.module';
+import { AttentionSurveyComponent } from './components/pages/patients/attention-survey/attention-survey.component';
+import { AppointmentNewPatComponent } from './components/pages/patients/appointment-new-pat/appointment-new-pat.component';
+import { AppointmentListPatComponent } from './components/pages/patients/appointment-list-pat/appointment-list-pat.component';
+import { PatientsComponent } from './components/pages/patients/patients.component';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    GoBackComponent,
+    LoaderComponent,
+    MenuComponent,
+    AuthUserComponent,
+    LoginComponent,
+    RegisterComponent,
+    Error404Component,
+    HomeComponent,
+    AttentionSurveyComponent,
+    AppointmentNewPatComponent,
+    AppointmentListPatComponent,
+    PatientsComponent
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    FormsModule,
+    CommonModule,
+    MaterialModule,
+    AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule, // auth
+    AngularFirestoreModule // storage
   ],
   providers: [],
   bootstrap: [AppComponent]

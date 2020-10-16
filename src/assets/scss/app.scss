@@ -1,0 +1,24 @@
+@import 'variables';
+@import "bootstrap-custom";
+@import "material-custom";
+html,
+body {
+    height: 100%;
+    overflow-x: hidden;
+    // background: white!important;
+    // background-image: linear-gradient(180deg, $bg-color, black);
+    color: $textColor;
+}
+body {
+    margin: 0;
+    overflow-y: scroll;
+    position: relative;
+    display: block;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+*{
+    box-sizing: border-box;
+}
+@import "utilities";
+@import "type";
+

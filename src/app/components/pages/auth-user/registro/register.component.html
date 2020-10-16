@@ -1,0 +1,19 @@
+<h3>Registrarme</h3>
+<div class="alert alert-danger" role="alert" *ngIf="errorMensaje">
+    {{errorMensaje}}
+</div>
+<div class="form-group">
+    <label>Email</label>
+    <input [(ngModel)]="usuario" type="email" class="form-control" placeholder="Ingresa tu correo" name="email" [class.is-invalid]="invalidUsuario"
+        autocomplete="off" required>
+</div>
+<div class="form-group">
+    <label>Clave</label>
+    <input [(ngModel)]="clave" type="password" class="form-control" autocomplete="off" placeholder="Aca la clave" name="clave"
+        [class.is-invalid]="invalidClave" required>
+</div>
+<div class="form-group form-check">
+    <input type="checkbox" [(ngModel)]="rememberMe" class="form-check-input" id="remember" checked="checked">
+    <label class="form-check-label" for="remember">Recordar mis datos</label>
+</div>
+<button mat-raised-button color="secondary" type="submit" class="signupbtn" (click)="onRegistrar()">Registrarme</button>

@@ -1,0 +1,36 @@
+// @import "~@angular/material/theming";
+$box-shadow: 0px 5px 5px -3px rgba(0, 0, 0, 0.2), 0px 8px 10px 1px rgba(0, 0, 0, 0.14),
+    0px 3px 14px 2px rgba(0, 0, 0, 0.12);
+$box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.2);
+$borderRadius: 5px;
+
+$mobile-max-w: 767px;
+$mobile-min-w: 768px;
+
+$tablet-max-w: 997px;
+$tablet-min-w: 998px;
+
+// $bg-color: #1e1b63;
+// $bg-color-transp: rgba(30,27,99,.5);
+// $primary: #ea74e3; // dodgerblue;
+// $primary-light: rgba(243, 160, 237, 0.5); // dodgerblue;
+// $acent: #ebe02f; //#c6c4c4;
+// $warn: #00aeff;
+// $grey: #337;
+// $textColor: white;
+// $bgGrey: #efefef;
+// $body-color: white;
+
+$bg-color: #CCC;
+$bg-color-transp: rgba(30,27,99,.5);
+$primary: #3f51b5; // dodgerblue;
+$primary-light: rgba(243, 160, 237, 0.5); // dodgerblue;
+$acent: #ff4081; //#c6c4c4;
+$warn: #f44336;
+$grey: grey;
+$textColor: black;
+$bgGrey: #efefef;
+$body-color: white;
+
+$btn-disabled-opacity: 0.3;
+$border-color:rgba(0, 0, 0, 0.2);

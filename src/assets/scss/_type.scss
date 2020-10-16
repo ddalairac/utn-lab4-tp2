@@ -1,0 +1,99 @@
+@import "src/assets/scss/variables";
+/* 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+.headline,
+.title,
+.subheading-2,
+.subheading-1 {
+  font-family: 'Montserrat', sans-serif;
+} */
+
+/* margin: 0 0 26px;
+color: #1C426E;
+font-weight: 400; */
+
+// CONTENT
+body {
+    font-family: "Roboto", Arial, Helvetica, sans-serif;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 300;
+    color: $textColor;
+}
+
+h1 {
+    color: $primary;
+    //   font-size: 26px;
+    font-size: 46px;
+}
+
+h2 {
+    font-size: 24px;
+    font-weight: 400;
+    color: $acent;
+}
+
+h3 {
+    //   font-size: 20px;
+    font-size: 18px;
+    font-weight: 500;
+    color: $textColor;
+}
+
+h4 {
+    //   font-size: 18px;
+    //   font-size: 14px;
+    color: $textColor;
+}
+h5,
+h4 {
+    font-size: 12px;
+}
+h3,
+h4,
+h5,
+h6 {
+    margin: 3px 0;
+}
+a {
+    color: $warn !important;
+}
+
+pre,
+p,
+ol,
+ul,
+dl,
+ol ol,
+ul ul,
+ol ul,
+ul ol,
+dt,
+dd {
+    font-size: 14px; //$font-size-base !important;
+    font-weight: 300;
+    color: $textColor !important;
+}
+
+dt {
+    font-weight: 400;
+}
+
+.mat-cell {
+    font-weight: 300;
+}
+
+hr {
+    border-top: 1px solid $border-color !important;
+}
