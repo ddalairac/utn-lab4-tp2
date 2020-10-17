@@ -6,7 +6,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
+
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
@@ -20,7 +22,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
         // MatChipsModule,
         // MatStepperModule,
         // MatDatepickerModule,
-        // MatDialogModule,
+        MatDialogModule,
         // MatDividerModule,
         // MatExpansionModule,
         // MatGridListModule,

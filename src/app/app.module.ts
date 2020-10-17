@@ -29,6 +29,9 @@ import { ClinicHistoryFormComponent } from './components/pages/profecionals/clin
 import { AdminComponent } from './components/pages/admin/admin.component';
 import { ProfesionalsListComponent } from './components/pages/admin/profesionals-list/profesionals-list.component';
 import { SpecialtiesListComponent } from './components/pages/admin/specialties-list/specialties-list.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { CalendarModalComponent } from './components/cross/calendar-modal/calendar-modal.component';
 
 @NgModule({
   declarations: [
@@ -50,7 +53,8 @@ import { SpecialtiesListComponent } from './components/pages/admin/specialties-l
     ClinicHistoryFormComponent,
     AdminComponent,
     ProfesionalsListComponent,
-    SpecialtiesListComponent
+    SpecialtiesListComponent,
+    CalendarModalComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +65,8 @@ import { SpecialtiesListComponent } from './components/pages/admin/specialties-l
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, // auth
-    AngularFirestoreModule // storage
+    AngularFirestoreModule, // storage
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [],
   bootstrap: [AppComponent]

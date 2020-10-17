@@ -7,31 +7,31 @@
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
-            "inlineTemplate": false,
-            "inlineStyle": false,
-            "style": "scss",
-            "skipTests": true
+          "inlineTemplate": false,
+          "inlineStyle": false,
+          "style": "scss",
+          "skipTests": true
         },
         "@schematics/angular:class": {
-            "skipTests": true
+          "skipTests": true
         },
         "@schematics/angular:directive": {
-            "skipTests": true
+          "skipTests": true
         },
         "@schematics/angular:guard": {
-            "skipTests": true
+          "skipTests": true
         },
         "@schematics/angular:interceptor": {
-            "skipTests": true
+          "skipTests": true
         },
         "@schematics/angular:module": {
-            "skipTests": true
+          "skipTests": true
         },
         "@schematics/angular:pipe": {
-            "skipTests": true
+          "skipTests": true
         },
         "@schematics/angular:service": {
-            "skipTests": true
+          "skipTests": true
         }
       },
       "root": "",
@@ -52,14 +52,15 @@
               "src/assets"
             ],
             "styles": [
-                "./node_modules/bootstrap/dist/css/bootstrap.min.css",
-                "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
-                "src/styles.scss"
+              "node_modules/angular-calendar/css/angular-calendar.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
+              "src/styles.scss"
             ],
             "scripts": [
-                "./node_modules/jquery/dist/jquery.min.js",
-                "./node_modules/@popperjs/core/dist/umd/popper.min.js",
-                "./node_modules/bootstrap/dist/js/bootstrap.min.js"
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/@popperjs/core/dist/umd/popper.min.js",
+              "./node_modules/bootstrap/dist/js/bootstrap.min.js"
             ]
           },
           "configurations": {
@@ -122,6 +123,7 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/angular-calendar/css/angular-calendar.css",
               "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.css"
             ],
