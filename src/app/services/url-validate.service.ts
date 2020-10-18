@@ -16,7 +16,7 @@ export class UrlValidateService {
         console.log("checkRoute: ",this.router.url)
         if (path === '/authuser') {
             return true;
-        } else if(this.fbauthservice.getUserCredential()){
+        } else if(this.fbauthservice.isLogged$){
             return true;
         }
         this.router.navigate(['/authuser'])

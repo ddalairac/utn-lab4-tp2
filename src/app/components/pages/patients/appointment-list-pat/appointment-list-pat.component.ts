@@ -5,6 +5,10 @@ import { Subject } from 'rxjs';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { CalendarModalComponent } from '../../../cross/calendar-modal/calendar-modal.component';
 
+/**
+ * Calendario
+ * https://openbase.io/js/angular-calendar#getting-started
+ */
 const colors: any = {
     red: {
         primary: '#ad2121',

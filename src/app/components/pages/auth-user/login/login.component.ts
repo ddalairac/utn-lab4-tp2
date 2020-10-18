@@ -41,9 +41,8 @@ export class LoginComponent implements OnInit {
 
         if (isvalid == eAuthEstado.valid) {
             this.fbauthservice.singIn(this.usuario, this.clave, this.rememberMe)
-                .then(res => {
-                    this.router.navigateByUrl('bienvenido');
-                    // this.router.navigateByUrl('juegos');
+                .then(() => {
+                    this.router.navigateByUrl('home');
                 }).catch((error: iAuthError) => {
                     // console.log("Error Login:", error)
                     this.errorMensaje = error.message
@@ -63,6 +62,7 @@ export class LoginComponent implements OnInit {
             }
         }
     }
+
     onRecover() {
         this.fbauthservice.recoverPass(this.usuario)
         this._snackBar.open("Se envio el mail de recuperio a " + this.usuario, "ok", {

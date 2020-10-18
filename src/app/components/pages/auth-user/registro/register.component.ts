@@ -32,8 +32,8 @@ export class RegisterComponent implements OnInit {
 
         if (isvalid == eAuthEstado.valid) {
             this.fbauthservice.register(this.usuario, this.clave, this.rememberMe)
-                .then(res => {
-                    this.router.navigateByUrl('bienvenido');
+                .then(() => {
+                    this.router.navigateByUrl('home');
                 }).catch((error: iAuthError) => {
                     // console.log("Error register:", error)
                     this.errorMensaje = error.message

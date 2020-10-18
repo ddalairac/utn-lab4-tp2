@@ -7,6 +7,13 @@ import { LoaderService } from './loader.service';
     providedIn: 'root'
 })
 export class FbStorageService {
+
+    constructor(
+        private loader: LoaderService,
+        private firestore: AngularFirestore) { }
+
+
+    /** Fetch resource */
     public async get(resource) {
         // console.log("%crestFetch.get", "color:blue;");
         this.loader.show();
@@ -31,9 +38,7 @@ export class FbStorageService {
         })
     }
 
-    constructor(
-        private loader: LoaderService,
-        private firestore: AngularFirestore) { }
+    // Fire Base CRUD Metods //
 
     public async create(collection: eCollections, data: any): Promise<DocumentReference> {
         this.loader.show();
@@ -52,23 +57,17 @@ export class FbStorageService {
         let list = [];
         return new Promise((resolve, reject) => {
             this.firestore.collection(collection).get().subscribe(
-                querySnapshot => {
-                    querySnapshot.forEach(doc => {
-                        // list.push(doc.data());
-                        list.push({
-                            id: doc.id,
-                            ...doc.data()
-                        });
+                (docs) => {
+                    docs.forEach(doc => {
+                        list.push({ id: doc.id, ...doc.data() });
                     })
-                    // console.log("Listado:", list);
-                    this.loader.hide();
                     resolve(list)
                 },
                 error => {
                     // console.log("Error Listado:", error, list);
-                    this.loader.hide();
                     reject(error);
-                }
+                },
+                () => this.loader.hide()
             )
         })
     }
@@ -76,18 +75,17 @@ export class FbStorageService {
         this.loader.show();
         return this.firestore.collection(collection).doc(id).get().toPromise()
             .then((doc) => {
-                this.loader.hide();
                 if (doc.exists) {
-                    // console.log("Document data:", doc.data());
-                    return doc.data();
+                    return { id: doc.id, ...doc.data() }
                 } else {
                     // doc.data() will be undefined in this case
                     // console.log("No such document!");
-                    return false
+                    return null
                 }
             }).catch((error) => {
-                this.loader.hide();
-            });
+                console.log("readOne error:", error);
+
+            }).finally(() => this.loader.hide());
     }
     public async update(collection: eCollections, id: string, data: any): Promise<void> {
         this.loader.show();
@@ -101,4 +99,27 @@ export class FbStorageService {
         this.loader.hide();
         return res;
     }
+
+    // Fire Base Search //
+
+    public getUserInfoByUid(uid) {
+        this.loader.show();
+        return new Promise((resolve, reject) => {
+             this.firestore.collection(eCollections.users, ref => ref.where('uid', '==', uid).limit(1)).get().subscribe(
+            (docs) => {
+                let item
+                docs.forEach(doc => {
+                    item = { id: doc.id, ...doc.data() };
+                })
+                resolve(item)
+            },
+            error => {
+                console.log("Error seachByUid:", error);
+                reject(error);
+            },
+            () => this.loader.hide()
+        )
+    })
+    }
+
 }

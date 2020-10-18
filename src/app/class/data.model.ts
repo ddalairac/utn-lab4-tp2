@@ -8,24 +8,23 @@ export enum eUserTypes{
     client = "Patient",
     admin = "Admin",
 }
-export class ClinicUsers {
-    FBUser_id: string;
-    type:eUserTypes;
+export class ClinicUser {
+    uid: string;
     id: string;
+    type:eUserTypes;
     name: string;
     lastname: string;
 }
-export class Profesional extends ClinicUsers {
-    id: string;
+export class Profesional extends ClinicUser {
     specialty: string[];
     tiempoTurno: number; // 30m o mas
     horarios_atencion: number[]; //dentro del rango
     estaAceptado: boolean;
     valoracion: number; // 1 a 5 
 }
-export class Patient extends ClinicUsers {
+export class Patient extends ClinicUser {
 }
-export class Admin extends ClinicUsers {
+export class Admin extends ClinicUser {
 }
 
 export class AttentionSurvey {
