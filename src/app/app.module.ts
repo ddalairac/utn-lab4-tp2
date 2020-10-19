@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { GoBackComponent } from './components/cross/go-back/go-back.component';
@@ -32,6 +32,7 @@ import { SpecialtiesListComponent } from './components/pages/admin/specialties-l
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarModalComponent } from './components/cross/calendar-modal/calendar-modal.component';
+import { MainMenuComponent } from './components/cross/main-menu/main-menu.component';
 
 @NgModule({
   declarations: [
@@ -54,13 +55,15 @@ import { CalendarModalComponent } from './components/cross/calendar-modal/calend
     AdminComponent,
     ProfesionalsListComponent,
     SpecialtiesListComponent,
-    CalendarModalComponent
+    CalendarModalComponent,
+    MainMenuComponent
   ],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
     CommonModule,
     MaterialModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),

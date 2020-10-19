@@ -8,8 +8,8 @@
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <!-- *ngIf="isLogged$ | async as isLogged" -->
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="isLogged$ | async as isLogged">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item"><a mat-button *ngFor="let link of navLinks" [routerLink]="link.path" routerLinkActive="active">
                         {{link.label}}
@@ -28,7 +28,7 @@
                     </div>
                 </li> -->
             </ul>
-            <button mat-raised-button class="my-sm-0" type="submit" (click)="singOut()"  *ngIf="isMainMenu"><i class="fas fa-sign-out-alt"></i> Salir</button>
+            <button mat-raised-button class="my-sm-0" type="submit" (click)="singOut()"  *ngIf="isMainMenu && isLogged"><i class="fas fa-sign-out-alt"></i> Salir</button>
         </div>
     </div>
 </nav>

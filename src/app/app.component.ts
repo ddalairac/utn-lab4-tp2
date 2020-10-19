@@ -6,22 +6,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-    menu = [
-        {
-            label: "autenticacion",
-            path: "/authuser"
-        },
-        {
-            label: "Pacientes",
-            path: "/patients"
-        },
-        {
-            label: "Profesionales",
-            path: "/profesionals"
-        },
-        {
-            label: "Administradores",
-            path: "/admins"
-        },
-    ]
+    
 }

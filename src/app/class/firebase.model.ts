@@ -2,11 +2,12 @@
 
 export enum eCollections {
     users = "users",
-    profesional = "Profesional",
-    encuestaAtencion = "EncuestaAtencion",
-    attentionSpaces = "AttentionSpaces",
-    appointment = "Appointment",
-    clinicHistory = "ClinicHistory"
+    specialties = 'specialties',
+    profesional = "profesional",
+    encuestaAtencion = "encuestaAtencion",
+    attentionSpaces = "attentionSpaces",
+    appointment = "appointment",
+    clinicHistory = "clinicHistory"
 }
 
 export interface iAuthError {

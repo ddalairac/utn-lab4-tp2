@@ -8,17 +8,19 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { MatTableModule } from '@angular/material/table';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
-
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSelectModule } from '@angular/material/select'
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
     exports: [
-        // MatFormFieldModule,
+        MatFormFieldModule,
         // MatAutocompleteModule,
         MatButtonModule,
         // MatButtonToggleModule,
         // MatCardModule,
-        // MatCheckboxModule,
+        MatCheckboxModule,
         // MatChipsModule,
         // MatStepperModule,
         // MatDatepickerModule,
@@ -36,7 +38,7 @@ import { MatDialogModule } from '@angular/material/dialog';
         MatProgressSpinnerModule,
         // MatRadioModule,
         // MatRippleModule,
-        // MatSelectModule,
+        MatSelectModule,
         // MatSidenavModule,
         // MatSliderModule,
         // MatSlideToggleModule,

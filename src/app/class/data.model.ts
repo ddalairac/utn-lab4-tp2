@@ -1,21 +1,35 @@
 
 export class Specialties {
     id: string;
-    name:eUserTypes;
+    name: string;
 }
-export enum eUserTypes{
+export enum eUserTypes {
     profesional = "Profesional",
-    client = "Patient",
+    patient = "Patient",
     admin = "Admin",
 }
-export class ClinicUser {
+export abstract class ClinicUser {
+    constructor(type, name, lastname, uid) {
+        this.uid = uid
+        this.type = type
+        this.name = name
+        this.lastname = lastname
+    }
     uid: string;
     id: string;
-    type:eUserTypes;
+    type: eUserTypes;
     name: string;
     lastname: string;
 }
 export class Profesional extends ClinicUser {
+    constructor(type: eUserTypes, name: string, lastname: string, specialty: string[] = [], uid: string = '', tiempoTurno: number = 30, horarios_atencion: number[] = [9, 18], estaAceptado: boolean = false, valoracion: number = null) {
+        super(type, name, lastname, uid)
+        this.specialty = specialty
+        this.tiempoTurno = tiempoTurno
+        this.horarios_atencion = horarios_atencion
+        this.estaAceptado = estaAceptado
+        this.valoracion = valoracion
+    }
     specialty: string[];
     tiempoTurno: number; // 30m o mas
     horarios_atencion: number[]; //dentro del rango
@@ -23,8 +37,14 @@ export class Profesional extends ClinicUser {
     valoracion: number; // 1 a 5 
 }
 export class Patient extends ClinicUser {
+    constructor(type: eUserTypes, name: string, lastname: string, uid: string = '') {
+        super(type, name, lastname, uid)
+    }
 }
 export class Admin extends ClinicUser {
+    constructor(type: eUserTypes, name: string, lastname: string, uid: string = '') {
+        super(type, name, lastname, uid)
+    }
 }
 
 export class AttentionSurvey {
@@ -49,7 +69,7 @@ export class Appointment {
     type: eSpacesTypes
     profesional: string; // id
     specialty: string
-    day_hour:number | Date
+    day_hour: number | Date
     duration: number; //dentro del siguiente rango (lu a vi 8:00 a 19:00 && sa 8:00 a 14:00) y con el tiempo que cargo el profesional para esa especialidad
     acceptance: boolean; //el profesional debe aceptar el turno (se avisa al cliente el resultado), puede cancelar la aceptacion
 }

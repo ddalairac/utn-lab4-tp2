@@ -11,19 +11,19 @@ export class PatientsComponent implements OnInit {
 
     ngOnInit(): void {
     }
-    menu = [
-                {
-            label: "Calendario Turnos",
-            path: "/patients/apointmentList"
-        },
-        {
-            label: "Nuevo turno",
-            path: "/patients/apointmentNew"
-        },
-        {
-            label: "Encuesta",
-            path: "/patients/apointmentSurvey"
-        },
-    ]
+    // menu = [
+    //             {
+    //         label: "Calendario Turnos",
+    //         path: "/patients/apointmentList"
+    //     },
+    //     {
+    //         label: "Nuevo turno",
+    //         path: "/patients/apointmentNew"
+    //     },
+    //     {
+    //         label: "Encuesta",
+    //         path: "/patients/apointmentSurvey"
+    //     },
+    // ]
 
 }

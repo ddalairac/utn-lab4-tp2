@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore, DocumentReference } from '@angular/fire/firestore';
+import { Profesional, Patient, Admin } from '../class/data.model';
 import { eCollections } from '../class/firebase.model';
 import { LoaderService } from './loader.service';
 
@@ -102,24 +103,33 @@ export class FbStorageService {
 
     // Fire Base Search //
 
-    public getUserInfoByUid(uid) {
+    public async getUserInfoByUid(uid: string): Promise<Profesional | Patient | Admin> {
         this.loader.show();
         return new Promise((resolve, reject) => {
-             this.firestore.collection(eCollections.users, ref => ref.where('uid', '==', uid).limit(1)).get().subscribe(
-            (docs) => {
-                let item
-                docs.forEach(doc => {
-                    item = { id: doc.id, ...doc.data() };
-                })
-                resolve(item)
-            },
-            error => {
-                console.log("Error seachByUid:", error);
-                reject(error);
-            },
-            () => this.loader.hide()
-        )
-    })
+            this.firestore.collection(eCollections.users, ref => ref.where('uid', '==', uid).limit(1)).get().subscribe(
+                (docs) => {
+                    let item: Profesional | Patient | Admin
+                    docs.forEach(doc => {
+                        item = { id: doc.id, ...doc.data() } as Profesional | Patient | Admin;
+                    })
+                    resolve(item)
+                },
+                error => {
+                    console.log("Error seachByUid:", error);
+                    reject(error);
+                },
+                () => this.loader.hide()
+            )
+        })
     }
 
+    // img Storage //
+    /* 
+    service firebase.storage {
+        match /b/{bucket}/o {
+            match /{allPaths=**} {
+            allow read, write: if request.auth != null;
+            }
+        }
+    } */
 }

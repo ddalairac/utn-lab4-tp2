@@ -11,14 +11,14 @@ export class AdminComponent implements OnInit {
 
     ngOnInit(): void {
     }
-    menu = [
-        {
-            label: "Calendario Turno",
-            path: "/admins/profesionalsList"
-        },
-        {
-            label: "Especialidades",
-            path: "/admins/specialtiesList"
-        },
-    ]
+    // menu = [
+    //     {
+    //         label: "Calendario Turno",
+    //         path: "/admins/profesionalsList"
+    //     },
+    //     {
+    //         label: "Especialidades",
+    //         path: "/admins/specialtiesList"
+    //     },
+    // ]
 }

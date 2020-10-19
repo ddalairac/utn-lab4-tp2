@@ -11,15 +11,15 @@ export class ProfecionalsComponent implements OnInit {
 
     ngOnInit(): void {
     }
-    menu = [
-        {
-            label: "Calendario Turnos",
-            path: "/profesionals/apointmentList"
-        },
-        {
-            label: "Historias clinicas",
-            path: "/profesionals/clinicHistory"
-        }
-    ]
+    // menu = [
+    //     {
+    //         label: "Calendario Turnos",
+    //         path: "/profesionals/apointmentList"
+    //     },
+    //     {
+    //         label: "Historias clinicas",
+    //         path: "/profesionals/clinicHistory"
+    //     }
+    // ]
 
 }

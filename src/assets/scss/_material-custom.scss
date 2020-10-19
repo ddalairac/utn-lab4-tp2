@@ -1,4 +1,4 @@
-// @import "src/assets/scss/variables";
+@import "src/assets/scss/variables";
 
 
 // .mat-button-base {
@@ -60,11 +60,11 @@
 // // }
 
 
-// .mat-form-field {
-//     width: 100%;
-//     &.is-invalid{
-//         .mat-form-field-flex{
-//             background: rgba(255, 0, 0, 0.2);   
-//         }
-//     }
-// }
+.mat-form-field {
+    width: 100%;
+    &.is-invalid{
+        .mat-form-field-flex{
+            background: rgba(255, 0, 0, 0.2);   
+        }
+    }
+}

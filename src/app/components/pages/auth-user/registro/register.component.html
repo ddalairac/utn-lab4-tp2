@@ -2,18 +2,73 @@
 <div class="alert alert-danger" role="alert" *ngIf="errorMensaje">
     {{errorMensaje}}
 </div>
-<div class="form-group">
-    <label>Email</label>
-    <input [(ngModel)]="usuario" type="email" class="form-control" placeholder="Ingresa tu correo" name="email" [class.is-invalid]="invalidUsuario"
-        autocomplete="off" required>
-</div>
-<div class="form-group">
-    <label>Clave</label>
-    <input [(ngModel)]="clave" type="password" class="form-control" autocomplete="off" placeholder="Aca la clave" name="clave"
-        [class.is-invalid]="invalidClave" required>
-</div>
-<div class="form-group form-check">
-    <input type="checkbox" [(ngModel)]="rememberMe" class="form-check-input" id="remember" checked="checked">
-    <label class="form-check-label" for="remember">Recordar mis datos</label>
-</div>
-<button mat-raised-button color="secondary" type="submit" class="signupbtn" (click)="onRegistrar()">Registrarme</button>
+<form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
+    <!-- appearance="" outline standard fill -->
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Ingrese email" [formControl]="email">
+        <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Clave</mat-label>
+        <input matInput placeholder="Ingrese clave" type="password" [formControl]="pass" required>
+        <mat-error *ngIf="pass.invalid">{{getClaveErrorMessage()}}</mat-error>
+        <mat-hint>Debe tener 6 caracteres</mat-hint>
+    </mat-form-field>
+
+
+
+    <mat-form-field>
+        <mat-label>Tipo</mat-label>
+        <mat-select matNativeControl [formControl]="type" required>
+            <mat-option *ngFor="let item of tytpesList" [value]="item.value">{{item.viewValue}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="type.invalid">El campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingrese nombre" [formControl]="name" name="name" required>
+        <mat-error *ngIf="name.invalid">El campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Apellido</mat-label>
+        <input matInput placeholder="Ingrese apellido" [formControl]="lastname" name="lastname" required>
+        <mat-error *ngIf="lastname.invalid">El campo es obligatorio</mat-error>
+    </mat-form-field>
+
+
+    <div *ngIf="type && type.value=='Profesional'">
+        <mat-form-field>
+            <mat-label>Especialidades</mat-label>
+            <mat-select matNativeControl [formControl]="specialty" multiple>
+                <mat-option *ngFor="let item of specialtiesList" [value]="item.name">{{item.name}}</mat-option>
+            </mat-select>
+            <!-- <mat-error *ngIf="specialty.invalid">El campo es obligatorio</mat-error> -->
+        </mat-form-field>
+
+
+        <!-- <mat-form-field>
+        <mat-label>Tiempo de turno</mat-label>
+        <mat-select matNativeControl [formControl]="tiempoTurno" required > 
+            <mat-option *ngFor="let item of tiempoTurnoList" [value]="item">{{item}}</mat-option>
+        </mat-select>
+        <mat-hint>El tiempo esa expresado en minutos</mat-hint>
+    </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>horarios atencion</mat-label>
+            <input matInput placeholder="Ingrese apellido" [formControl]="horarios_atencion" name="lastname" required>
+        </mat-form-field> -->
+    </div>
+
+    <div>
+        <!-- <mat-checkbox [(ngModel)]="rememberMe" name="rememberMe" id="remember">Check me!</mat-checkbox> -->
+        <mat-checkbox [formControl]="rememberMe" name="rememberMe" id="remember">Recordarme</mat-checkbox>
+    </div>
+
+    <button mat-raised-button color="secondary" type="submit">Registrarme</button>
+
+</form>

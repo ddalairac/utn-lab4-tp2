@@ -1,0 +1,22 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <div class="navbar-brand">Lab4</div>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" *ngIf="isLogged$ | async as isLogged">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item" *ngFor="let link of navLinks">
+                    <a mat-button  [routerLink]="link.path" routerLinkActive="active">{{link.label}}</a>
+                </li>
+            </ul>
+            <div class="my-sm-0" *ngIf="userInfo">
+                <spam>{{userInfo.type}}</spam>
+                <spam>{{userInfo.lastname}}, {{userInfo.name}}</spam>
+                <button mat-raised-button type="submit" (click)="singOut()"><i class="fas fa-sign-out-alt"></i> Salir</button>
+            </div>
+        </div>
+    </div>
+</nav>
