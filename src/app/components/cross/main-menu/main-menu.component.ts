@@ -65,8 +65,12 @@ export class MainMenuComponent implements OnInit {
     ]
     private menuAdmins = [
         {
-            label: "Calendario Turno",
+            label: "Profesionales",
             path: "/admins/profesionalsList"
+        },
+        {
+            label: "Usuarios",
+            path: "/admins/users"
         },
         {
             label: "Especialidades",

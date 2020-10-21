@@ -9,6 +9,7 @@ import { CommonModule } from '@angular/common';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
+import { AngularFireStorageModule } from '@angular/fire/storage';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
@@ -33,13 +34,21 @@ import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { CalendarModalComponent } from './components/cross/calendar-modal/calendar-modal.component';
 import { MainMenuComponent } from './components/cross/main-menu/main-menu.component';
+import { ProfileComponent } from './components/pages/profile/profile.component';
+import { UsersListComponent } from './components/pages/admin/users-list/users-list.component';
+import { TableComponent } from './components/cross/table/table.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    //cross
     GoBackComponent,
     LoaderComponent,
     MenuComponent,
+    MainMenuComponent,
+    TableComponent,
+    CalendarModalComponent,
+    // pages
     AuthUserComponent,
     LoginComponent,
     RegisterComponent,
@@ -55,8 +64,8 @@ import { MainMenuComponent } from './components/cross/main-menu/main-menu.compon
     AdminComponent,
     ProfesionalsListComponent,
     SpecialtiesListComponent,
-    CalendarModalComponent,
-    MainMenuComponent
+    ProfileComponent,
+    UsersListComponent
   ],
   imports: [
     BrowserModule,
@@ -69,6 +78,7 @@ import { MainMenuComponent } from './components/cross/main-menu/main-menu.compon
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule, // auth
     AngularFirestoreModule, // storage
+    AngularFireStorageModule,
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [],

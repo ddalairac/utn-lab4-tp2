@@ -1,15 +1,19 @@
 import { OnChanges, SimpleChanges } from '@angular/core';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { iTableAction, iTableEvent } from './table.model';
 
 @Component({
-    selector: 'p1-table',
+    selector: 'app-table',
     templateUrl: './table.component.html',
     styleUrls: ['./table.component.scss']
 })
 export class TableComponent implements OnChanges {
 
     @Input() objList: any[];
+    @Input() hideCols: string[] = ['id'];
+    @Input() actions: iTableAction[] = [];
     @Output() selection: EventEmitter<any> = new EventEmitter<any>();
+    @Output() action: EventEmitter<iTableEvent> = new EventEmitter<iTableEvent>();
     colNames: string[];
     objSelected: any;
     sortBy: string;
@@ -29,8 +33,10 @@ export class TableComponent implements OnChanges {
         if (objList && objList[0]) {
             for (let col in objList[0]) {
                 // console.log("col",col)
-                col = col.split("_").join(" ")
-                cols.push(col)
+                if (!this.hideCols.includes(col)) {
+                    col = col.split("_").join(" ")
+                    cols.push(col)
+                }
             }
         }
         cols = cols.sort()
@@ -42,9 +48,11 @@ export class TableComponent implements OnChanges {
         // console.log("row", row)
         let aux = this.sortByKey(row)
         if (aux) {
-            for (let dato in aux) {
+            for (let col in aux) {
                 // console.log("dato",row[dato])
-                datos.push(aux[dato])
+                if (!this.hideCols.includes(col)) {
+                    datos.push(aux[col])
+                }
             }
         }
         // console.log("datos",datos)
@@ -60,11 +68,12 @@ export class TableComponent implements OnChanges {
         return false
     }
     public onSelect(obj: any) {
-        this.objSelected = obj;
-        this.selection.emit(obj)
-        console.log("objSelected", this.objSelected)
+        if (this.actions.length == 0) {
+            this.objSelected = obj;
+            this.selection.emit(obj)
+            console.log("objSelected", this.objSelected)
+        }
     }
-
     private sortByKey(obj): any {
         let sortObj: any = Object.entries(obj).sort().reduce((o, [k, v]) => (o[k] = v, o), {})
         // console.log("sort", sortObj)
@@ -85,5 +94,8 @@ export class TableComponent implements OnChanges {
         } else {
             this.objList = this.objList.sort((a, b) => { return (a[col] > b[col]) ? -1 : 1 })
         }
+    }
+    public onAction(action: string, index: number) {
+        this.action.emit({ action: action, index: index });
     }
 }

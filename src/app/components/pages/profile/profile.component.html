@@ -1,0 +1,60 @@
+<p>profile works!</p>
+
+<div *ngIf="userInfo && userInfo.type">
+
+        <!-- appearance="" outline standard fill -->
+
+        <mat-form-field>
+            <mat-label>Email</mat-label>
+            <input matInput [value]="userMail" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Clave</mat-label>
+            <input matInput value="******" disabled>
+        </mat-form-field>
+
+
+        <mat-form-field>
+            <mat-label>Tipo de Usuario</mat-label>
+            <input matInput [value]="userInfo.type" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Nombre</mat-label>
+            <input matInput [value]="userInfo.name" disabled>
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Apellido</mat-label>
+            <input matInput [value]="userInfo.lastname" disabled>
+        </mat-form-field>
+
+
+        <div>
+            <label>Foto</label>
+            <input placeholder="Ingrese apellido" type="file" accept=".png, .jpg" [formControl]="picture" name="picture" (change)="onFileLoad($event)">
+        </div>
+
+
+        <div *ngIf="userInfo.type && type.value=='Profesional'">
+            <mat-form-field>
+                <mat-label>Especialidades</mat-label>
+                <input matInput [value]="userInfo.specialty" disabled>
+            </mat-form-field>
+
+            <!-- <mat-form-field>
+                <mat-label>Tiempo de turno</mat-label>
+                <mat-select matNativeControl [formControl]="tiempoTurno" required > 
+                    <mat-option *ngFor="let item of tiempoTurnoList" [value]="item">{{item}}</mat-option>
+                </mat-select>
+                <mat-hint>El tiempo esa expresado en minutos</mat-hint>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>horarios atencion</mat-label>
+                <input matInput placeholder="Ingrese apellido" [formControl]="horarios_atencion" name="lastname" required>
+            </mat-form-field> -->
+        </div>
+
+</div>

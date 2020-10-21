@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
-import { AngularFirestore } from '@angular/fire/firestore';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { Profesional, Admin, Patient, ClinicUser } from '../class/data.model';
@@ -13,7 +12,7 @@ import { LoaderService } from './loader.service';
 })
 export class FbAuthService {
 
-    private userMail: string
+    public userMail: Subject<string> = new Subject<string>()
     // public userInfo: Profesional | Patient | Admin
     public userInfo$: Subject<Profesional | Patient | Admin | null> = new Subject<Profesional | Patient | Admin | null>();
     public isLogged$: Subject<boolean> = new Subject<boolean>();
@@ -26,7 +25,6 @@ export class FbAuthService {
     ) {
         this.fireAuth.authState.subscribe(async (fbuser: firebase.User) => {
             if (fbuser) {
-                localStorage.setItem('userMail', JSON.stringify(this.userMail));
                 this.isLogged$.next(true);
                 this.userInfo$.next(await this.fbsorageservice.getUserInfoByUid(fbuser.uid))
                 // this.userInfo = await this.fbsorageservice.getUserInfoByUid(fbuser.uid)
@@ -36,11 +34,10 @@ export class FbAuthService {
                 // this.userInfo = null;
                 this.userMail = null;
             }
-            console.log("user: ", this.userMail)
             // console.log("fbUserData: ", this.fbUserData)
             // console.log("isLogged$: ", this.isLogged$)
-            console.log("userInfo: ", this.userInfo$)
         })
+        this.userInfo$.subscribe(data=>console.log("userInfo: ",data))
     }
 
     // public async checkfbUserData(): Promise<firebase.User> {

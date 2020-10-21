@@ -14,6 +14,8 @@ import { AppointmentListProComponent } from './components/pages/profecionals/app
 import { ClinicHistoryFormComponent } from './components/pages/profecionals/clinic-history-form/clinic-history-form.component';
 import { ProfecionalsComponent } from './components/pages/profecionals/profecionals.component';
 import { UrlValidateService } from './services/url-validate.service';
+import { ProfileComponent } from './components/pages/profile/profile.component';
+import { UsersListComponent } from './components/pages/admin/users-list/users-list.component';
 
 const routes: Routes = [
     { path: 'authuser', component: AuthUserComponent },
@@ -32,11 +34,13 @@ const routes: Routes = [
         ]
     }, {
         path: 'admins', component: AdminComponent, canActivate: [UrlValidateService], children: [
+            { path: 'users', component: UsersListComponent },
             { path: 'profesionalsList', component: ProfesionalsListComponent },
             { path: 'specialtiesList', component: SpecialtiesListComponent },
-            { path: '', redirectTo: 'profesionalsList', pathMatch: 'full' }
+            { path: '', redirectTo: 'users', pathMatch: 'full' }
         ]
     },
+    { path: 'profile', component: ProfileComponent, canActivate: [UrlValidateService] },
     { path: 'home', component: HomeComponent, canActivate: [UrlValidateService] },
     { path: '', redirectTo: 'authuser', pathMatch: 'full' },
     { path: '**', component: Error404Component }

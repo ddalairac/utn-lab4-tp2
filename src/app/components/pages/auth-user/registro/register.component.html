@@ -39,6 +39,12 @@
         <mat-error *ngIf="lastname.invalid">El campo es obligatorio</mat-error>
     </mat-form-field>
 
+   
+    <!-- <div>
+        <label>Foto</label>
+        <input placeholder="Ingrese apellido" type="file" accept=".png, .jpg" [formControl]="picture" name="picture" (change)="onFileLoad($event)">
+    </div> -->
+
 
     <div *ngIf="type && type.value=='Profesional'">
         <mat-form-field>
@@ -65,7 +71,6 @@
     </div>
 
     <div>
-        <!-- <mat-checkbox [(ngModel)]="rememberMe" name="rememberMe" id="remember">Check me!</mat-checkbox> -->
         <mat-checkbox [formControl]="rememberMe" name="rememberMe" id="remember">Recordarme</mat-checkbox>
     </div>
 

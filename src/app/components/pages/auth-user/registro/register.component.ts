@@ -1,8 +1,9 @@
 
 import { Component, OnInit } from '@angular/core';
+import { AngularFireStorage } from '@angular/fire/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Admin, ClinicUser, eUserTypes, Patient, Profesional } from '../../../../class/data.model';
+import { Admin, ClinicUser, eUserTypes, Patient, Profesional, Specialties } from '../../../../class/data.model';
 import { eAuthEstado, eCollections, iAuthError } from '../../../../class/firebase.model';
 import { FbAuthService } from '../../../../services/fb-auth.service';
 import { FbStorageService } from '../../../../services/fb-storage.service';
@@ -23,6 +24,7 @@ export class RegisterComponent implements OnInit {
     name = new FormControl('', [Validators.required]);
     lastname = new FormControl('', [Validators.required]);
     specialty = new FormControl();
+    picture = new FormControl();
     // tiempoTurno = new FormControl();
     // horarios_atencion = new FormControl();
     rememberMe = new FormControl(true);
@@ -32,7 +34,7 @@ export class RegisterComponent implements OnInit {
 
     errorMensaje: string;
 
-    specialtiesList: any[] = []
+    specialtiesList: Specialties[] = []
     tytpesList: any[] = [
         // { value: eUserTypes.admin, viewValue: 'Administrador' },
         { value: eUserTypes.patient, viewValue: 'Paciente' },
@@ -67,13 +69,13 @@ export class RegisterComponent implements OnInit {
         if (this.isValid()) {
             switch (this.type.value) {
                 case eUserTypes.admin:
-                    userInfo = new Admin(this.type.value, this.name.value, this.lastname.value);
+                    userInfo = new Admin(this.type.value, this.name.value, this.lastname.value, this.picture.value);
                     break;
                 case eUserTypes.patient:
-                    userInfo = new Patient(this.type.value, this.name.value, this.lastname.value);
+                    userInfo = new Patient(this.type.value, this.name.value, this.lastname.value, this.picture.value);
                     break;
                 case eUserTypes.profesional:
-                    userInfo = new Profesional(this.type.value, this.name.value, this.lastname.value, this.specialty.value);
+                    userInfo = new Profesional(this.type.value, this.name.value, this.lastname.value, this.picture.value, this.specialty.value);
                     break;
             }
             this.fbauthservice.register(this.email.value, this.pass.value, this.rememberMe.value, userInfo)
@@ -85,6 +87,7 @@ export class RegisterComponent implements OnInit {
                 })
         }
     }
+    
 }
 
 

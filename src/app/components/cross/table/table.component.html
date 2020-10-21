@@ -1,15 +1,21 @@
-<!-- <pre *ngIf="objList">{{objList | json}}</pre> -->
+
 <table class="table" *ngIf="objList">
     <thead>
         <tr>
             <th *ngFor="let col of colNames" (click)="onSortByCol(col)">{{col}}</th>
+            <th *ngIf="actions.length > 0">Acciones</th>
         </tr>
     </thead>
     <tbody>
-        <tr *ngFor="let obj of objList" (click)="onSelect(obj)" [class.active]="obj == objSelected">
-            <td *ngFor="let dato of rowData(obj); let index = index" [attr.data-before]="colNames[index]">
+        <tr *ngFor="let obj of objList; let rowIndex = index" (click)="onSelect(obj)" [class.active]="obj == objSelected">
+            <td *ngFor="let dato of rowData(obj); let colIndex = index" [attr.data-before]="colNames[colIndex]">
                 <img [src]="dato" alt="" *ngIf="isImg(dato)">
                 <spam *ngIf="!isImg(dato)">{{dato}} </spam>
+            </td>
+            <td *ngIf="actions.length > 0">
+                <button mat-icon-button aria-label="{{act.description}}" *ngFor="let act of actions" (click)="onAction(act.event, rowIndex)">
+                    <i class="{{act.icon}}"></i><!-- {{act.description}} {{rowIndex}} -->
+                </button>
             </td>
         </tr>
     </tbody>
