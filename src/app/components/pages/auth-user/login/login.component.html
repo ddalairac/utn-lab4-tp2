@@ -13,7 +13,7 @@
 <div class="action a" [@animateGallery]="state">
     <mat-form-field>
         <mat-label>Clave</mat-label>
-        <input matInput placeholder="Ingrese clave" type="text" [formControl]="pass" required>
+        <input matInput placeholder="Ingrese clave" type="password" [formControl]="pass" required>
         <mat-error *ngIf="pass.invalid">{{getClaveErrorMessage()}}</mat-error>
         <mat-hint>Debe tener 6 caracteres</mat-hint>
     </mat-form-field>
