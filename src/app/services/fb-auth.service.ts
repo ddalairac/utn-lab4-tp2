@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { Profesional, Admin, Patient, ClinicUser } from '../class/data.model';
+import { BehaviorSubject, Subject } from 'rxjs';
+import { Profesional, Admin, Patient, ClinicUser, eUserTypes } from '../class/data.model';
 import { iAuthError, eAuthEstado, eCollections } from '../class/firebase.model';
 import { FbStorageService } from './fb-storage.service';
 import { LoaderService } from './loader.service';
@@ -12,10 +12,11 @@ import { LoaderService } from './loader.service';
 })
 export class FbAuthService {
 
-    public userMail: Subject<string> = new Subject<string>()
-    // public userInfo: Profesional | Patient | Admin
-    public userInfo$: Subject<Profesional | Patient | Admin | null> = new Subject<Profesional | Patient | Admin | null>();
-    public isLogged$: Subject<boolean> = new Subject<boolean>();
+    public type: eUserTypes | null = null
+    // public userMail$: BehaviorSubject<string | null>;
+    public isLogged$: BehaviorSubject<boolean>;
+    public userInfo$: BehaviorSubject<Profesional | Patient | Admin | null>;
+    public userFB$: BehaviorSubject<firebase.User | null>;
 
     constructor(
         private fireAuth: AngularFireAuth,
@@ -23,31 +24,32 @@ export class FbAuthService {
         private loader: LoaderService,
         private fbsorageservice: FbStorageService
     ) {
-        this.fireAuth.authState.subscribe(async (fbuser: firebase.User) => {
-            if (fbuser) {
-                this.isLogged$.next(true);
-                this.userInfo$.next(await this.fbsorageservice.getUserInfoByUid(fbuser.uid))
-                // this.userInfo = await this.fbsorageservice.getUserInfoByUid(fbuser.uid)
-            } else {
-                this.isLogged$.next(false);
-                this.userInfo$.next(null);
-                // this.userInfo = null;
-                this.userMail = null;
-            }
-            // console.log("fbUserData: ", this.fbUserData)
-            // console.log("isLogged$: ", this.isLogged$)
-        })
-        this.userInfo$.subscribe(data=>console.log("userInfo: ",data))
-    }
+        // this.userMail$ = new BehaviorSubject(null)
+        this.userInfo$ = new BehaviorSubject(null);
+        this.isLogged$ = new BehaviorSubject(false);
+        this.userFB$ = new BehaviorSubject(null);
 
-    // public async checkfbUserData(): Promise<firebase.User> {
-    //     let fbUser: firebase.User;
-    //     await this.fireAuth.currentUser.then((data: firebase.User) => {
-    //         fbUser = data
-    //         console.log("firebase.User: ", fbUser)
-    //     })
-    //     return fbUser;
-    // }
+        this.fireAuth.authState.subscribe(async (userFB: firebase.User) => {
+            if (userFB) {
+                this.userFB$.next(userFB)
+                this.fbsorageservice.getUserInfoByUid(userFB.uid).then((user: ClinicUser) => {
+                    this.type = user.type
+                    this.userInfo$.next(user)
+                    this.isLogged$.next(true);
+                })
+            } else {
+                // this.userMail$.next(null);
+                this.userFB$.next(null)
+                this.userInfo$.next(null);
+                this.isLogged$.next(false);
+                this.type = null;
+            }
+        })
+        // // this.userMail$.subscribe(data => console.log("userMail: ", data))
+        // this.userFB$.subscribe((data) => {console.log("userFB: ", data); if(data)console.log("userFB email: ", data.email)})
+        // this.userInfo$.subscribe(data => console.log("userInfo: ", data))
+        // this.isLogged$.subscribe(data => console.log("isLogged: ", data))
+    }
 
     public recoverPass(email) {
         this.fireAuth.sendPasswordResetEmail(email).then(function () {
@@ -61,37 +63,30 @@ export class FbAuthService {
         this.loader.show();
         return new Promise((resolve, reject) => {
             this.fireAuth.createUserWithEmailAndPassword(usuario, clave)
-                .then(async (res: firebase.auth.UserCredential) => {
-                    // console.log("register uid: ",res.user.uid)
-                    await this.createUserInfoRegiuster(res.user.uid, userData)
-                    await this.saveAuthInData(usuario, clave, rememberMe, "register");
-                    this.loader.hide();
+                .then((res: firebase.auth.UserCredential) => {
+                    this.createUserInfoRegiuster(res.user.uid, userData)
+                    this.saveAuthInData(usuario, clave, rememberMe, "register");
                     resolve(true)
                 }).catch((error: iAuthError) => {
-                    // console.log("Error Register:", error)
-                    this.loader.hide();
                     reject(error)
-                })
+                }).finally(() => this.loader.hide())
         })
-    }
-    private async createUserInfoRegiuster(uid:string, userData: ClinicUser){
-        userData.uid = uid;
-        this.fbsorageservice.create(eCollections.users,userData)
     }
 
     public async singIn(usuario, clave, rememberMe) {
         this.loader.show();
         return new Promise((resolve, reject) => {
-            this.fireAuth.signInWithEmailAndPassword(usuario, clave).then(
-                async () => {
-                    await this.saveAuthInData(usuario, clave, rememberMe, "login");
+            this.fireAuth.signInWithEmailAndPassword(usuario, clave)
+                .then(() => {
+                    this.saveAuthInData(usuario, clave, rememberMe, "login");
                     resolve(true)
                 }).catch(
                     (error: iAuthError) => {
-                        // console.log("Error Login:", error)
                         reject(error)
                     }
-                ).finally(() => this.loader.hide())
+                ).finally(() => {
+                    this.loader.hide()
+                })
         });
     }
 
@@ -102,26 +97,13 @@ export class FbAuthService {
         this.router.navigateByUrl('/authuser');
     }
 
-    public validarDatos(usuario: string, clave: string): eAuthEstado {
-        const re = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-
-        if (usuario == '') {
-            return eAuthEstado.userNull
-        }
-        if (!re.test(usuario)) {
-            return eAuthEstado.userInvalid
-        }
-        if (clave == '') {
-            return eAuthEstado.passNull
-        }
-        if (clave.length < 6) {
-            return eAuthEstado.passInvalid
-        }
-        return eAuthEstado.valid
+    private async createUserInfoRegiuster(uid: string, userData: ClinicUser) {
+        userData.uid = uid;
+        this.fbsorageservice.create(eCollections.users, userData)
     }
 
     private async saveAuthInData(usuario, clave, rememberMe, type) {
-        this.userMail = usuario;
+        // this.userMail$.next(usuario);
         if (rememberMe) {
             window.localStorage.setItem("user", JSON.stringify(usuario));
             window.localStorage.setItem("pass", JSON.stringify(clave));

@@ -23,8 +23,8 @@ export const AnimateGallery = trigger("animateGallery", [
 	state("slideOutUp", style({ display: 'none', opacity: '0', transform: 'translate(0, -100%)' })),
 	state("slideInDown", style({ display: 'block', opacity: '1', transform: 'translate(0, 0%)' })),
 	state("slideOutDown", style({ display: 'none', opacity: '0', transform: 'translate(0, 100%)' })),
-	state("fadeIn", style({ display: 'block', opacity: '1', transform: 'translate(0, 0)' })),
-	state("fadeOut", style({ display: 'block', opacity: '0', transform: 'translate(0, 0)' })),
+	state("fadeIn", style({ display: 'flex', opacity: '1', transform: 'translate(0, 0)' })),
+	state("fadeOut", style({ display: 'none', opacity: '0', transform: 'translate(0, 0)' })),
 	state("wobble", style({ display: 'block' })),
 	state("swing", style({ display: 'block' })),
 	state("accordionClose", style({ height: "0px", overflow: 'hidden', display: 'none', padding: '0' })),
@@ -103,16 +103,16 @@ export const AnimateGallery = trigger("animateGallery", [
 	transition('* => fadeIn, void => fadeIn', [
 		animate('500ms ease-in-out',
 			keyframes([
-				style({ display: 'block', opacity: '0', transform: 'translate(0, 0)', offset: 0 }),
-				style({ display: 'block', opacity: '1', transform: 'translate(0, 0)', offset: 1 }),
+				style({ display: 'flex', opacity: '0', transform: 'translate(0, 0)', offset: 0 }),
+				style({ display: 'flex', opacity: '1', transform: 'translate(0, 0)', offset: 1 }),
 			])
 		)
 	]),
 	transition('* => fadeOut, void => fadeOut', [
 		animate('500ms ease-in-out',
 			keyframes([
-				style({ display: 'block', opacity: '1', transform: 'translate(0, 0)', offset: 0 }),
-				style({ display: 'block', opacity: '0', transform: 'translate(0, 0)', offset: 1 }),
+				style({ display: 'flex', opacity: '1', transform: 'translate(0, 0)', offset: 0 }),
+				style({ display: 'flex', opacity: '0', transform: 'translate(0, 0)', offset: 1 }),
 			])
 		)
 	]),

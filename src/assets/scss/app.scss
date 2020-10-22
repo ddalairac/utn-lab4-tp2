@@ -22,3 +22,8 @@ body {
 @import "utilities";
 @import "type";
 
+app-root{
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}

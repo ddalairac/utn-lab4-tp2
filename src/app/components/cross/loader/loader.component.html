@@ -1,8 +1,8 @@
-<ng-container *ngIf="isLoading$ | async as isLoading$">
-    <div class="overlay fadein">
+<!-- <ng-container *ngIf="isLoading$ | async as isLoading$"> -->
+    <div class="overlay" [@animateGallery]="state"> 
       <div class="spinner spinner-border text-primary " role="status">
         <span class="sr-only">Loading...</span>
       </div>
     </div>
-  </ng-container>
+  <!-- </ng-container> -->
   

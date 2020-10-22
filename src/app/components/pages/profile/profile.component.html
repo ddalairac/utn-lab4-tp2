@@ -1,10 +1,11 @@
-<p>profile works!</p>
+<div class="container">
+    <h1>My perfil</h1>
 
-<div *ngIf="userInfo && userInfo.type">
+    <div *ngIf="userInfo && userMail">
 
         <!-- appearance="" outline standard fill -->
 
-        <mat-form-field>
+        <mat-form-field >
             <mat-label>Email</mat-label>
             <input matInput [value]="userMail" disabled>
         </mat-form-field>
@@ -33,11 +34,13 @@
 
         <div>
             <label>Foto</label>
-            <input placeholder="Ingrese apellido" type="file" accept=".png, .jpg" [formControl]="picture" name="picture" (change)="onFileLoad($event)">
+            <input placeholder="Ingrese su avatar" type="file" accept=".png, .jpg" 
+                (change)="onFileLoad($event)">
         </div>
+        <img [src]="picture.value" alt="avatar usuario" *ngIf="picture.value">
 
 
-        <div *ngIf="userInfo.type && type.value=='Profesional'">
+        <div *ngIf="userInfo && userInfo.type && userInfo.type=='Profesional'">
             <mat-form-field>
                 <mat-label>Especialidades</mat-label>
                 <input matInput [value]="userInfo.specialty" disabled>
@@ -57,4 +60,5 @@
             </mat-form-field> -->
         </div>
 
+    </div>
 </div>

@@ -13,7 +13,10 @@ import { iMenu } from '../menu/menu.component';
 export class MainMenuComponent implements OnInit {
 
     navLinks: iMenu[];
-    constructor(private route: ActivatedRoute, private fbauthservice: FbAuthService, private router: Router) { }
+    constructor(
+        private fbauthservice: FbAuthService, 
+        // private route: ActivatedRoute, 
+        private router: Router) { }
 
     public isLogged$: Subject<boolean>;
     public userInfo: Profesional | Patient | Admin | null;
@@ -45,8 +48,11 @@ export class MainMenuComponent implements OnInit {
     goToSection(url) {
         this.router.navigateByUrl(url);
     }
-    singOut() {
+    onSingOut() {
         this.fbauthservice.singOut();
+    }
+    onProfile(){
+        this.router.navigateByUrl('profile')
     }
 
     private menuPatients = [

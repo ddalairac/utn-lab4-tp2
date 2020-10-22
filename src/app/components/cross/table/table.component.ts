@@ -67,13 +67,6 @@ export class TableComponent implements OnChanges {
         }
         return false
     }
-    public onSelect(obj: any) {
-        if (this.actions.length == 0) {
-            this.objSelected = obj;
-            this.selection.emit(obj)
-            console.log("objSelected", this.objSelected)
-        }
-    }
     private sortByKey(obj): any {
         let sortObj: any = Object.entries(obj).sort().reduce((o, [k, v]) => (o[k] = v, o), {})
         // console.log("sort", sortObj)
@@ -93,6 +86,13 @@ export class TableComponent implements OnChanges {
             this.objList = this.objList.sort((a, b) => { return (a[col] < b[col]) ? -1 : 1 })
         } else {
             this.objList = this.objList.sort((a, b) => { return (a[col] > b[col]) ? -1 : 1 })
+        }
+    }
+    public onSelect(obj: any) {
+        if (this.actions.length == 0) {
+            this.objSelected = obj;
+            this.selection.emit(obj)
+            console.log("objSelected", this.objSelected)
         }
     }
     public onAction(action: string, index: number) {

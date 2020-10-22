@@ -12,21 +12,11 @@
 // }
 .card {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    // transition: 0.3s;
-    border-radius: 5px; 
+    border-radius: 5px;
     min-width: 300px;
     height: auto;
-    margin: 1%;
-    padding: 10px;
-    // background: $bg-color !important;
+    padding: 20px 30px;
     color: $textColor;
-    &.page {
-        top: -150px;
-        padding: 20px 30px;
-    }
-    &.inner{
-        background: $grey !important;
-    }
 }
 // .primary-text {
 //     color: $primary;
@@ -65,3 +55,4 @@
 //         display: none;
 //     }
 // }
+

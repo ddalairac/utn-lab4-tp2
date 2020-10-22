@@ -24,7 +24,7 @@ export abstract class ClinicUser {
     picture: string;
 }
 export class Profesional extends ClinicUser {
-    constructor(type: eUserTypes, name: string, lastname: string, picture: string, specialty: string[] = [], uid: string = '', tiempoTurno: number = 30, horarios_atencion: number[] = [9, 18], estaAceptado: boolean = false, valoracion: number = null) {
+    constructor(type: eUserTypes, name: string, lastname: string, picture: string = '', specialty: string[] = [], uid: string = '', tiempoTurno: number = 30, horarios_atencion: number[] = [9, 18], estaAceptado: boolean = false, valoracion: number = null) {
         super(type, name, lastname, picture, uid)
         this.specialty = specialty
         this.tiempoTurno = tiempoTurno
@@ -39,12 +39,12 @@ export class Profesional extends ClinicUser {
     valoracion: number; // 1 a 5 
 }
 export class Patient extends ClinicUser {
-    constructor(type: eUserTypes, name: string, lastname: string, picture: string, uid: string = '') {
+    constructor(type: eUserTypes, name: string, lastname: string, picture: string = '', uid: string = '') {
         super(type, name, lastname, picture, uid)
     }
 }
 export class Admin extends ClinicUser {
-    constructor(type: eUserTypes, name: string, lastname: string, picture: string, uid: string = '') {
+    constructor(type: eUserTypes, name: string, lastname: string, picture: string = '', uid: string = '') {
         super(type, name, lastname, picture, uid)
     }
 }

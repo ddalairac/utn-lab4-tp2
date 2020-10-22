@@ -1,1 +1,5 @@
 <p>users-list works!</p>
+
+<div *ngIf="users">
+    <app-table [objList]="users" [actions]="actions" [hideCols]="hideCols" (action)="onTableEvent($event)"></app-table>
+</div>

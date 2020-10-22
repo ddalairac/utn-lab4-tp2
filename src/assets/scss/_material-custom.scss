@@ -1,6 +1,14 @@
 @import "src/assets/scss/variables";
 
-
+.checkbox-field{
+    height: 65px;
+    padding-top: 17px;
+    .mat-hint {
+        font-size: 75%; 
+        top: -0.4em;
+        position: relative;
+    }
+}
 // .mat-button-base {
 //     color: $textColor;
 
@@ -62,9 +70,4 @@
 
 .mat-form-field {
     width: 100%;
-    &.is-invalid{
-        .mat-form-field-flex{
-            background: rgba(255, 0, 0, 0.2);   
-        }
-    }
 }

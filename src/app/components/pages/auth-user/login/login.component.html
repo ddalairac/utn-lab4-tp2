@@ -2,29 +2,31 @@
 <div class="alert alert-danger" role="alert" *ngIf="errorMensaje">
     {{errorMensaje}}
 </div>
-<div class="form-group">
-    <label>Email</label>
-    <input [(ngModel)]="usuario" type="email" class="form-control" placeholder="Ingresa tu correo" name="email" [class.is-invalid]="invalidUsuario"
-        required>
-</div>
 
-<div  class="action a" [@animateGallery]="state">
-    <div class="form-group">
-        <label>Clave</label>
-        <input [(ngModel)]="clave" type="password" class="form-control" placeholder="Aca la clave" name="clave" [class.is-invalid]="invalidClave"
-            required>
-    </div>
-    <div class="form-group form-check">
-        <input type="checkbox" [(ngModel)]="rememberMe" class="form-check-input" id="remember" checked="checked">
-        <label class="form-check-label" for="remember">Recordar mis datos</label>
+<mat-form-field>
+    <mat-label>Email</mat-label>
+    <input matInput placeholder="Ingrese email" [formControl]="email">
+    <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+</mat-form-field>
+
+
+<div class="action a" [@animateGallery]="state">
+    <mat-form-field>
+        <mat-label>Clave</mat-label>
+        <input matInput placeholder="Ingrese clave" type="text" [formControl]="pass" required>
+        <mat-error *ngIf="pass.invalid">{{getClaveErrorMessage()}}</mat-error>
+        <mat-hint>Debe tener 6 caracteres</mat-hint>
+    </mat-form-field>
+    <div class="checkbox-field">
+        <mat-checkbox [formControl]="rememberMe" name="rememberMe" id="remember">Recordarme</mat-checkbox>
     </div>
     <button mat-raised-button color="secondary" type="submit" (click)="onLogin()">Ingersar</button>
-    <button mat-raised-button type="submit" (click)="onGuest()">Invitado</button>
-    <button mat-button (click)="goToRecover()">Te olvidaste la clave?</button>
+    <button mat-button (click)="goToRecover()">Olvidaste la contraseña?</button>
+    <!-- <button mat-raised-button type="submit" (click)="onGuest()">Invitado</button> -->
 </div>
 
 <div class="action b" [@animateGallery]="state2">
     <p>Se enviara un mail de recupero de contraseña a la casilla de mail indicada</p>
     <button mat-raised-button color="secondary" type="submit" (click)="onRecover()">Recuperar contraseña</button>
-    <button mat-button (click)="backFromRecover()">Te acordaste la clave?</button>
+    <button mat-button (click)="backFromRecover()">Recordaste la contraseña?</button>
 </div>
