@@ -44,16 +44,6 @@ export class LoginComponent implements OnInit {
             this.email.setValue(JSON.parse(window.localStorage.getItem("user")));
             this.pass.setValue(JSON.parse(window.localStorage.getItem("pass")));
         }
-        // this.fbauthservice.isLogged$.subscribe(
-        //     (logged: boolean) => {
-        //         console.log("redirect home")
-        //         if (logged) {
-        //             this.router.navigateByUrl('home');
-        //         } else{
-        //             this.router.navigateByUrl('authuser');
-        //         }
-        //     }
-        // )
     }
     onGuest() {
         this.email.setValue("guest@gmail.com")
@@ -86,22 +76,10 @@ export class LoginComponent implements OnInit {
             this.fbauthservice.singIn(this.email.value, this.pass.value, this.rememberMe.value)
                 .then(() => {
                     console.log("singIn")
-                    // this.redirect()
                 }).catch((error: iAuthError) => {
                     this.errorMensaje = error.message
                 })
         }
-    }
-
-    redirect() {
-        // this.fbauthservice.isLogged$.subscribe(
-        //     (logged: boolean) => {
-        //         console.log("redirect",logged)
-        //         if (logged) {
-        //             this.router.navigateByUrl('home');
-        //         }
-        //     }
-        // )
     }
 
     onRecover() {

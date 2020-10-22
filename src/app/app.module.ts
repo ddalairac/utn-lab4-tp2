@@ -37,6 +37,7 @@ import { MainMenuComponent } from './components/cross/main-menu/main-menu.compon
 import { ProfileComponent } from './components/pages/profile/profile.component';
 import { UsersListComponent } from './components/pages/admin/users-list/users-list.component';
 import { TableComponent } from './components/cross/table/table.component';
+import { ValidateEmailComponent } from './components/pages/auth-user/validate-email/validate-email.component';
 
 @NgModule({
   declarations: [
@@ -65,7 +66,8 @@ import { TableComponent } from './components/cross/table/table.component';
     ProfesionalsListComponent,
     SpecialtiesListComponent,
     ProfileComponent,
-    UsersListComponent
+    UsersListComponent,
+    ValidateEmailComponent
   ],
   imports: [
     BrowserModule,

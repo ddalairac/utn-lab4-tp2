@@ -16,9 +16,11 @@ import { ProfecionalsComponent } from './components/pages/profecionals/profecion
 import { UrlValidateService } from './services/url-validate.service';
 import { ProfileComponent } from './components/pages/profile/profile.component';
 import { UsersListComponent } from './components/pages/admin/users-list/users-list.component';
+import { ValidateEmailComponent } from './components/pages/auth-user/validate-email/validate-email.component';
 
 const routes: Routes = [
     { path: 'authuser', component: AuthUserComponent },
+    { path: 'validate-email', component: ValidateEmailComponent },
     {
         path: 'patients', component: PatientsComponent, canActivate: [UrlValidateService], children: [
             { path: 'apointmentList', component: AppointmentListPatComponent },
