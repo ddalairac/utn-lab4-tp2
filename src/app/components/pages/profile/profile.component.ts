@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 import { Profesional, Patient, Admin, eUserTypes } from '../../../class/data.model';
+import { eCollections } from '../../../class/firebase.model';
 import { FbAuthService } from '../../../services/fb-auth.service';
+import { FbStorageService } from '../../../services/fb-storage.service';
 import { FbStoreService } from '../../../services/fb-store.service';
 
 @Component({
@@ -14,7 +16,14 @@ export class ProfileComponent implements OnInit {
     public userMail: string = '';
     picture = new FormControl();
 
-    constructor(private fbauthservice: FbAuthService, private fbStore: FbStoreService) { }
+    type = new FormControl('', [Validators.required]);
+    name = new FormControl('', [Validators.required]);
+    lastname = new FormControl('', [Validators.required]);
+    specialty = new FormControl([], [Validators.required]);
+    tiempoTurno = new FormControl();
+    horarios_atencion = new FormControl();
+
+    constructor(private fbauthservice: FbAuthService, private fbStore: FbStoreService, private fbStorage: FbStorageService) { }
 
     ngOnInit(): void {
         this.fbauthservice.userFB$.subscribe(
@@ -32,12 +41,16 @@ export class ProfileComponent implements OnInit {
     }
     public onFileLoad(event) {
         console.log("onFileLoad: ", event)
-        this.fbStore.onAvatarLoad(event).then(
+        this.fbStore.onAvatarLoad('users', event).then(
             img => {
                 console.log("uploaded img: ", img)
-                this.picture.setValue(img)
+                this.userInfo.picture = img
+                this.fbStorage.update(eCollections.users, this.userInfo.id, this.userInfo)
             }
         )
     }
+    // updateProfileImg(img){
+    //     this.fbStorage.update(eCollections.users, this.userInfo.id, this.userInfo)
+    // }
 
 }

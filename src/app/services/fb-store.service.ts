@@ -14,7 +14,7 @@ export class FbStoreService {
     }
     public urlImage: string;
     public uploadPercent: number;
-    public async onAvatarLoad(event):Promise<string> {
+    public async onAvatarLoad(folder,event):Promise<string> {
         return new Promise((resolve, reject) => {
 
             this.loader.show();
@@ -26,12 +26,14 @@ export class FbStoreService {
             let file = event.target.files[0];
             let extArr = file.name.split('.')
             let ext = extArr[extArr.length - 1];
-            let filePath = 'users/avatar_' + time + '.' + ext;
+            extArr.pop()
+            extArr.join('_');
+            let filePath = folder+'/img_'+extArr + time + '.' + ext;
             let ref = this.fbStorage.ref(filePath);
             let task = this.fbStorage.upload(filePath, file);
-            // console.log("file", file);
-            // console.log("filePath", filePath);
-            // console.log("ext", ext);
+            console.log("file", file);
+            console.log("filePath", filePath);
+            console.log("ext", ext);
 
             // task.percentageChanges();
             task.snapshotChanges().pipe(finalize(() => ref.getDownloadURL().subscribe(
