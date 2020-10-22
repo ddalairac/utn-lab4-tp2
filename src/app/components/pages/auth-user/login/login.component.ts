@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
     rememberMe = new FormControl(true);
     errorMensaje: string;
 
-    
+
     public getEmailErrorMessage() {
         if (this.email.hasError('required')) return 'Es un campo obligatorio';
         if (this.email.hasError('email')) return 'Mail invalido';
@@ -44,16 +44,32 @@ export class LoginComponent implements OnInit {
             this.email.setValue(JSON.parse(window.localStorage.getItem("user")));
             this.pass.setValue(JSON.parse(window.localStorage.getItem("pass")));
         }
-        this.fbauthservice.isLogged$.subscribe(
-            (logged: boolean) => {
-                console.log("redirect home")
-                if (logged) this.router.navigateByUrl('home');
-            }
-        )
+        // this.fbauthservice.isLogged$.subscribe(
+        //     (logged: boolean) => {
+        //         console.log("redirect home")
+        //         if (logged) {
+        //             this.router.navigateByUrl('home');
+        //         } else{
+        //             this.router.navigateByUrl('authuser');
+        //         }
+        //     }
+        // )
     }
     onGuest() {
         this.email.setValue("guest@gmail.com")
         this.pass.setValue("123456")
+    }
+    loginPaciente() {
+        this.email.setValue('paciente@gmail.com')
+        this.pass.setValue('123456')
+    }
+    loginProfesional() {
+        this.email.setValue('profesional@gmail.com')
+        this.pass.setValue('123456')
+    }
+    loginAdmin() {
+        this.email.setValue('admin@gmail.com')
+        this.pass.setValue('123456')
     }
 
 

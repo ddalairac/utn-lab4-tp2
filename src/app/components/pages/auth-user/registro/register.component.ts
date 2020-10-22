@@ -81,7 +81,7 @@ export class RegisterComponent implements OnInit {
             this.fbauthservice.register(this.email.value, this.pass.value, this.rememberMe.value, userInfo)
                 .then(() => {
                     console.log("register")
-                    this.redirect()
+                    // this.redirect()
                 }).catch((error: iAuthError) => {
                     this.errorMensaje = error.message
                 })
@@ -89,11 +89,11 @@ export class RegisterComponent implements OnInit {
     }
 
     redirect() {
-        this.fbauthservice.isLogged$.toPromise().then(
-            (logged: boolean) => {
-                if (logged) this.router.navigateByUrl('home');
-            }
-        )
+        // this.fbauthservice.isLogged$.toPromise().then(
+        //     (logged: boolean) => {
+        //         if (logged) this.router.navigateByUrl('home');
+        //     }
+        // )
     }
 
 }

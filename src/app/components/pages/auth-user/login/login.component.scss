@@ -1,7 +1,7 @@
 @import "src/assets/scss/variables";
-:host{
+:host {
     display: block;
-    margin-top: 30px; 
+    margin-top: 30px;
     min-height: 282px;
     padding: 2px;
 }
@@ -11,23 +11,26 @@
 .mat-raised-button {
     margin-right: 5px;
 }
-.action{
+.action {
     padding-bottom: 5px;
 
-    &.a{
-
+    &.a {
     }
-    &.b{
+    &.b {
         position: absolute;
         bottom: 0;
         padding-bottom: 5px;
         width: 100%;
         display: none;
-
     }
 }
+.harcode-users {
+    position: absolute;
+    top: 33px;
+    right: 0;
+}
 @media screen and (max-width: $tablet-min-w) {
-    :host{
+    :host {
         min-height: 278px;
     }
 }

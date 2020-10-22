@@ -36,6 +36,8 @@ export class FbAuthService {
                     this.type = user.type
                     this.userInfo$.next(user)
                     this.isLogged$.next(true);
+                    
+                    this.router.navigateByUrl('home');
                 })
             } else {
                 // this.userMail$.next(null);
@@ -43,6 +45,8 @@ export class FbAuthService {
                 this.userInfo$.next(null);
                 this.isLogged$.next(false);
                 this.type = null;
+                
+                this.router.navigateByUrl('authuser');
             }
         })
         // // this.userMail$.subscribe(data => console.log("userMail: ", data))
