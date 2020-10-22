@@ -21,13 +21,14 @@ export class LoginComponent implements OnInit {
     rememberMe = new FormControl(true);
     errorMensaje: string;
 
-    getEmailErrorMessage() {
+    
+    public getEmailErrorMessage() {
         if (this.email.hasError('required')) return 'Es un campo obligatorio';
         if (this.email.hasError('email')) return 'Mail invalido';
         return '';
     }
 
-    getpassErrorMessage() {
+    public getClaveErrorMessage() {
         if (this.pass.hasError('required')) return 'Es un campo obligatorio';
         if (this.pass.hasError('minlength')) return 'Debe tener 6 caracteres como mínimo';
         return '';
