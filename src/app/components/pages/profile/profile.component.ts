@@ -16,13 +16,14 @@ export class ProfileComponent implements OnInit {
     public userMail: string = '';
     picture = new FormControl();
 
-    type = new FormControl('', [Validators.required]);
-    name = new FormControl('', [Validators.required]);
-    lastname = new FormControl('', [Validators.required]);
-    specialty = new FormControl([], [Validators.required]);
-    tiempoTurno = new FormControl();
-    horarios_atencion = new FormControl();
+    type = new FormControl({value:'',disabled: true}, [Validators.required]);
+    name = new FormControl({value:'',disabled: true}, [Validators.required]);
+    lastname = new FormControl({value:'',disabled: true}, [Validators.required]);
+    specialty = new FormControl({value:[],disabled: true}, [Validators.required]);
+    tiempoTurno = new FormControl({value:30,disabled: true});
+    horarios_atencion = new FormControl({value:[],disabled: true});
 
+    time
     constructor(private fbauthservice: FbAuthService, private fbStore: FbStoreService, private fbStorage: FbStorageService) { }
 
     ngOnInit(): void {
@@ -52,5 +53,5 @@ export class ProfileComponent implements OnInit {
     // updateProfileImg(img){
     //     this.fbStorage.update(eCollections.users, this.userInfo.id, this.userInfo)
     // }
-
+    logtime(){console.log(this.time)}
 }
