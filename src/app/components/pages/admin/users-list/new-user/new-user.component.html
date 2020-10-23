@@ -1,0 +1,53 @@
+<h3>Nuevo usuario</h3>
+<div class="alert alert-danger" role="alert" *ngIf="errorMensaje">
+    {{errorMensaje}}
+</div>
+<form [formGroup]="newUserForm" (ngSubmit)="onSubmit()">
+    <!-- appearance="" outline standard fill -->
+    <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input matInput placeholder="Ingrese email" [formControl]="email">
+        <mat-error *ngIf="email.invalid">{{getEmailErrorMessage()}}</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Clave</mat-label>
+        <input matInput placeholder="Ingrese clave" type="password" [formControl]="pass">
+        <mat-error *ngIf="pass.invalid">{{getClaveErrorMessage()}}</mat-error>
+        <mat-hint>Debe tener 6 caracteres</mat-hint>
+    </mat-form-field>
+
+
+
+    <mat-form-field>
+        <mat-label>Tipo</mat-label>
+        <mat-select matNativeControl [formControl]="type">
+            <mat-option *ngFor="let item of tytpesList" [value]="item.value">{{item.viewValue}}</mat-option>
+        </mat-select>
+        <mat-error *ngIf="type.invalid">El campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Nombre</mat-label>
+        <input matInput placeholder="Ingrese nombre" [formControl]="name" name="name">
+        <mat-error *ngIf="name.invalid">El campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <mat-form-field>
+        <mat-label>Apellido</mat-label>
+        <input matInput placeholder="Ingrese apellido" [formControl]="lastname" name="lastname">
+        <mat-error *ngIf="lastname.invalid">El campo es obligatorio</mat-error>
+    </mat-form-field>
+
+    <div *ngIf="type && type.value=='Profesional'">
+        <mat-form-field>
+            <mat-label>Especialidades</mat-label>
+            <mat-select matNativeControl [formControl]="specialty" multiple>
+                <mat-option *ngFor="let item of specialtiesList" [value]="item.name">{{item.name}}</mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <button mat-raised-button color="secondary" type="submit">crear usuario</button>
+
+</form>

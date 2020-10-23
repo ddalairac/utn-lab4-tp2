@@ -38,6 +38,7 @@ import { ProfileComponent } from './components/pages/profile/profile.component';
 import { UsersListComponent } from './components/pages/admin/users-list/users-list.component';
 import { TableComponent } from './components/cross/table/table.component';
 import { ValidateEmailComponent } from './components/pages/auth-user/validate-email/validate-email.component';
+import { NewUserComponent } from './components/pages/admin/users-list/new-user/new-user.component';
 
 @NgModule({
   declarations: [
@@ -67,7 +68,8 @@ import { ValidateEmailComponent } from './components/pages/auth-user/validate-em
     SpecialtiesListComponent,
     ProfileComponent,
     UsersListComponent,
-    ValidateEmailComponent
+    ValidateEmailComponent,
+    NewUserComponent
   ],
   imports: [
     BrowserModule,

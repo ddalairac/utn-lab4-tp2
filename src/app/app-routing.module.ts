@@ -17,9 +17,11 @@ import { UrlValidateService } from './services/url-validate.service';
 import { ProfileComponent } from './components/pages/profile/profile.component';
 import { UsersListComponent } from './components/pages/admin/users-list/users-list.component';
 import { ValidateEmailComponent } from './components/pages/auth-user/validate-email/validate-email.component';
+import { NewUserComponent } from './components/pages/admin/users-list/new-user/new-user.component';
 
 const routes: Routes = [
     { path: 'authuser', component: AuthUserComponent },
+    { path: 'validate-email', component: ValidateEmailComponent },
     { path: 'validate-email', component: ValidateEmailComponent },
     {
         path: 'patients', component: PatientsComponent, canActivate: [UrlValidateService], children: [
@@ -37,6 +39,7 @@ const routes: Routes = [
     }, {
         path: 'admins', component: AdminComponent, canActivate: [UrlValidateService], children: [
             { path: 'users', component: UsersListComponent },
+            { path: 'user-new', component: NewUserComponent },
             { path: 'profesionalsList', component: ProfesionalsListComponent },
             { path: 'specialtiesList', component: SpecialtiesListComponent },
             { path: '', redirectTo: 'users', pathMatch: 'full' }

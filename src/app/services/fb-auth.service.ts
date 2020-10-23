@@ -62,6 +62,25 @@ export class FbAuthService {
             // console.log("Recover Email error",error)
         });
     }
+    public async SendVerificationMail() {
+        (await this.fireAuth.currentUser).sendEmailVerification().then(() => {
+            console.log('email sent');
+        });
+    }
+
+    public async registerNewUser(usuario: string, clave: string, userData: ClinicUser) {
+        this.loader.show();
+        return new Promise((resolve, reject) => {
+            
+            this.fireAuth.createUserWithEmailAndPassword(usuario, clave)
+                .then((res: firebase.auth.UserCredential) => {
+                    this.createUserInfoRegiuster(res.user.uid, userData)
+                    resolve(true)
+                }).catch((error: iAuthError) => {
+                    reject(error)
+                }).finally(() => this.loader.hide())
+        })
+    }
 
     public async register(usuario: string, clave: string, rememberMe: boolean, userData: ClinicUser) {
         this.loader.show();

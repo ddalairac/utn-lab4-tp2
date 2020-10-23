@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Admin, Patient, Profesional, Specialties } from '../../../../class/data.model';
 import { eCollections } from '../../../../class/firebase.model';
 import { FbStorageService } from '../../../../services/fb-storage.service';
@@ -12,7 +13,7 @@ import { iTableAction, iTableEvent } from '../../../cross/table/table.model';
 export class UsersListComponent implements OnInit {
 
 
-    constructor(private fbsorageservice: FbStorageService) { }
+    constructor(private fbsorageservice: FbStorageService, private router:Router) { }
 
     ngOnInit(): void {
         this.fbsorageservice.readAll(eCollections.users).then((list: Array<Profesional | Patient | Admin | null>) => { this.users = list; console.log(list) })
@@ -37,5 +38,8 @@ export class UsersListComponent implements OnInit {
     ]
     onTableEvent(event: iTableEvent) {
         console.log("event", event)
+    }
+    onNewUser(){
+        this.router.navigateByUrl('/admins/user-new')
     }
 }

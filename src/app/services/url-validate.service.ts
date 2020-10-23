@@ -9,7 +9,7 @@ import { FbAuthService } from './fb-auth.service';
 export class UrlValidateService {
     constructor(private router: Router, private fbauthservice: FbAuthService) { }
     canActivate(state: RouterStateSnapshot): boolean {
-        return true;
+        // return true;
         return this.checkRoute(this.router.url);
         // return this.checkRoute(state.url);
     }

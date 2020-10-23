@@ -1,21 +1,19 @@
-
 import { Component, OnInit } from '@angular/core';
-import { AngularFireStorage } from '@angular/fire/storage';
-import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { Admin, ClinicUser, eUserTypes, Patient, Profesional, Specialties } from '../../../../class/data.model';
-import { eAuthEstado, eCollections, iAuthError } from '../../../../class/firebase.model';
-import { FbAuthService } from '../../../../services/fb-auth.service';
-import { FbStorageService } from '../../../../services/fb-storage.service';
-//para poder hacer las validaciones
-//import { Validators, FormBuilder, FormControl, FormGroup} from '@angular/forms';
-@Component({
-    selector: 'app-register',
-    templateUrl: './register.component.html',
-    styleUrls: ['./register.component.scss']
-})
-export class RegisterComponent implements OnInit {
+import { Specialties, eUserTypes, ClinicUser, Admin, Patient, Profesional } from '../../../../../class/data.model';
+import { eCollections, iAuthError } from '../../../../../class/firebase.model';
+import { FbAuthService } from '../../../../../services/fb-auth.service';
+import { FbStorageService } from '../../../../../services/fb-storage.service';
 
+@Component({
+  selector: 'app-new-user',
+  templateUrl: './new-user.component.html',
+  styleUrls: ['./new-user.component.scss']
+})
+export class NewUserComponent implements OnInit {
+
+  
     constructor(private fbauthservice: FbAuthService, private router: Router, private fbsorageservice: FbStorageService) { }
 
     email = new FormControl('', [Validators.required, Validators.email]);
@@ -25,9 +23,6 @@ export class RegisterComponent implements OnInit {
     lastname = new FormControl('', [Validators.required]);
     specialty = new FormControl();
     picture = new FormControl();
-    // tiempoTurno = new FormControl();
-    // horarios_atencion = new FormControl();
-    rememberMe = new FormControl(true);
 
 
     newUserForm = new FormGroup({ email: this.email, pass: this.pass })
@@ -36,11 +31,10 @@ export class RegisterComponent implements OnInit {
 
     specialtiesList: Specialties[] = []
     tytpesList: any[] = [
-        // { value: eUserTypes.admin, viewValue: 'Administrador' },
+        { value: eUserTypes.admin, viewValue: 'Administrador' },
         { value: eUserTypes.patient, viewValue: 'Paciente' },
         { value: eUserTypes.profesional, viewValue: 'Profesional' }
     ];
-    // tiempoTurnoList:number[] = [30,60,90,120]
 
     getEmailErrorMessage() {
         if (this.email.hasError('required')) return 'Es un campo obligatorio';
@@ -78,16 +72,13 @@ export class RegisterComponent implements OnInit {
                     userInfo = new Profesional(this.type.value, this.name.value, this.lastname.value, this.picture.value, this.specialty.value);
                     break;
             }
-            this.fbauthservice.register(this.email.value, this.pass.value, this.rememberMe.value, userInfo)
+            this.fbauthservice.registerNewUser(this.email.value, this.pass.value,  userInfo)
                 .then(() => {
-                    console.log("register")
+                    console.log("register new user")
                 }).catch((error: iAuthError) => {
                     this.errorMensaje = error.message
                 })
         }
     }
 
-
 }
-
-
