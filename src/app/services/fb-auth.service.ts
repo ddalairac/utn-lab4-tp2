@@ -18,6 +18,8 @@ export class FbAuthService {
     public userInfo$: BehaviorSubject<Profesional | Patient | Admin | null>;
     public userFB$: BehaviorSubject<firebase.User | null>;
 
+    loggUser: iCurrentUser
+
     constructor(
         private fireAuth: AngularFireAuth,
         private router: Router,
@@ -36,7 +38,7 @@ export class FbAuthService {
                     this.type = user.type
                     this.userInfo$.next(user)
                     this.isLogged$.next(true);
-                    
+
                     this.router.navigateByUrl('home');
                 })
             } else {
@@ -45,7 +47,7 @@ export class FbAuthService {
                 this.userInfo$.next(null);
                 this.isLogged$.next(false);
                 this.type = null;
-                
+
                 this.router.navigateByUrl('authuser');
             }
         })
@@ -71,11 +73,15 @@ export class FbAuthService {
     public async registerNewUser(usuario: string, clave: string, userData: ClinicUser) {
         this.loader.show();
         return new Promise((resolve, reject) => {
-            
+
             this.fireAuth.createUserWithEmailAndPassword(usuario, clave)
                 .then((res: firebase.auth.UserCredential) => {
-                    this.createUserInfoRegiuster(res.user.uid, userData)
-                    resolve(true)
+                    this.createUserInfoRegiuster(res.user.uid, userData).then(
+                        ()=>{
+                            this.singIn(this.loggUser.mail,this.loggUser.pass,this.loggUser.rememberMe);
+                            resolve(true)
+                        }
+                    )
                 }).catch((error: iAuthError) => {
                     reject(error)
                 }).finally(() => this.loader.hide())
@@ -88,6 +94,7 @@ export class FbAuthService {
             this.fireAuth.createUserWithEmailAndPassword(usuario, clave)
                 .then((res: firebase.auth.UserCredential) => {
                     this.createUserInfoRegiuster(res.user.uid, userData)
+                    this.loggUser = { mail: usuario, pass: clave,rememberMe:rememberMe };
                     this.saveAuthInData(usuario, clave, rememberMe, "register");
                     resolve(true)
                 }).catch((error: iAuthError) => {
@@ -101,6 +108,7 @@ export class FbAuthService {
         return new Promise((resolve, reject) => {
             this.fireAuth.signInWithEmailAndPassword(usuario, clave)
                 .then(() => {
+                    this.loggUser = { mail: usuario, pass: clave,rememberMe:rememberMe };
                     this.saveAuthInData(usuario, clave, rememberMe, "login");
                     resolve(true)
                 }).catch(
@@ -136,4 +144,10 @@ export class FbAuthService {
         }
         return true
     }
+}
+
+interface iCurrentUser {
+    mail: string;
+    pass: string;
+    rememberMe:boolean;
 }
