@@ -3,7 +3,7 @@ import { AngularFireAuth } from '@angular/fire/auth';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Profesional, Admin, Patient, ClinicUser, eUserTypes } from '../class/data.model';
-import { iAuthError, eAuthEstado, eCollections } from '../class/firebase.model';
+import { iAuthError, eCollections } from '../class/firebase.model';
 import { FbStorageService } from './fb-storage.service';
 import { LoaderService } from './loader.service';
 
@@ -39,7 +39,8 @@ export class FbAuthService {
                     this.userInfo$.next(user)
                     this.isLogged$.next(true);
 
-                    this.router.navigateByUrl('home');
+                    // this.router.navigateByUrl('home');
+                    this.router.navigateByUrl('patients/apointmentList');
                 })
             } else {
                 // this.userMail$.next(null);

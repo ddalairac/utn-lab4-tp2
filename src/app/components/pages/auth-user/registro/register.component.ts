@@ -4,7 +4,7 @@ import { AngularFireStorage } from '@angular/fire/storage';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Admin, ClinicUser, eUserTypes, Patient, Profesional, Specialties } from '../../../../class/data.model';
-import { eAuthEstado, eCollections, iAuthError } from '../../../../class/firebase.model';
+import { eCollections, iAuthError } from '../../../../class/firebase.model';
 import { FbAuthService } from '../../../../services/fb-auth.service';
 import { FbStorageService } from '../../../../services/fb-storage.service';
 //para poder hacer las validaciones

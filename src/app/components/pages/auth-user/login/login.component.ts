@@ -3,7 +3,6 @@ import { FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AnimateGallery } from '../../../../class/animations.component';
-import { eAuthEstado, iAuthError } from '../../../../class/firebase.model';
 import { FbAuthService } from '../../../../services/fb-auth.service';
 
 // import { TimerObservable } from "rxjs/observable/TimerObservable";
@@ -76,7 +75,7 @@ export class LoginComponent implements OnInit {
             this.fbauthservice.singIn(this.email.value, this.pass.value, this.rememberMe.value)
                 .then(() => {
                     console.log("singIn")
-                }).catch((error: iAuthError) => {
+                }).catch((error) => {
                     this.errorMensaje = error.message
                 })
         }

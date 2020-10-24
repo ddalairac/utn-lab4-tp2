@@ -1,3 +1,4 @@
+import { Timestamp } from 'rxjs/internal/operators/timestamp';
 
 export class Specialties {
     id: string;
@@ -60,19 +61,20 @@ export class AttentionSurvey {
 export class AttentionSpaces {
     id: string;
     type: eSpacesTypes
-    nombre: string;
+    name: string;
 }
 export enum eSpacesTypes {
-    consultorio = "Consultorio",
-    Laboratiorio = "Laboratiorio"
+    office = "Office",
+    laboratory = "Laboratory"
 }
 export class Appointment {
     id: string;
-    type: eSpacesTypes
+    space: eSpacesTypes
+    spaceName: eSpacesTypes
     profesional: string; // id
     specialty: string
-    day_hour: number | Date
-    duration: number; //dentro del siguiente rango (lu a vi 8:00 a 19:00 && sa 8:00 a 14:00) y con el tiempo que cargo el profesional para esa especialidad
+    start: string
+    end: string
     acceptance: boolean; //el profesional debe aceptar el turno (se avisa al cliente el resultado), puede cancelar la aceptacion
 }
 export class ClinicHistory {
