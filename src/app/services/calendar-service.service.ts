@@ -17,7 +17,7 @@ export class CalendarService {
     public events$: BehaviorSubject<Appointment[]>;
 
 
-    public getCalendarEventsObs(): void {
+    public getCalendarEvents(): void {
         this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
             console.log("appointments: ", list)
             this.events$.next(list);
@@ -25,7 +25,7 @@ export class CalendarService {
             console.log("appointments error: ", error)
         })
     }
-    public updateCalendarEventObs(id: string, event: Appointment): void {
+    public updateCalendarEvent(id: string, event: Appointment): void {
         this.fbsorageservice.update(eCollections.appointments, id, event).then((data) => {
             console.log("updateCalendarEvent: ", data)
             this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
@@ -37,7 +37,7 @@ export class CalendarService {
         })
     }
 
-    public createCalendarEventObs(event: Appointment): void {
+    public createCalendarEvent(event: Appointment): void {
         this.fbsorageservice.create(eCollections.appointments, event).then((data) => {
             console.log("createCalendarEvent: ", data)
             this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
@@ -47,7 +47,7 @@ export class CalendarService {
             console.log("createCalendarEvent error: ", error)
         })
     }
-    public deleteCalendarEventObs(id: string) {
+    public deleteCalendarEvent(id: string): void  {
         this.fbsorageservice.delete(eCollections.appointments, id).then((data) => {
             console.log("deleteCalendarEventObs: ", data)
             this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
@@ -57,49 +57,6 @@ export class CalendarService {
             console.log("deleteCalendarEventObs error: ", error)
         })
     }
-
-    /////////////////////////////////////////////////
-
-    // async getCalendarEvents(): Promise<Appointment[]> {
-    //     return new Promise((resolve, reject) => {
-    //         this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
-    //             console.log("appointments: ", list)
-    //             resolve(list);
-    //         }).catch((error) => {
-    //             console.log("appointments error: ", error)
-    //             reject(error)
-    //         })
-    //     });
-    // }
-    // async updateCalendarEvent(id: string, event: Appointment): Promise<Appointment[]> {
-    //     return new Promise((resolve, reject) => {
-    //         this.fbsorageservice.update(eCollections.appointments, id, event).then((data) => {
-    //             console.log("updateCalendarEvent: ", data)
-    //             this.getCalendarEvents().then((list: Appointment[]) => {
-    //                 resolve(list);
-    //             })
-
-    //         }).catch((error) => {
-    //             console.log("updateCalendarEvent error: ", error)
-    //             reject(error)
-    //         })
-    //     });
-    // }
-
-    // async createCalendarEvent(event: Appointment): Promise<Appointment[]> {
-    //     return new Promise((resolve, reject) => {
-    //         this.fbsorageservice.create(eCollections.appointments, event).then((data) => {
-    //             console.log("createCalendarEvent: ", data)
-    //             this.getCalendarEvents().then((list: Appointment[]) => {
-    //                 resolve(list);
-    //             })
-    //         }).catch((error) => {
-    //             console.log("createCalendarEvent error: ", error)
-    //             reject(error)
-    //         })
-    //     });
-    // }
-
 
 
     /////////////////////////////////////////////////

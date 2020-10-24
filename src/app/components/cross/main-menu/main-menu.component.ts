@@ -55,16 +55,6 @@ export class MainMenuComponent implements OnInit {
         this.router.navigateByUrl('profile')
     }
 
-    private menuPatients = [
-        {
-            label: "Turnos",
-            path: "/patients/appointments"
-        },
-        {
-            label: "Encuesta",
-            path: "/patients/appointmentSurvey"
-        }
-    ]
     private menuAdmins = [
         {
             label: "Profesionales",
@@ -79,10 +69,20 @@ export class MainMenuComponent implements OnInit {
             path: "/admins/specialtiesList"
         }
     ]
+    private menuPatients = [
+        {
+            label: "Turnos",
+            path: "/patients/appointments"
+        },
+        {
+            label: "Encuesta",
+            path: "/patients/appointmentSurvey"
+        }
+    ]
     private menuProfesionals = [
         {
             label: "Calendario Turnos",
-            path: "/profesionals/appointmentList"
+            path: "/profesionals/appointments"
         },
         {
             label: "Historias clinicas",

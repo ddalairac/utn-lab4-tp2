@@ -23,7 +23,6 @@ import { MaterialModule } from './vendors/material.module';
 import { AttentionSurveyComponent } from './components/pages/patients/attention-survey/attention-survey.component';
 import { PatientsComponent } from './components/pages/patients/patients.component';
 import { ProfecionalsComponent } from './components/pages/profecionals/profecionals.component';
-import { AppointmentListProComponent } from './components/pages/profecionals/appointment-list-pro/appointment-list-pro.component';
 import { ClinicHistoryFormComponent } from './components/pages/profecionals/clinic-history-form/clinic-history-form.component';
 import { AdminComponent } from './components/pages/admin/admin.component';
 import { ProfesionalsListComponent } from './components/pages/admin/profesionals-list/profesionals-list.component';
@@ -40,6 +39,9 @@ import { NewUserComponent } from './components/pages/admin/users-list/new-user/n
 import { AppointmentsPatComponent } from './components/pages/patients/appointments-pat/appointments-pat.component';
 import { CalendarPatComponent } from './components/pages/patients/appointments-pat/calendar-pat/calendar-pat.component';
 import { CalendarModalPatComponent } from './components/pages/patients/appointments-pat/calendar-modal-pat/calendar-modal-pat.component';
+import { AppointmentsProComponent } from './components/pages/profecionals/appointments-pro/appointments-pro.component';
+import { CalendarProComponent } from './components/pages/profecionals/appointments-pro/calendar-pro/calendar-pro.component';
+import { CalendarModalProComponent } from './components/pages/profecionals/appointments-pro/calendar-modal-pro/calendar-modal-pro.component';
 
 @NgModule({
   declarations: [
@@ -60,7 +62,6 @@ import { CalendarModalPatComponent } from './components/pages/patients/appointme
     AttentionSurveyComponent,
     PatientsComponent,
     ProfecionalsComponent,
-    AppointmentListProComponent,
     ClinicHistoryFormComponent,
     AdminComponent,
     ProfesionalsListComponent,
@@ -71,7 +72,10 @@ import { CalendarModalPatComponent } from './components/pages/patients/appointme
     NewUserComponent,
     AppointmentsPatComponent,
     CalendarPatComponent,
-    CalendarModalPatComponent
+    CalendarModalPatComponent,
+    AppointmentsProComponent,
+    CalendarProComponent,
+    CalendarModalProComponent
   ],
   imports: [
     BrowserModule,

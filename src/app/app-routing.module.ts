@@ -8,7 +8,6 @@ import { Error404Component } from './components/pages/error404/error404.componen
 import { HomeComponent } from './components/pages/home/home.component';
 import { AttentionSurveyComponent } from './components/pages/patients/attention-survey/attention-survey.component';
 import { PatientsComponent } from './components/pages/patients/patients.component';
-import { AppointmentListProComponent } from './components/pages/profecionals/appointment-list-pro/appointment-list-pro.component';
 import { ClinicHistoryFormComponent } from './components/pages/profecionals/clinic-history-form/clinic-history-form.component';
 import { ProfecionalsComponent } from './components/pages/profecionals/profecionals.component';
 import { UrlValidateService } from './services/url-validate.service';
@@ -17,6 +16,7 @@ import { UsersListComponent } from './components/pages/admin/users-list/users-li
 import { ValidateEmailComponent } from './components/pages/auth-user/validate-email/validate-email.component';
 import { NewUserComponent } from './components/pages/admin/users-list/new-user/new-user.component';
 import { AppointmentsPatComponent } from './components/pages/patients/appointments-pat/appointments-pat.component';
+import { AppointmentsProComponent } from './components/pages/profecionals/appointments-pro/appointments-pro.component';
 
 const routes: Routes = [
     { path: 'authuser', component: AuthUserComponent },
@@ -30,7 +30,7 @@ const routes: Routes = [
         ]
     }, {
         path: 'profesionals', component: ProfecionalsComponent, canActivate: [UrlValidateService], children: [
-            { path: 'appointmentList', component: AppointmentListProComponent },
+            { path: 'appointments', component: AppointmentsProComponent },
             { path: 'clinicHistory', component: ClinicHistoryFormComponent },
             { path: '', redirectTo: 'appointmentList', pathMatch: 'full' }
         ]

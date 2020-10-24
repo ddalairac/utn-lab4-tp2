@@ -38,13 +38,13 @@ export class CalendarModalPatComponent implements OnInit {
     public onAcept() {
         console.log("onAcept")
         if (this.data.action == "new" && this.appointment) {
-            this.calendar.createCalendarEventObs(this.appointment);
+            this.calendar.createCalendarEvent(this.appointment);
         }
         this.dialogRef.close();
     }
     public onDelete() {
         console.log("onDelete")
-        this.calendar.deleteCalendarEventObs(this.data.event.meta.id);
+        this.calendar.deleteCalendarEvent(this.data.event.meta.id);
         this.dialogRef.close();
     }
     private parseApointment() {

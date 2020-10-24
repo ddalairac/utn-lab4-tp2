@@ -48,7 +48,7 @@ export class AppointmentsPatComponent implements OnInit {
         })
     }
     private listenEvents() {
-        this.calendar.getCalendarEventsObs()
+        this.calendar.getCalendarEvents()
         this.calendar.events$.subscribe(
             (list: Appointment[]) => {
                 let events: CalendarEvent<Appointment>[] = []
