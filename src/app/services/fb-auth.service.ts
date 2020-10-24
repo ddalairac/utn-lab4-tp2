@@ -40,7 +40,7 @@ export class FbAuthService {
                     this.isLogged$.next(true);
 
                     // this.router.navigateByUrl('home');
-                    this.router.navigateByUrl('patients/apointmentList');
+                    this.router.navigateByUrl('patients/appointments');
                 })
             } else {
                 // this.userMail$.next(null);
@@ -71,11 +71,11 @@ export class FbAuthService {
         });
     }
 
-    public async registerNewUser(usuario: string, clave: string, userData: ClinicUser) {
+    public async registerNewUser(email: string, clave: string, userData: ClinicUser) {
         this.loader.show();
         return new Promise((resolve, reject) => {
 
-            this.fireAuth.createUserWithEmailAndPassword(usuario, clave)
+            this.fireAuth.createUserWithEmailAndPassword(email, clave)
                 .then((res: firebase.auth.UserCredential) => {
                     this.createUserInfoRegiuster(res.user.uid, userData).then(
                         ()=>{
@@ -89,14 +89,14 @@ export class FbAuthService {
         })
     }
 
-    public async register(usuario: string, clave: string, rememberMe: boolean, userData: ClinicUser) {
+    public async register(email: string, clave: string, rememberMe: boolean, userData: ClinicUser) {
         this.loader.show();
         return new Promise((resolve, reject) => {
-            this.fireAuth.createUserWithEmailAndPassword(usuario, clave)
+            this.fireAuth.createUserWithEmailAndPassword(email, clave)
                 .then((res: firebase.auth.UserCredential) => {
                     this.createUserInfoRegiuster(res.user.uid, userData)
-                    this.loggUser = { mail: usuario, pass: clave,rememberMe:rememberMe };
-                    this.saveAuthInData(usuario, clave, rememberMe, "register");
+                    this.loggUser = { mail: email, pass: clave,rememberMe:rememberMe };
+                    this.saveAuthInData(email, clave, rememberMe, "register");
                     resolve(true)
                 }).catch((error: iAuthError) => {
                     reject(error)
@@ -104,13 +104,13 @@ export class FbAuthService {
         })
     }
 
-    public async singIn(usuario, clave, rememberMe) {
+    public async singIn(email, clave, rememberMe) {
         this.loader.show();
         return new Promise((resolve, reject) => {
-            this.fireAuth.signInWithEmailAndPassword(usuario, clave)
+            this.fireAuth.signInWithEmailAndPassword(email, clave)
                 .then(() => {
-                    this.loggUser = { mail: usuario, pass: clave,rememberMe:rememberMe };
-                    this.saveAuthInData(usuario, clave, rememberMe, "login");
+                    this.loggUser = { mail: email, pass: clave,rememberMe:rememberMe };
+                    this.saveAuthInData(email, clave, rememberMe, "login");
                     resolve(true)
                 }).catch(
                     (error: iAuthError) => {
@@ -134,10 +134,10 @@ export class FbAuthService {
         this.fbsorageservice.create(eCollections.users, userData)
     }
 
-    private async saveAuthInData(usuario, clave, rememberMe, type) {
-        // this.userMail$.next(usuario);
+    private async saveAuthInData(email, clave, rememberMe, type) {
+        // this.userMail$.next(email);
         if (rememberMe) {
-            window.localStorage.setItem("user", JSON.stringify(usuario));
+            window.localStorage.setItem("user", JSON.stringify(email));
             window.localStorage.setItem("pass", JSON.stringify(clave));
         } else {
             window.localStorage.removeItem("user");

@@ -1,0 +1,19 @@
+<h1 mat-dialog-title>Detalle del turno </h1>
+<div mat-dialog-content>
+    <!-- <pre>{{appointment | json}}</pre> -->
+
+    <div *ngIf="appointment">
+        <p>{{appointment?.start}}</p>
+        <p>{{appointment?.end}}</p>
+        <p>{{appointment?.specialty}}</p>
+        <p>{{appointment?.profesional?.lastname}}, {{appointment?.profesional?.lastname}}</p>
+    </div>
+    <div *ngIf="message">
+        <p>{{message}}</p>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cerrar</button>
+    <button mat-button (click)="onAcept()"  *ngIf="appointment" cdkFocusInitial>Solicitar turno</button>
+    <button mat-button (click)="onDelete()" *ngIf="data.action == 'Clicked'">Cancelar turno</button>
+</div>

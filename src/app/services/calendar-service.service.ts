@@ -1,4 +1,6 @@
 import { Injectable } from '@angular/core';
+import { CalendarEvent } from 'angular-calendar';
+import { BehaviorSubject } from 'rxjs';
 import { Appointment, AttentionSpaces, ClinicUser, eUserTypes, Profesional, Specialties } from '../class/data.model';
 import { eCollections } from '../class/firebase.model';
 import { FbStorageService } from './fb-storage.service';
@@ -8,48 +10,99 @@ import { FbStorageService } from './fb-storage.service';
 })
 export class CalendarService {
 
-    constructor(private fbsorageservice: FbStorageService) { }
+    constructor(private fbsorageservice: FbStorageService) {
+        this.events$ = new BehaviorSubject<Appointment[]>([])
+    }
+
+    public events$: BehaviorSubject<Appointment[]>;
 
 
-    async getCalendarEvents(): Promise<Appointment[]> {
-        return new Promise((resolve, reject) => {
+    public getCalendarEventsObs(): void {
+        this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
+            console.log("appointments: ", list)
+            this.events$.next(list);
+        }).catch((error) => {
+            console.log("appointments error: ", error)
+        })
+    }
+    public updateCalendarEventObs(id: string, event: Appointment): void {
+        this.fbsorageservice.update(eCollections.appointments, id, event).then((data) => {
+            console.log("updateCalendarEvent: ", data)
             this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
-                console.log("appointments: ", list)
-                resolve(list);
-            }).catch((error) => {
-                console.log("appointments error: ", error)
-                reject(error)
+                this.events$.next(list);
             })
-        });
-    }
-    async updateCalendarEvent(id: string, event: Appointment): Promise<Appointment[]> {
-        return new Promise((resolve, reject) => {
-            this.fbsorageservice.update(eCollections.appointments, id, event).then((data) => {
-                console.log("updateCalendarEvent: ", data)
-                this.getCalendarEvents().then((list: Appointment[]) => {
-                    resolve(list);
-                })
 
-            }).catch((error) => {
-                console.log("updateCalendarEvent error: ", error)
-                reject(error)
-            })
-        });
+        }).catch((error) => {
+            console.log("updateCalendarEvent error: ", error)
+        })
     }
 
-    async createCalendarEvent(event: Appointment): Promise<Appointment[]> {
-        return new Promise((resolve, reject) => {
-            this.fbsorageservice.create(eCollections.appointments, event).then((data) => {
-                console.log("createCalendarEvent: ", data)
-                this.getCalendarEvents().then((list: Appointment[]) => {
-                    resolve(list);
-                })
-            }).catch((error) => {
-                console.log("createCalendarEvent error: ", error)
-                reject(error)
+    public createCalendarEventObs(event: Appointment): void {
+        this.fbsorageservice.create(eCollections.appointments, event).then((data) => {
+            console.log("createCalendarEvent: ", data)
+            this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
+                this.events$.next(list);
             })
-        });
+        }).catch((error) => {
+            console.log("createCalendarEvent error: ", error)
+        })
     }
+    public deleteCalendarEventObs(id: string) {
+        this.fbsorageservice.delete(eCollections.appointments, id).then((data) => {
+            console.log("deleteCalendarEventObs: ", data)
+            this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
+                this.events$.next(list);
+            })
+        }).catch((error) => {
+            console.log("deleteCalendarEventObs error: ", error)
+        })
+    }
+
+    /////////////////////////////////////////////////
+
+    // async getCalendarEvents(): Promise<Appointment[]> {
+    //     return new Promise((resolve, reject) => {
+    //         this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
+    //             console.log("appointments: ", list)
+    //             resolve(list);
+    //         }).catch((error) => {
+    //             console.log("appointments error: ", error)
+    //             reject(error)
+    //         })
+    //     });
+    // }
+    // async updateCalendarEvent(id: string, event: Appointment): Promise<Appointment[]> {
+    //     return new Promise((resolve, reject) => {
+    //         this.fbsorageservice.update(eCollections.appointments, id, event).then((data) => {
+    //             console.log("updateCalendarEvent: ", data)
+    //             this.getCalendarEvents().then((list: Appointment[]) => {
+    //                 resolve(list);
+    //             })
+
+    //         }).catch((error) => {
+    //             console.log("updateCalendarEvent error: ", error)
+    //             reject(error)
+    //         })
+    //     });
+    // }
+
+    // async createCalendarEvent(event: Appointment): Promise<Appointment[]> {
+    //     return new Promise((resolve, reject) => {
+    //         this.fbsorageservice.create(eCollections.appointments, event).then((data) => {
+    //             console.log("createCalendarEvent: ", data)
+    //             this.getCalendarEvents().then((list: Appointment[]) => {
+    //                 resolve(list);
+    //             })
+    //         }).catch((error) => {
+    //             console.log("createCalendarEvent error: ", error)
+    //             reject(error)
+    //         })
+    //     });
+    // }
+
+
+
+    /////////////////////////////////////////////////
 
 
 
@@ -98,10 +151,10 @@ export const calColor: any = {
         primary: '#ad2121',
         secondary: '#FAE3E3'
     },
-    // blue: {
-    //     primary: '#1e90ff',
-    //     secondary: '#D1E8FF'
-    // },
+    blue: {
+        primary: '#1e90ff',
+        secondary: '#D1E8FF'
+    },
     yellow: {
         primary: '#e3bc08',
         secondary: '#FDF1BA'

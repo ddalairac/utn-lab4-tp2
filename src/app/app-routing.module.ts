@@ -6,8 +6,6 @@ import { SpecialtiesListComponent } from './components/pages/admin/specialties-l
 import { AuthUserComponent } from './components/pages/auth-user/auth-user.component';
 import { Error404Component } from './components/pages/error404/error404.component';
 import { HomeComponent } from './components/pages/home/home.component';
-import { AppointmentListPatComponent } from './components/pages/patients/appointment-list-pat/appointment-list-pat.component';
-import { AppointmentNewPatComponent } from './components/pages/patients/appointment-new-pat/appointment-new-pat.component';
 import { AttentionSurveyComponent } from './components/pages/patients/attention-survey/attention-survey.component';
 import { PatientsComponent } from './components/pages/patients/patients.component';
 import { AppointmentListProComponent } from './components/pages/profecionals/appointment-list-pro/appointment-list-pro.component';
@@ -18,6 +16,7 @@ import { ProfileComponent } from './components/pages/profile/profile.component';
 import { UsersListComponent } from './components/pages/admin/users-list/users-list.component';
 import { ValidateEmailComponent } from './components/pages/auth-user/validate-email/validate-email.component';
 import { NewUserComponent } from './components/pages/admin/users-list/new-user/new-user.component';
+import { AppointmentsPatComponent } from './components/pages/patients/appointments-pat/appointments-pat.component';
 
 const routes: Routes = [
     { path: 'authuser', component: AuthUserComponent },
@@ -25,16 +24,15 @@ const routes: Routes = [
     { path: 'validate-email', component: ValidateEmailComponent },
     {
         path: 'patients', component: PatientsComponent, canActivate: [UrlValidateService], children: [
-            { path: 'apointmentList', component: AppointmentListPatComponent },
-            { path: 'apointmentNew', component: AppointmentNewPatComponent },
-            { path: 'apointmentSurvey', component: AttentionSurveyComponent },
-            { path: '', redirectTo: 'apointmentList', pathMatch: 'full' }
+            { path: 'appointments', component: AppointmentsPatComponent },
+            { path: 'appointmentSurvey', component: AttentionSurveyComponent },
+            { path: '', redirectTo: 'appointmentList', pathMatch: 'full' }
         ]
     }, {
         path: 'profesionals', component: ProfecionalsComponent, canActivate: [UrlValidateService], children: [
-            { path: 'apointmentList', component: AppointmentListProComponent },
+            { path: 'appointmentList', component: AppointmentListProComponent },
             { path: 'clinicHistory', component: ClinicHistoryFormComponent },
-            { path: '', redirectTo: 'apointmentList', pathMatch: 'full' }
+            { path: '', redirectTo: 'appointmentList', pathMatch: 'full' }
         ]
     }, {
         path: 'admins', component: AdminComponent, canActivate: [UrlValidateService], children: [

@@ -21,8 +21,6 @@ import { LoginComponent } from './components/pages/auth-user/login/login.compone
 import { RegisterComponent } from './components/pages/auth-user/registro/register.component';
 import { MaterialModule } from './vendors/material.module';
 import { AttentionSurveyComponent } from './components/pages/patients/attention-survey/attention-survey.component';
-import { AppointmentNewPatComponent } from './components/pages/patients/appointment-new-pat/appointment-new-pat.component';
-import { AppointmentListPatComponent } from './components/pages/patients/appointment-list-pat/appointment-list-pat.component';
 import { PatientsComponent } from './components/pages/patients/patients.component';
 import { ProfecionalsComponent } from './components/pages/profecionals/profecionals.component';
 import { AppointmentListProComponent } from './components/pages/profecionals/appointment-list-pro/appointment-list-pro.component';
@@ -39,6 +37,9 @@ import { UsersListComponent } from './components/pages/admin/users-list/users-li
 import { TableComponent } from './components/cross/table/table.component';
 import { ValidateEmailComponent } from './components/pages/auth-user/validate-email/validate-email.component';
 import { NewUserComponent } from './components/pages/admin/users-list/new-user/new-user.component';
+import { AppointmentsPatComponent } from './components/pages/patients/appointments-pat/appointments-pat.component';
+import { CalendarPatComponent } from './components/pages/patients/appointments-pat/calendar-pat/calendar-pat.component';
+import { CalendarModalPatComponent } from './components/pages/patients/appointments-pat/calendar-modal-pat/calendar-modal-pat.component';
 
 @NgModule({
   declarations: [
@@ -57,8 +58,6 @@ import { NewUserComponent } from './components/pages/admin/users-list/new-user/n
     Error404Component,
     HomeComponent,
     AttentionSurveyComponent,
-    AppointmentNewPatComponent,
-    AppointmentListPatComponent,
     PatientsComponent,
     ProfecionalsComponent,
     AppointmentListProComponent,
@@ -69,7 +68,10 @@ import { NewUserComponent } from './components/pages/admin/users-list/new-user/n
     ProfileComponent,
     UsersListComponent,
     ValidateEmailComponent,
-    NewUserComponent
+    NewUserComponent,
+    AppointmentsPatComponent,
+    CalendarPatComponent,
+    CalendarModalPatComponent
   ],
   imports: [
     BrowserModule,

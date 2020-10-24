@@ -57,16 +57,12 @@ export class MainMenuComponent implements OnInit {
 
     private menuPatients = [
         {
-            label: "Calendario Turnos",
-            path: "/patients/apointmentList"
-        },
-        {
-            label: "Nuevo turno",
-            path: "/patients/apointmentNew"
+            label: "Turnos",
+            path: "/patients/appointments"
         },
         {
             label: "Encuesta",
-            path: "/patients/apointmentSurvey"
+            path: "/patients/appointmentSurvey"
         }
     ]
     private menuAdmins = [
@@ -86,7 +82,7 @@ export class MainMenuComponent implements OnInit {
     private menuProfesionals = [
         {
             label: "Calendario Turnos",
-            path: "/profesionals/apointmentList"
+            path: "/profesionals/appointmentList"
         },
         {
             label: "Historias clinicas",

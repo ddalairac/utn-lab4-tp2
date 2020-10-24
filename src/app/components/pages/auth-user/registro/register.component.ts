@@ -69,13 +69,13 @@ export class RegisterComponent implements OnInit {
         if (this.isValid()) {
             switch (this.type.value) {
                 case eUserTypes.admin:
-                    userInfo = new Admin(this.type.value, this.name.value, this.lastname.value, this.picture.value);
+                    userInfo = new Admin(this.type.value,this.email.value, this.name.value, this.lastname.value, this.picture.value);
                     break;
                 case eUserTypes.patient:
-                    userInfo = new Patient(this.type.value, this.name.value, this.lastname.value, this.picture.value);
+                    userInfo = new Patient(this.type.value,this.email.value, this.name.value, this.lastname.value, this.picture.value);
                     break;
                 case eUserTypes.profesional:
-                    userInfo = new Profesional(this.type.value, this.name.value, this.lastname.value, this.picture.value, this.specialty.value);
+                    userInfo = new Profesional(this.type.value,this.email.value, this.name.value, this.lastname.value, this.picture.value, this.specialty.value);
                     break;
             }
             this.fbauthservice.register(this.email.value, this.pass.value, this.rememberMe.value, userInfo)

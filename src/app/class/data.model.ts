@@ -1,4 +1,5 @@
-import { Timestamp } from 'rxjs/internal/operators/timestamp';
+import { CalendarEvent } from 'angular-calendar';
+
 
 export class Specialties {
     id: string;
@@ -10,8 +11,9 @@ export enum eUserTypes {
     admin = "Admin",
 }
 export abstract class ClinicUser {
-    constructor(type: eUserTypes, name: string, lastname: string, picture: string, uid: string) {
+    constructor(type: eUserTypes, mail: string, name: string, lastname: string, picture: string, uid: string) {
         this.uid = uid
+        this.mail = mail
         this.type = type
         this.name = name
         this.lastname = lastname
@@ -19,14 +21,15 @@ export abstract class ClinicUser {
     }
     uid: string;
     id: string;
+    mail: string;
     type: eUserTypes;
     name: string;
     lastname: string;
     picture: string;
 }
 export class Profesional extends ClinicUser {
-    constructor(type: eUserTypes, name: string, lastname: string, picture: string = '', specialty: string[] = [], uid: string = '', tiempoTurno: number = 30, horarios_atencion: number[] = [9, 18], estaAceptado: boolean = false, valoracion: number = null) {
-        super(type, name, lastname, picture, uid)
+    constructor(type: eUserTypes, mail: string, name: string, lastname: string, picture: string = '', specialty: string[] = [], uid: string = '', tiempoTurno: number = 30, horarios_atencion: number[] = [9, 18], estaAceptado: boolean = false, valoracion: number = null) {
+        super(type, mail, name, lastname, picture, uid)
         this.specialty = specialty
         this.tiempoTurno = tiempoTurno
         this.horarios_atencion = horarios_atencion
@@ -40,13 +43,13 @@ export class Profesional extends ClinicUser {
     valoracion: number; // 1 a 5 
 }
 export class Patient extends ClinicUser {
-    constructor(type: eUserTypes, name: string, lastname: string, picture: string = '', uid: string = '') {
-        super(type, name, lastname, picture, uid)
+    constructor(type: eUserTypes, mail: string, name: string, lastname: string, picture: string = '', uid: string = '') {
+        super(type, mail, name, lastname, picture, uid)
     }
 }
 export class Admin extends ClinicUser {
-    constructor(type: eUserTypes, name: string, lastname: string, picture: string = '', uid: string = '') {
-        super(type, name, lastname, picture, uid)
+    constructor(type: eUserTypes, mail: string, name: string, lastname: string, picture: string = '', uid: string = '') {
+        super(type, mail, name, lastname, picture, uid)
     }
 }
 
@@ -67,16 +70,6 @@ export enum eSpacesTypes {
     office = "Office",
     laboratory = "Laboratory"
 }
-export class Appointment {
-    id: string;
-    space: eSpacesTypes
-    spaceName: eSpacesTypes
-    profesional: string; // id
-    specialty: string
-    start: string
-    end: string
-    acceptance: boolean; //el profesional debe aceptar el turno (se avisa al cliente el resultado), puede cancelar la aceptacion
-}
 export class ClinicHistory {
     id: string;
     profesional: string; // id profesional
@@ -92,4 +85,32 @@ export class ClinicHistory {
 export class ExtraData {
     key: string;
     value: string;
-} 
+}
+
+export class Appointment {
+    id?: string;
+    space: eSpacesTypes
+    spaceName: string
+    profesional: Profesional; // id
+    specialty: string
+    start: string
+    end: string
+    patient: Patient
+    acceptance: boolean; //el profesional debe aceptar el turno (se avisa al cliente el resultado), puede cancelar la aceptacion
+}
+// export interface  AppointmentEvent extends Appointment, CalendarEvent{
+//     start: Date;
+//     end?: Date;
+//     title: string;
+//     color?: EventColor;
+//     actions?: EventAction[];
+//     allDay?: boolean;
+//     cssClass?: string;
+// }
+
+export interface iModalData {
+    event: CalendarEvent<Appointment>;
+    action: string;
+    selectProfesional?: Profesional;
+    selectSpecialty?: Specialties;
+}
