@@ -14,7 +14,7 @@ export class FbStoreService {
     }
     public urlImage: string;
     public uploadPercent: number;
-    public async onAvatarLoad(folder,event):Promise<string> {
+    public async fileupLoad(folder,event):Promise<string> {
         return new Promise((resolve, reject) => {
 
             this.loader.show();

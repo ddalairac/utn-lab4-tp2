@@ -40,7 +40,8 @@ export class FbAuthService {
                     this.isLogged$.next(true);
 
                     // this.router.navigateByUrl('home');
-                    this.router.navigateByUrl('patients/appointments');
+                    // this.router.navigateByUrl('patients/appointments');
+                    this.router.navigateByUrl('profile');
                 })
             } else {
                 // this.userMail$.next(null);

@@ -28,7 +28,7 @@ export abstract class ClinicUser {
     picture: string;
 }
 export class Profesional extends ClinicUser {
-    constructor(type: eUserTypes, mail: string, name: string, lastname: string, picture: string = '', specialty: string[] = [], uid: string = '', tiempoTurno: number = 30, horarios_atencion: number[] = [9, 18], estaAceptado: boolean = false, valoracion: number = null) {
+    constructor(type: eUserTypes, mail: string, name: string, lastname: string, picture: string = '', specialty: string[] = [], uid: string = '', tiempoTurno: number = 30, horarios_atencion: HorariosAtencion = new HorariosAtencion(), estaAceptado: boolean = false, valoracion: number = null) {
         super(type, mail, name, lastname, picture, uid)
         this.specialty = specialty
         this.tiempoTurno = tiempoTurno
@@ -38,7 +38,7 @@ export class Profesional extends ClinicUser {
     }
     specialty: string[];
     tiempoTurno: number; // 30m o mas
-    horarios_atencion: number[]; //dentro del rango
+    horarios_atencion: HorariosAtencion; //dentro del rango
     estaAceptado: boolean;
     valoracion: number; // 1 a 5 
 }
@@ -51,6 +51,20 @@ export class Admin extends ClinicUser {
     constructor(type: eUserTypes, mail: string, name: string, lastname: string, picture: string = '', uid: string = '') {
         super(type, mail, name, lastname, picture, uid)
     }
+}
+export class HorariosAtencion {
+    hourStartMon: string = '08:00';
+    hourEndMon: string = '19:00';
+    hourStartTue: string = '08:00';
+    hourEndTue: string = '19:00';
+    hourStartWed: string = '08:00';
+    hourEndWed: string = '19:00';
+    hourStartThu: string = '08:00';
+    hourEndThu: string = '19:00';
+    hourStartFri: string = '08:00';
+    hourEndFri: string = '19:00';
+    hourStartSat: string = '08:00';
+    hourEndSat: string = '14:00';
 }
 
 export class AttentionSurvey {

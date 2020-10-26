@@ -30,7 +30,7 @@ export class RegisterComponent implements OnInit {
     rememberMe = new FormControl(true);
 
 
-    newUserForm = new FormGroup({ email: this.email, pass: this.pass })
+    newUserForm = new FormGroup({ email: this.email, pass: this.pass }) //! arreglar con todos los atributos
 
     errorMensaje: string;
 

@@ -3,178 +3,174 @@
 
     <div *ngIf="userInfo && userMail">
 
-        <img [src]="userInfo.picture" alt="avatar usuario" class="profile-img" *ngIf="userInfo.picture">
-        <div class="img-field">
-            <input placeholder="Ingrese su avatar" type="file" accept=".png, .jpg" (change)="onFileLoad($event)">
-        </div>
-
-        <mat-form-field>
-            <mat-label>Email</mat-label>
-            <input matInput [value]="userMail">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Clave</mat-label>
-            <input matInput value="******">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Tipo de Usuario</mat-label>
-            <input matInput [value]="userInfo.type">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Nombre</mat-label>
-            <input matInput [value]="userInfo.name">
-        </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>Apellido</mat-label>
-            <input matInput [value]="userInfo.lastname">
-        </mat-form-field>
-
-
-
-
-
-        <div *ngIf="userInfo && userInfo.type && userInfo.type=='Profesional'">
-            <mat-form-field>
-                <mat-label>Especialidades</mat-label>
-                <input matInput [value]="userInfo.specialty">
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>Tiempo de turno</mat-label>
-                <mat-select matNativeControl [formControl]="tiempoTurno">
-                    <mat-option *ngFor="let item of tiempoTurnoList" [value]="item">{{item}}</mat-option>
-                </mat-select>
-                <mat-hint>El tiempo esa expresado en minutos</mat-hint>
-            </mat-form-field>
-
-            <mat-form-field>
-                <mat-label>horarios atencion</mat-label>
-                <input matInput [value]="userInfo.horarios_atencion" placeholder="Ingrese apellido" name="horarios_atencion">
-            </mat-form-field>
-
-            <h3>Horarios de atencion</h3>
-            <div class="horarios_picker">
-                <div class="dia row">
-                    <div class="col"> <span>Lunes</span></div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora inicio</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora fin</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col"> </div>
-                </div>
-                <div class="dia row">
-                    <div class="col"> <span>Martes</span></div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora inicio</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora fin</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col"> </div>
-                </div>
-                <div class="dia row">
-                    <div class="col"> <span>Miercoles</span></div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora inicio</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora fin</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col"> </div>
-                </div>
-                <div class="dia row">
-                    <div class="col"> <span>Jueves</span></div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora inicio</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora fin</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col"> </div>
-                </div>
-                <div class="dia row">
-                    <div class="col"> <span>Viernes</span></div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora inicio</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora fin</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col"> </div>
-                </div>
-                <div class="dia row">
-                    <div class="col"> <span>Sabado</span></div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora inicio</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora fin</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col"> </div>
-                </div>
-                <div class="dia row">
-                    <div class="col"> <span>Domingo</span></div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora inicio</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col">
-                        <mat-form-field>
-                            <mat-label>hora fin</mat-label>
-                            <input matInput type="time" [(ngModel)]="time" name="time" (change)="logtime()">
-                        </mat-form-field>
-                    </div>
-                    <div class="col"> </div>
-                </div>
-
-
+        <div class="card">
+            <img [src]="userInfo.picture" alt="avatar usuario" class="profile-img" *ngIf="userInfo.picture">
+            <div class="img-field">
+                <input placeholder="Ingrese su avatar" type="file" accept=".png, .jpg" (change)="onFileLoad($event)">
             </div>
-
         </div>
 
+        <div class="card">
+            <mat-form-field>
+                <mat-label>Email</mat-label>
+                <input matInput [value]="userMail" disabled>
+            </mat-form-field>
+
+            <mat-form-field>
+                <mat-label>Clave</mat-label>
+                <input matInput value="******" disabled>
+            </mat-form-field>
+        </div>
+
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="card">
+                <h6>Datos personales</h6>
+                <div class="row">
+                    <div class="col-md">
+                        <mat-form-field>
+                            <mat-label>Nombre</mat-label>
+                            <input matInput [formControl]="name">
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md">
+                        <mat-form-field>
+                            <mat-label>Apellido</mat-label>
+                            <input matInput [formControl]="lastname">
+                        </mat-form-field>
+                    </div>
+                </div>
+
+
+                <div *ngIf="userInfo && userInfo.type && userInfo.type=='Profesional'">
+                    <div>
+                        <h6>Datos de turnos</h6>
+                        <div class="row">
+                            <div class="col-md">
+                                <mat-form-field *ngIf="specialtiesList">
+                                    <mat-label>Especialidades</mat-label>
+                                    <mat-select matNativeControl [formControl]="specialty" multiple>
+                                        <mat-option *ngFor="let item of specialtiesList" [value]="item.name">{{item.name}}</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="specialty.invalid">El campo es obligatorio</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md">
+                                <div class="row">
+                                    <div class="col">
+                                        <mat-label>Duracion del turno</mat-label>
+                                        <mat-slider [max]="120" [min]="30" [step]="30" [tickInterval]="30" [formControl]="tiempoTurno"></mat-slider>
+                                    </div>
+                                    <div class="col">{{tiempoTurno.value}} minutos</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h6>Horarios de atencion</h6>
+                    <div class="row">
+                        <div class="col-md-2 dia">
+                            <p>Lunes</p>
+                            <mat-form-field>
+                                <mat-label>hora inicio</mat-label>
+                                <input matInput type="time" [formControl]="hourStartMon" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourStartMon.invalid">{{messageBusinessDaysStart}}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>hora fin</mat-label>
+                                <input matInput type="time" [formControl]="hourEndMon" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourEndMon.invalid">{{messageBusinessDays}}</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-2 dia">
+                            <p>Martes</p>
+                            <mat-form-field>
+                                <mat-label>hora inicio</mat-label>
+                                <input matInput type="time" [formControl]="hourStartTue" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourStartTue.invalid">{{messageBusinessDaysStart}}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>hora fin</mat-label>
+                                <input matInput type="time" [formControl]="hourEndTue" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourEndTue.invalid">{{messageBusinessDays}}</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-2 dia">
+                            <p>Miercoles</p>
+                            <mat-form-field>
+                                <mat-label>hora inicio</mat-label>
+                                <input matInput type="time" [formControl]="hourStartWed" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourStartWed.invalid">{{messageBusinessDaysStart}}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>hora fin</mat-label>
+                                <input matInput type="time" [formControl]="hourEndWed" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourEndWed.invalid">{{messageBusinessDays}}</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-2 dia">
+                            <p>Jueves</p>
+                            <mat-form-field>
+                                <mat-label>hora inicio</mat-label>
+                                <input matInput type="time" [formControl]="hourStartThu" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourStartThu.invalid">{{messageBusinessDaysStart}}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>hora fin</mat-label>
+                                <input matInput type="time" [formControl]="hourEndThu" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourEndThu.invalid">{{messageBusinessDays}}</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-2 dia">
+                            <p>Viernes</p>
+                            <mat-form-field>
+                                <mat-label>hora inicio</mat-label>
+                                <input matInput type="time" [formControl]="hourStartFri" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourStartFri.invalid">{{messageBusinessDaysStart}}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>hora fin</mat-label>
+                                <input matInput type="time" [formControl]="hourEndFri" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourEndFri.invalid">{{messageBusinessDays}}</mat-error>
+                            </mat-form-field>
+                        </div>
+
+                        <div class="col-md-2 dia">
+                            <p>Sabado</p>
+                            <mat-form-field>
+                                <mat-label>hora inicio</mat-label>
+                                <input matInput type="time" [formControl]="hourStartSat" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourStartSat.invalid">{{messageStartSat}}</mat-error>
+                            </mat-form-field>
+                            <mat-form-field>
+                                <mat-label>hora fin</mat-label>
+                                <input matInput type="time" [formControl]="hourEndSat" min="09:00" max="18:00">
+                                <mat-error *ngIf="hourEndSat.invalid">{{messageSat}}</mat-error>
+                            </mat-form-field>
+
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- (click)="onSubmit()" -->
+                <button mat-raised-button color="primary" type="submit">Guardar</button>
+            </div>
+        </form>
     </div>
-</div>
+
+
+
+
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
