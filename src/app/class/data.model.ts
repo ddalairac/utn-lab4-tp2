@@ -65,6 +65,12 @@ export class HorariosAtencion {
     hourEndFri: string = '19:00';
     hourStartSat: string = '08:00';
     hourEndSat: string = '14:00';
+    hourMonCK:boolean = false;
+    hourTueCK:boolean = false;
+    hourWedCK:boolean = false;
+    hourThuCK:boolean = false;
+    hourFriCK:boolean = false;
+    hourSatCK:boolean = false;
 }
 
 export class AttentionSurvey {

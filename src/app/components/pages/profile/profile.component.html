@@ -6,7 +6,7 @@
         <div class="card">
             <img [src]="userInfo.picture" alt="avatar usuario" class="profile-img" *ngIf="userInfo.picture">
             <div class="img-field">
-                <input placeholder="Ingrese su avatar" type="file" accept=".png, .jpg" (change)="onFileLoad($event)">
+                <input placeholder="Ingrese su avatar" type="file" accept=".png, .jpg" (change)="onFileLoad($event)"  mat-raised-button>
             </div>
         </div>
 
@@ -24,7 +24,7 @@
 
         <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
             <div class="card">
-                <h6>Datos personales</h6>
+                <h2>Datos personales</h2>
                 <div class="row">
                     <div class="col-md">
                         <mat-form-field>
@@ -43,7 +43,7 @@
 
                 <div *ngIf="userInfo && userInfo.type && userInfo.type=='Profesional'">
                     <div>
-                        <h6>Datos de turnos</h6>
+                        <h2>Datos de turnos</h2>
                         <div class="row">
                             <div class="col-md">
                                 <mat-form-field *ngIf="specialtiesList">
@@ -66,10 +66,12 @@
                         </div>
                     </div>
 
-                    <h6>Horarios de atencion</h6>
+                    <h2>Dias y horarios de atencion</h2>
                     <div class="row">
                         <div class="col-md-2 dia">
-                            <p>Lunes</p>
+                            <div class="checkbox-field">
+                                <mat-checkbox (change)="onHourCK('Mon')" [checked]="hourMonCK.value">Lunes</mat-checkbox>
+                            </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
                                 <input matInput type="time" [formControl]="hourStartMon" min="09:00" max="18:00">
@@ -83,7 +85,9 @@
                         </div>
 
                         <div class="col-md-2 dia">
-                            <p>Martes</p>
+                            <div class="checkbox-field">
+                                <mat-checkbox (change)="onHourCK('Tue')" [checked]="hourTueCK.value">Martes</mat-checkbox>
+                            </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
                                 <input matInput type="time" [formControl]="hourStartTue" min="09:00" max="18:00">
@@ -97,7 +101,9 @@
                         </div>
 
                         <div class="col-md-2 dia">
-                            <p>Miercoles</p>
+                            <div class="checkbox-field">
+                                <mat-checkbox (change)="onHourCK('Wed')" [checked]="hourWedCK.value">Miercoles</mat-checkbox>
+                            </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
                                 <input matInput type="time" [formControl]="hourStartWed" min="09:00" max="18:00">
@@ -111,7 +117,9 @@
                         </div>
 
                         <div class="col-md-2 dia">
-                            <p>Jueves</p>
+                            <div class="checkbox-field">
+                                <mat-checkbox (change)="onHourCK('Thu')" [checked]="hourThuCK.value">Jueves</mat-checkbox>
+                            </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
                                 <input matInput type="time" [formControl]="hourStartThu" min="09:00" max="18:00">
@@ -125,7 +133,9 @@
                         </div>
 
                         <div class="col-md-2 dia">
-                            <p>Viernes</p>
+                            <div class="checkbox-field">
+                                <mat-checkbox (change)="onHourCK('Fri')" [checked]="hourFriCK.value">Viernes</mat-checkbox>
+                            </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
                                 <input matInput type="time" [formControl]="hourStartFri" min="09:00" max="18:00">
@@ -139,7 +149,9 @@
                         </div>
 
                         <div class="col-md-2 dia">
-                            <p>Sabado</p>
+                            <div class="checkbox-field">
+                                <mat-checkbox (change)="onHourCK('Sat')" [checked]="hourSatCK.value">Sabado</mat-checkbox>
+                            </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
                                 <input matInput type="time" [formControl]="hourStartSat" min="09:00" max="18:00">

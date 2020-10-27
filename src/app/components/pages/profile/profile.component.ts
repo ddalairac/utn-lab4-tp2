@@ -36,6 +36,12 @@ export class ProfileComponent implements OnInit {
     hourEndFri = new FormControl({ value: '19:00' }, [Validators.required]);
     hourStartSat = new FormControl({ value: '08:00' }, [Validators.required]);
     hourEndSat = new FormControl({ value: '14:00' }, [Validators.required]);
+    hourMonCK = new FormControl(false);
+    hourTueCK = new FormControl(false);
+    hourWedCK = new FormControl(false);
+    hourThuCK = new FormControl(false);
+    hourFriCK = new FormControl(false);
+    hourSatCK = new FormControl(false);
     messageBusinessDaysStart = 'De 08:00 a 19:00';
     messageBusinessDays = 'De 08:00 a 19:00 y Posterior a hora inicio';
     messageStartSat = 'De 08:00 a 14:00';
@@ -46,6 +52,27 @@ export class ProfileComponent implements OnInit {
 
     userForm: FormGroup = new FormGroup({})
 
+    constructor(private fbauthservice: FbAuthService, private fbStore: FbStoreService, private fbStorage: FbStorageService) { }
+
+    ngOnInit(): void {
+        this.fbStorage.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
+        this.fbauthservice.userFB$.subscribe(
+            (userFB: firebase.User) => {
+                console.log("profile userFB", userFB)
+                this.userMail = (userFB) ? userFB.email : null;
+            }
+        )
+        this.fbauthservice.userInfo$.subscribe(
+            (userInfo: Profesional | Patient | Admin) => {
+                console.log("profile userInfo", userInfo)
+                this.userInfo = userInfo;
+                if (userInfo) {
+                    this.createFormGroup(userInfo.type)
+                    this.setUserValues(userInfo)
+                }
+            }
+        )
+    }
     private createFormGroup(type: eUserTypes) {
         if (type == eUserTypes.profesional) {
             this.userForm = new FormGroup({
@@ -73,16 +100,9 @@ export class ProfileComponent implements OnInit {
                 lastname: this.lastname
             })
         }
-        console.log("createFormGroup",this.userForm)
+        console.log("createFormGroup", this.userForm)
     }
 
-    // validateHourStart(start): boolean  {
-    //     if (start < '08:00' || start > '19:00' ) {
-    //         return false;
-    //     } else {
-    //         return true;
-    //     }
-    // }
     validateHour(start: FormControl, end: FormControl): boolean {
         if (start.value < '08:00' || start.value > '19:00') {
             start.setErrors({ error: 'Fuera de rango' });
@@ -111,21 +131,33 @@ export class ProfileComponent implements OnInit {
         this.name.setValue(infoUser.name)
         this.lastname.setValue(infoUser.lastname)
         if (infoUser.type == 'Profesional') {
-            let infoUserPro: Profesional = infoUser as Profesional
-            this.specialty.setValue(infoUserPro.specialty)
-            this.tiempoTurno.setValue(infoUserPro.tiempoTurno)
-            this.hourStartMon.setValue(infoUserPro.horarios_atencion.hourStartMon)
-            this.hourEndMon.setValue(infoUserPro.horarios_atencion.hourEndMon)
-            this.hourStartTue.setValue(infoUserPro.horarios_atencion.hourStartTue)
-            this.hourEndTue.setValue(infoUserPro.horarios_atencion.hourEndTue)
-            this.hourStartWed.setValue(infoUserPro.horarios_atencion.hourStartWed)
-            this.hourEndWed.setValue(infoUserPro.horarios_atencion.hourEndWed)
-            this.hourStartThu.setValue(infoUserPro.horarios_atencion.hourStartThu)
-            this.hourEndThu.setValue(infoUserPro.horarios_atencion.hourEndThu)
-            this.hourStartFri.setValue(infoUserPro.horarios_atencion.hourStartFri)
-            this.hourEndFri.setValue(infoUserPro.horarios_atencion.hourEndFri)
-            this.hourStartSat.setValue(infoUserPro.horarios_atencion.hourStartSat)
-            this.hourEndSat.setValue(infoUserPro.horarios_atencion.hourEndSat)
+            let infoUserPro: Profesional = infoUser as Profesional;
+            this.specialty.setValue(infoUserPro.specialty);
+            this.tiempoTurno.setValue(infoUserPro.tiempoTurno);
+            this.hourStartMon.setValue(infoUserPro.horarios_atencion.hourStartMon);
+            this.hourEndMon.setValue(infoUserPro.horarios_atencion.hourEndMon);
+            this.hourStartTue.setValue(infoUserPro.horarios_atencion.hourStartTue);
+            this.hourEndTue.setValue(infoUserPro.horarios_atencion.hourEndTue);
+            this.hourStartWed.setValue(infoUserPro.horarios_atencion.hourStartWed);
+            this.hourEndWed.setValue(infoUserPro.horarios_atencion.hourEndWed);
+            this.hourStartThu.setValue(infoUserPro.horarios_atencion.hourStartThu);
+            this.hourEndThu.setValue(infoUserPro.horarios_atencion.hourEndThu);
+            this.hourStartFri.setValue(infoUserPro.horarios_atencion.hourStartFri);
+            this.hourEndFri.setValue(infoUserPro.horarios_atencion.hourEndFri);
+            this.hourStartSat.setValue(infoUserPro.horarios_atencion.hourStartSat);
+            this.hourEndSat.setValue(infoUserPro.horarios_atencion.hourEndSat);
+            this.hourMonCK.setValue(infoUserPro.horarios_atencion.hourMonCK);
+            this.hourTueCK.setValue(infoUserPro.horarios_atencion.hourTueCK);
+            this.hourWedCK.setValue(infoUserPro.horarios_atencion.hourWedCK);
+            this.hourThuCK.setValue(infoUserPro.horarios_atencion.hourThuCK);
+            this.hourFriCK.setValue(infoUserPro.horarios_atencion.hourFriCK);
+            this.hourSatCK.setValue(infoUserPro.horarios_atencion.hourSatCK);
+            this.hourCK('Mon',infoUserPro.horarios_atencion.hourMonCK);
+            this.hourCK('Tue',infoUserPro.horarios_atencion.hourTueCK);
+            this.hourCK('Wed',infoUserPro.horarios_atencion.hourWedCK);
+            this.hourCK('Thu',infoUserPro.horarios_atencion.hourThuCK);
+            this.hourCK('Fri',infoUserPro.horarios_atencion.hourFriCK);
+            this.hourCK('Sat',infoUserPro.horarios_atencion.hourSatCK);
         }
     }
     private getUserValues(): Profesional | Patient | Admin {
@@ -148,33 +180,18 @@ export class ProfileComponent implements OnInit {
             infoUserPro.horarios_atencion.hourEndFri = this.hourEndFri.value
             infoUserPro.horarios_atencion.hourStartSat = this.hourStartSat.value
             infoUserPro.horarios_atencion.hourEndSat = this.hourEndSat.value
+            infoUserPro.horarios_atencion.hourMonCK = this.hourMonCK.value
+            infoUserPro.horarios_atencion.hourTueCK = this.hourTueCK.value
+            infoUserPro.horarios_atencion.hourWedCK = this.hourWedCK.value
+            infoUserPro.horarios_atencion.hourThuCK = this.hourThuCK.value
+            infoUserPro.horarios_atencion.hourFriCK = this.hourFriCK.value
+            infoUserPro.horarios_atencion.hourSatCK = this.hourSatCK.value
             infoUser = infoUserPro;
         }
         console.log("infoUser: ", infoUser)
         return infoUser
     }
 
-    constructor(private fbauthservice: FbAuthService, private fbStore: FbStoreService, private fbStorage: FbStorageService) { }
-
-    ngOnInit(): void {
-        this.fbStorage.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
-        this.fbauthservice.userFB$.subscribe(
-            (userFB: firebase.User) => {
-                console.log("profile userFB", userFB)
-                this.userMail = (userFB) ? userFB.email : null;
-            }
-        )
-        this.fbauthservice.userInfo$.subscribe(
-            (userInfo: Profesional | Patient | Admin) => {
-                console.log("profile userInfo", userInfo)
-                this.userInfo = userInfo;
-                if (userInfo) {
-                    this.createFormGroup(userInfo.type)
-                    this.setUserValues(userInfo)
-                }
-            }
-        )
-    }
     public onFileLoad(event) {
         console.log("onFileLoad: ", event)
         this.fbStore.fileupLoad('users', event).then(
@@ -188,6 +205,22 @@ export class ProfileComponent implements OnInit {
     public onSubmit() {
         if (this.userForm.valid && this.validateHous()) {
             this.fbStorage.update(eCollections.users, this.userInfo.id, this.getUserValues()).then(res => console.log("res: ", res))
+        }
+    }
+    public onHourCK(day:string) {
+        // let days = ['Mon','Tue','Wed','Thu','Fri','Sat']
+        this['hour'+day+'CK'].setValue(!this['hour'+day+'CK'].value)
+        this.hourCK(day,this['hour'+day+'CK'].value)
+    }
+    private hourCK(day,value){
+        // console.log("day", day,this['hour'+day+'CK'].value)
+        // if (this['hour'+day+'CK'].value) {
+        if (value) {
+            this['hourStart'+day].enable();
+            this['hourEnd'+day].enable();
+        } else {
+            this['hourStart'+day].disable();
+            this['hourEnd'+day].disable();
         }
     }
 }
