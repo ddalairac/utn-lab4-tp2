@@ -53,24 +53,41 @@ export class Admin extends ClinicUser {
     }
 }
 export class HorariosAtencion {
-    hourStartMon: string = '08:00';
-    hourEndMon: string = '19:00';
-    hourStartTue: string = '08:00';
-    hourEndTue: string = '19:00';
-    hourStartWed: string = '08:00';
-    hourEndWed: string = '19:00';
-    hourStartThu: string = '08:00';
-    hourEndThu: string = '19:00';
-    hourStartFri: string = '08:00';
-    hourEndFri: string = '19:00';
-    hourStartSat: string = '08:00';
-    hourEndSat: string = '14:00';
-    hourMonCK:boolean = false;
-    hourTueCK:boolean = false;
-    hourWedCK:boolean = false;
-    hourThuCK:boolean = false;
-    hourFriCK:boolean = false;
-    hourSatCK:boolean = false;
+    mon: iHorarioAtencion = {
+        start: '08:00',
+        end: '19:00',
+        active: false
+    }
+    tue: iHorarioAtencion = {
+        start: '08:00',
+        end: '19:00',
+        active: false
+    }
+    wed: iHorarioAtencion = {
+        start: '08:00',
+        end: '19:00',
+        active: false
+    }
+    thu: iHorarioAtencion = {
+        start: '08:00',
+        end: '19:00',
+        active: false
+    }
+    fri: iHorarioAtencion = {
+        start: '08:00',
+        end: '19:00',
+        active: false
+    }
+    sat: iHorarioAtencion = {
+        start: '08:00',
+        end: '14:00',
+        active: false
+    }
+}
+export interface iHorarioAtencion {
+    start: string;
+    end: string;
+    active: boolean;
 }
 
 export class AttentionSurvey {

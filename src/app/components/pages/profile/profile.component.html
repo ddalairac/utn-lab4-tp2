@@ -74,12 +74,12 @@
                             </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
-                                <input matInput type="time" [formControl]="hourStartMon" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourStartMon" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourStartMon.invalid">{{messageBusinessDaysStart}}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>hora fin</mat-label>
-                                <input matInput type="time" [formControl]="hourEndMon" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourEndMon" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourEndMon.invalid">{{messageBusinessDays}}</mat-error>
                             </mat-form-field>
                         </div>
@@ -90,12 +90,12 @@
                             </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
-                                <input matInput type="time" [formControl]="hourStartTue" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourStartTue" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourStartTue.invalid">{{messageBusinessDaysStart}}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>hora fin</mat-label>
-                                <input matInput type="time" [formControl]="hourEndTue" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourEndTue" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourEndTue.invalid">{{messageBusinessDays}}</mat-error>
                             </mat-form-field>
                         </div>
@@ -106,12 +106,12 @@
                             </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
-                                <input matInput type="time" [formControl]="hourStartWed" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourStartWed" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourStartWed.invalid">{{messageBusinessDaysStart}}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>hora fin</mat-label>
-                                <input matInput type="time" [formControl]="hourEndWed" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourEndWed" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourEndWed.invalid">{{messageBusinessDays}}</mat-error>
                             </mat-form-field>
                         </div>
@@ -122,12 +122,12 @@
                             </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
-                                <input matInput type="time" [formControl]="hourStartThu" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourStartThu" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourStartThu.invalid">{{messageBusinessDaysStart}}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>hora fin</mat-label>
-                                <input matInput type="time" [formControl]="hourEndThu" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourEndThu" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourEndThu.invalid">{{messageBusinessDays}}</mat-error>
                             </mat-form-field>
                         </div>
@@ -138,12 +138,12 @@
                             </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
-                                <input matInput type="time" [formControl]="hourStartFri" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourStartFri" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourStartFri.invalid">{{messageBusinessDaysStart}}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>hora fin</mat-label>
-                                <input matInput type="time" [formControl]="hourEndFri" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourEndFri" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourEndFri.invalid">{{messageBusinessDays}}</mat-error>
                             </mat-form-field>
                         </div>
@@ -154,12 +154,12 @@
                             </div>
                             <mat-form-field>
                                 <mat-label>hora inicio</mat-label>
-                                <input matInput type="time" [formControl]="hourStartSat" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourStartSat" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourStartSat.invalid">{{messageStartSat}}</mat-error>
                             </mat-form-field>
                             <mat-form-field>
                                 <mat-label>hora fin</mat-label>
-                                <input matInput type="time" [formControl]="hourEndSat" min="09:00" max="18:00">
+                                <input matInput type="time" [formControl]="hourEndSat" min="09:00" max="18:00" (blur)="validateHous()">
                                 <mat-error *ngIf="hourEndSat.invalid">{{messageSat}}</mat-error>
                             </mat-form-field>
 

@@ -18,12 +18,10 @@ export class ProfileComponent implements OnInit {
     specialtiesList: Specialties[] = []
 
     picture = new FormControl();
-
     name = new FormControl({ value: '' }, [Validators.required]);
     lastname = new FormControl({ value: '' }, [Validators.required]);
     specialty = new FormControl({ value: [] }, [Validators.required]);
     tiempoTurno = new FormControl({ value: 30 });
-
     hourStartMon = new FormControl({ value: '08:00' }, [Validators.required]);
     hourEndMon = new FormControl({ value: '19:00' }, [Validators.required]);
     hourStartTue = new FormControl({ value: '08:00' }, [Validators.required]);
@@ -48,7 +46,7 @@ export class ProfileComponent implements OnInit {
     messageSat = 'De 08:00 a 14:00 y Posterior a hora inicio';
 
     //! cambiar mail y pass
-    authForm = new FormGroup({})
+    // authForm = new FormGroup({})
 
     userForm: FormGroup = new FormGroup({})
 
@@ -102,31 +100,6 @@ export class ProfileComponent implements OnInit {
         }
         console.log("createFormGroup", this.userForm)
     }
-
-    validateHour(start: FormControl, end: FormControl): boolean {
-        if (start.value < '08:00' || start.value > '19:00') {
-            start.setErrors({ error: 'Fuera de rango' });
-            return false
-        } else if (end.value < '08:00' || end.value > '19:00') {
-            end.setErrors({ error: 'Fuera de rango' });
-            return false
-        } else if (start.value > end.value) {
-            start.setErrors({ error: 'Es anterior a hora inicio' });
-            return false
-        } else {
-            return true;
-        }
-    }
-    validateHous(): boolean {
-        if (!this.validateHour(this.hourStartMon, this.hourEndMon)) { return false }
-        if (!this.validateHour(this.hourStartTue, this.hourEndTue)) { return false }
-        if (!this.validateHour(this.hourStartWed, this.hourEndWed)) { return false }
-        if (!this.validateHour(this.hourStartThu, this.hourEndThu)) { return false }
-        if (!this.validateHour(this.hourStartFri, this.hourEndFri)) { return false }
-        if (!this.validateHour(this.hourStartSat, this.hourEndSat)) { return false }
-        return true
-    }
-
     private setUserValues(infoUser: Profesional | Patient | Admin): void {
         this.name.setValue(infoUser.name)
         this.lastname.setValue(infoUser.lastname)
@@ -134,30 +107,66 @@ export class ProfileComponent implements OnInit {
             let infoUserPro: Profesional = infoUser as Profesional;
             this.specialty.setValue(infoUserPro.specialty);
             this.tiempoTurno.setValue(infoUserPro.tiempoTurno);
-            this.hourStartMon.setValue(infoUserPro.horarios_atencion.hourStartMon);
-            this.hourEndMon.setValue(infoUserPro.horarios_atencion.hourEndMon);
-            this.hourStartTue.setValue(infoUserPro.horarios_atencion.hourStartTue);
-            this.hourEndTue.setValue(infoUserPro.horarios_atencion.hourEndTue);
-            this.hourStartWed.setValue(infoUserPro.horarios_atencion.hourStartWed);
-            this.hourEndWed.setValue(infoUserPro.horarios_atencion.hourEndWed);
-            this.hourStartThu.setValue(infoUserPro.horarios_atencion.hourStartThu);
-            this.hourEndThu.setValue(infoUserPro.horarios_atencion.hourEndThu);
-            this.hourStartFri.setValue(infoUserPro.horarios_atencion.hourStartFri);
-            this.hourEndFri.setValue(infoUserPro.horarios_atencion.hourEndFri);
-            this.hourStartSat.setValue(infoUserPro.horarios_atencion.hourStartSat);
-            this.hourEndSat.setValue(infoUserPro.horarios_atencion.hourEndSat);
-            this.hourMonCK.setValue(infoUserPro.horarios_atencion.hourMonCK);
-            this.hourTueCK.setValue(infoUserPro.horarios_atencion.hourTueCK);
-            this.hourWedCK.setValue(infoUserPro.horarios_atencion.hourWedCK);
-            this.hourThuCK.setValue(infoUserPro.horarios_atencion.hourThuCK);
-            this.hourFriCK.setValue(infoUserPro.horarios_atencion.hourFriCK);
-            this.hourSatCK.setValue(infoUserPro.horarios_atencion.hourSatCK);
-            this.hourCK('Mon',infoUserPro.horarios_atencion.hourMonCK);
-            this.hourCK('Tue',infoUserPro.horarios_atencion.hourTueCK);
-            this.hourCK('Wed',infoUserPro.horarios_atencion.hourWedCK);
-            this.hourCK('Thu',infoUserPro.horarios_atencion.hourThuCK);
-            this.hourCK('Fri',infoUserPro.horarios_atencion.hourFriCK);
-            this.hourCK('Sat',infoUserPro.horarios_atencion.hourSatCK);
+
+            if (!infoUserPro.horarios_atencion) {
+                infoUserPro.horarios_atencion = {
+                    mon: {
+                        start: '08:00',
+                        end: '19:00',
+                        active: false
+                    },
+                    tue: {
+                        start: '08:00',
+                        end: '19:00',
+                        active: false
+                    },
+                    wed: {
+                        start: '08:00',
+                        end: '19:00',
+                        active: false
+                    },
+                    thu: {
+                        start: '08:00',
+                        end: '19:00',
+                        active: false
+                    },
+                    fri: {
+                        start: '08:00',
+                        end: '19:00',
+                        active: false
+                    },
+                    sat: {
+                        start: '08:00',
+                        end: '14:00',
+                        active: false
+                    }
+                }
+            }
+            this.hourStartMon.setValue(infoUserPro.horarios_atencion.mon.start);
+            this.hourEndMon.setValue(infoUserPro.horarios_atencion.mon.end);
+            this.hourStartTue.setValue(infoUserPro.horarios_atencion.tue.start);
+            this.hourEndTue.setValue(infoUserPro.horarios_atencion.tue.end);
+            this.hourStartWed.setValue(infoUserPro.horarios_atencion.wed.start);
+            this.hourEndWed.setValue(infoUserPro.horarios_atencion.wed.end);
+            this.hourStartThu.setValue(infoUserPro.horarios_atencion.thu.start);
+            this.hourEndThu.setValue(infoUserPro.horarios_atencion.thu.end);
+            this.hourStartFri.setValue(infoUserPro.horarios_atencion.fri.start);
+            this.hourEndFri.setValue(infoUserPro.horarios_atencion.fri.end);
+            this.hourStartSat.setValue(infoUserPro.horarios_atencion.sat.start);
+            this.hourEndSat.setValue(infoUserPro.horarios_atencion.sat.end);
+            this.hourMonCK.setValue(infoUserPro.horarios_atencion.mon.active);
+            this.hourTueCK.setValue(infoUserPro.horarios_atencion.tue.active);
+            this.hourWedCK.setValue(infoUserPro.horarios_atencion.wed.active);
+            this.hourThuCK.setValue(infoUserPro.horarios_atencion.thu.active);
+            this.hourFriCK.setValue(infoUserPro.horarios_atencion.fri.active);
+            this.hourSatCK.setValue(infoUserPro.horarios_atencion.sat.active);
+            this.hourCK('Mon', infoUserPro.horarios_atencion.mon.active);
+            this.hourCK('Tue', infoUserPro.horarios_atencion.tue.active);
+            this.hourCK('Wed', infoUserPro.horarios_atencion.wed.active);
+            this.hourCK('Thu', infoUserPro.horarios_atencion.thu.active);
+            this.hourCK('Fri', infoUserPro.horarios_atencion.fri.active);
+            this.hourCK('Sat', infoUserPro.horarios_atencion.sat.active);
+
         }
     }
     private getUserValues(): Profesional | Patient | Admin {
@@ -168,30 +177,29 @@ export class ProfileComponent implements OnInit {
             let infoUserPro: Profesional = infoUser as Profesional
             infoUserPro.specialty = this.specialty.value
             infoUserPro.tiempoTurno = this.tiempoTurno.value
-            infoUserPro.horarios_atencion.hourStartMon = this.hourStartMon.value
-            infoUserPro.horarios_atencion.hourEndMon = this.hourEndMon.value
-            infoUserPro.horarios_atencion.hourStartTue = this.hourStartTue.value
-            infoUserPro.horarios_atencion.hourEndTue = this.hourEndTue.value
-            infoUserPro.horarios_atencion.hourStartWed = this.hourStartWed.value
-            infoUserPro.horarios_atencion.hourEndWed = this.hourEndWed.value
-            infoUserPro.horarios_atencion.hourStartThu = this.hourStartThu.value
-            infoUserPro.horarios_atencion.hourEndThu = this.hourEndThu.value
-            infoUserPro.horarios_atencion.hourStartFri = this.hourStartFri.value
-            infoUserPro.horarios_atencion.hourEndFri = this.hourEndFri.value
-            infoUserPro.horarios_atencion.hourStartSat = this.hourStartSat.value
-            infoUserPro.horarios_atencion.hourEndSat = this.hourEndSat.value
-            infoUserPro.horarios_atencion.hourMonCK = this.hourMonCK.value
-            infoUserPro.horarios_atencion.hourTueCK = this.hourTueCK.value
-            infoUserPro.horarios_atencion.hourWedCK = this.hourWedCK.value
-            infoUserPro.horarios_atencion.hourThuCK = this.hourThuCK.value
-            infoUserPro.horarios_atencion.hourFriCK = this.hourFriCK.value
-            infoUserPro.horarios_atencion.hourSatCK = this.hourSatCK.value
+            infoUserPro.horarios_atencion.mon.start = this.hourStartMon.value
+            infoUserPro.horarios_atencion.mon.end = this.hourEndMon.value
+            infoUserPro.horarios_atencion.tue.start = this.hourStartTue.value
+            infoUserPro.horarios_atencion.tue.end = this.hourEndTue.value
+            infoUserPro.horarios_atencion.wed.start = this.hourStartWed.value
+            infoUserPro.horarios_atencion.wed.end = this.hourEndWed.value
+            infoUserPro.horarios_atencion.thu.start = this.hourStartThu.value
+            infoUserPro.horarios_atencion.thu.end = this.hourEndThu.value
+            infoUserPro.horarios_atencion.fri.start = this.hourStartFri.value
+            infoUserPro.horarios_atencion.fri.end = this.hourEndFri.value
+            infoUserPro.horarios_atencion.sat.start = this.hourStartSat.value
+            infoUserPro.horarios_atencion.sat.end = this.hourEndSat.value
+            infoUserPro.horarios_atencion.mon.active = this.hourMonCK.value
+            infoUserPro.horarios_atencion.tue.active = this.hourTueCK.value
+            infoUserPro.horarios_atencion.wed.active = this.hourWedCK.value
+            infoUserPro.horarios_atencion.thu.active = this.hourThuCK.value
+            infoUserPro.horarios_atencion.fri.active = this.hourFriCK.value
+            infoUserPro.horarios_atencion.sat.active = this.hourSatCK.value
             infoUser = infoUserPro;
         }
         console.log("infoUser: ", infoUser)
         return infoUser
     }
-
     public onFileLoad(event) {
         console.log("onFileLoad: ", event)
         this.fbStore.fileupLoad('users', event).then(
@@ -202,25 +210,52 @@ export class ProfileComponent implements OnInit {
             }
         )
     }
+    private validateHour(day: string): boolean {
+        if (this['hour' + day + 'CK'].value) {
+            // console.log(day, ' Activo')
+            let start: FormControl = this['hourStart' + day]
+            let end: FormControl = this['hourEnd' + day]
+
+            if (start.value < '08:00' || start.value > '19:00') {
+                start.setErrors({ error: 'Fuera de rango' });
+                return false
+            } else if (end.value < '08:00' || end.value > '19:00') {
+                end.setErrors({ error: 'Fuera de rango' });
+                return false
+            } else if (start.value > end.value) {
+                start.setErrors({ error: 'Es anterior a hora inicio' });
+                return false
+            } else {
+                return true;
+            }
+        } else {
+            // console.log(day, ' Inactivo')
+            return true
+        }
+    }
+    public validateHous(): boolean {
+        let days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        days.forEach((d) => {
+            if (!this.validateHour(d)) { return false }
+        })
+        return true
+    }
+    public onHourCK(day: string) {
+        this['hour' + day + 'CK'].setValue(!this['hour' + day + 'CK'].value)
+        this.hourCK(day, this['hour' + day + 'CK'].value)
+    }
+    private hourCK(day, value) {
+        if (value) {
+            this['hourStart' + day].enable();
+            this['hourEnd' + day].enable();
+        } else {
+            this['hourStart' + day].disable();
+            this['hourEnd' + day].disable();
+        }
+    }
     public onSubmit() {
         if (this.userForm.valid && this.validateHous()) {
             this.fbStorage.update(eCollections.users, this.userInfo.id, this.getUserValues()).then(res => console.log("res: ", res))
-        }
-    }
-    public onHourCK(day:string) {
-        // let days = ['Mon','Tue','Wed','Thu','Fri','Sat']
-        this['hour'+day+'CK'].setValue(!this['hour'+day+'CK'].value)
-        this.hourCK(day,this['hour'+day+'CK'].value)
-    }
-    private hourCK(day,value){
-        // console.log("day", day,this['hour'+day+'CK'].value)
-        // if (this['hour'+day+'CK'].value) {
-        if (value) {
-            this['hourStart'+day].enable();
-            this['hourEnd'+day].enable();
-        } else {
-            this['hourStart'+day].disable();
-            this['hourEnd'+day].disable();
         }
     }
 }
