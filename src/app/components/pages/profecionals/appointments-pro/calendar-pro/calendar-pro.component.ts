@@ -4,7 +4,7 @@ import { CalendarEvent, CalendarView, CalendarEventAction, CalendarEventTimesCha
 import { addHours } from 'date-fns';
 import { Subject } from 'rxjs';
 import { Appointment, Profesional, Specialties, ClinicUser, iModalData } from '../../../../../class/data.model';
-import { CalendarService, calColor } from '../../../../../services/calendar-service.service';
+import { CalendarService, CALCOLORS } from '../../../../../services/calendar-service.service';
 import { FbAuthService } from '../../../../../services/fb-auth.service';
 import { CalendarModalPatComponent } from '../../../patients/appointments-pat/calendar-modal-pat/calendar-modal-pat.component';
 import { CalendarModalProComponent } from '../calendar-modal-pro/calendar-modal-pro.component';
@@ -103,7 +103,7 @@ export class CalendarProComponent implements OnInit {
         //     start: new Date(event.date),
         //     end: addHours(new Date(event.date), 1),
         //     title: '',
-        //     color: calColor.yellow,
+        //     color: CALCOLORS.yellow,
         //     actions: this.actions,
         //     draggable: true,
         // }

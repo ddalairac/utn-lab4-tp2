@@ -1,8 +1,13 @@
 // .cal-disabled {
 //     background-color: #eee;
 //     pointer-events: none;
-//   }
-  
-//   .cal-disabled .cal-day-number {
+// }
+
+// .cal-disabled .cal-day-number {
 //     opacity: 0.1;
-//   }
+// }
+:host {
+    display: block;
+    position: relative;
+    margin-bottom: 60px;
+}

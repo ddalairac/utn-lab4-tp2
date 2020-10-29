@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Profesional, Patient, Admin, eUserTypes, Specialties } from '../../../class/data.model';
 import { eCollections } from '../../../class/firebase.model';
+import { DAYS } from '../../../services/calendar-service.service';
 import { FbAuthService } from '../../../services/fb-auth.service';
 import { FbStorageService } from '../../../services/fb-storage.service';
 import { FbStoreService } from '../../../services/fb-store.service';
@@ -234,8 +235,8 @@ export class ProfileComponent implements OnInit {
         }
     }
     public validateHous(): boolean {
-        let days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
-        days.forEach((d) => {
+        // let days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat']
+        DAYS.forEach((d) => {
             if (!this.validateHour(d)) { return false }
         })
         return true

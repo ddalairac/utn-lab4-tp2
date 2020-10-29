@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
 import { AttentionSpaces, Profesional, Specialties, ClinicUser, Appointment } from '../../../../class/data.model';
-import { CalendarService, calColor } from '../../../../services/calendar-service.service';
+import { CalendarService, CALCOLORS } from '../../../../services/calendar-service.service';
 import { FbAuthService } from '../../../../services/fb-auth.service';
 
 @Component({
@@ -26,7 +26,7 @@ export class AppointmentsProComponent implements OnInit {
         //     //     start: new Date('2020-10-23 15:00'),
         //     //     end: new Date('2020-10-23 15:30'),
         //     //     title: '',
-        //     //     color: calColor.red,
+        //     //     color: CALCOLORS.red,
         //     //     actions: this.actions,
         //     //     // allDay: true,
         //     //     // resizable: {
@@ -55,7 +55,7 @@ export class AppointmentsProComponent implements OnInit {
                 let events: CalendarEvent<Appointment>[] = []
                 events = list.map((appointment: Appointment) => {
                     if (this.currentUser && appointment) {
-                        let color = calColor.grey
+                        let color = CALCOLORS.grey
                         let title: string = ''
                         let resizable = {
                             beforeStart: false,
@@ -67,9 +67,9 @@ export class AppointmentsProComponent implements OnInit {
                         if (this.currentUser.id == appointment.profesional.id) {
                             title = appointment.patient.lastname + ', ' + appointment.patient.name + ' ' + appointment.specialty;
                             if (appointment.acceptance) {
-                                color = calColor.green;
+                                color = CALCOLORS.green;
                             } else {
-                                color = calColor.yellow
+                                color = CALCOLORS.yellow
                             }
                             resizable = {
                                 beforeStart: true,
