@@ -39,8 +39,8 @@ export class FbAuthService {
                     this.userInfo$.next(user)
                     this.isLogged$.next(true);
 
-                    // this.router.navigateByUrl('home');
-                    this.router.navigateByUrl('patients/appointments');
+                    this.router.navigateByUrl('home');
+                    // this.router.navigateByUrl('patients/appointments');
                     // this.router.navigateByUrl('profesionals/appointments');
                     // this.router.navigateByUrl('profile');
                 })
