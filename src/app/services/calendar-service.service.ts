@@ -4,13 +4,15 @@ import { BehaviorSubject } from 'rxjs';
 import { Appointment, AttentionSpaces, ClinicUser, eUserTypes, Profesional, Specialties } from '../class/data.model';
 import { eCollections } from '../class/firebase.model';
 import { FbStorageService } from './fb-storage.service';
+import { LoaderService } from './loader.service';
 
 @Injectable({
     providedIn: 'root'
 })
 export class CalendarService {
 
-    constructor(private fbsorageservice: FbStorageService) {
+    constructor(private fbsorageservice: FbStorageService,
+        private loader: LoaderService) {
         this.events$ = new BehaviorSubject<Appointment[]>([])
     }
 
@@ -22,8 +24,8 @@ export class CalendarService {
             console.log("appointments: ", list)
             this.events$.next(list);
         }).catch((error) => {
-            console.log("appointments error: ", error)
-        })
+            console.error("appointments error: ", error)
+        }).finally(()=>this.loader.hide());
     }
     public updateCalendarEvent(id: string, event: Appointment): void {
         this.fbsorageservice.update(eCollections.appointments, id, event).then((data) => {
@@ -33,8 +35,8 @@ export class CalendarService {
             })
 
         }).catch((error) => {
-            console.log("updateCalendarEvent error: ", error)
-        })
+            console.error("updateCalendarEvent error: ", error)
+        }).finally(()=>this.loader.hide());
     }
 
     public createCalendarEvent(event: Appointment): void {
@@ -44,8 +46,8 @@ export class CalendarService {
                 this.events$.next(list);
             })
         }).catch((error) => {
-            console.log("createCalendarEvent error: ", error)
-        })
+            console.error("createCalendarEvent error: ", error)
+        }).finally(()=>this.loader.hide());
     }
     public deleteCalendarEvent(id: string): void  {
         this.fbsorageservice.delete(eCollections.appointments, id).then((data) => {
@@ -54,8 +56,8 @@ export class CalendarService {
                 this.events$.next(list);
             })
         }).catch((error) => {
-            console.log("deleteCalendarEventObs error: ", error)
-        })
+            console.error("deleteCalendarEventObs error: ", error)
+        }).finally(()=>this.loader.hide());
     }
 
 
@@ -71,7 +73,7 @@ export class CalendarService {
             }).catch((error) => {
                 console.log("attentionSpaces error: ", error)
                 reject(error)
-            })
+            }).finally(()=>this.loader.hide());
         });
     }
 
@@ -84,7 +86,7 @@ export class CalendarService {
             }).catch((error) => {
                 console.log("profesionals error: ", error)
                 reject(error)
-            })
+            }).finally(()=>this.loader.hide());
         });
     }
 
@@ -97,7 +99,7 @@ export class CalendarService {
             }).catch((error) => {
                 console.log("specialties error: ", error)
                 reject(error)
-            })
+            }).finally(()=>this.loader.hide());
         });
     }
 }

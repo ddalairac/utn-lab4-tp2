@@ -34,7 +34,7 @@ export class FbStorageService {
                     // reject(err);
                     resolve(null);
                     // ? MAnejo el error dentro del metodo por eso no retorno el reject()
-                    alert("No se pudieron obtener los datos");
+                    console.error("No se pudieron obtener los datos");
                 })
         })
     }

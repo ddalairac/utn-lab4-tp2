@@ -1,1 +1,16 @@
-<p>calendar-modal-pro works!</p>
+<h1 mat-dialog-title>Detalle del turno </h1>
+<div mat-dialog-content>
+    <!-- <pre>{{appointment | json}}</pre> -->
+
+    <div *ngIf="appointment">
+        <p>{{appointment?.start}}</p>
+        <p>{{appointment?.end}}</p>
+        <p>{{appointment?.specialty}}</p>
+        <p>{{appointment?.pacient?.lastname}}, {{appointment?.pacient?.lastname}}</p>
+    </div>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cerrar</button>
+    <button mat-button (click)="onAcept()"  *ngIf="appointment" cdkFocusInitial>Aceptar turno</button>
+    <button mat-button (click)="onDelete()" *ngIf="data.action == 'Clicked'">Cancelar turno</button>
+</div>

@@ -1,12 +1,11 @@
-import { Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { CalendarEvent, CalendarView, CalendarEventAction, CalendarEventTimesChangedEvent } from 'angular-calendar';
-import { addHours } from 'date-fns';
+import { addDays, addHours, addMonths, addWeeks, endOfDay, endOfMonth, endOfWeek, startOfDay, startOfMonth, startOfWeek, subDays, subMonths, subWeeks } from 'date-fns';
 import { Subject } from 'rxjs';
 import { ClinicUser, Appointment, AttentionSpaces, Profesional, Specialties, iModalData } from '../../../../../class/data.model';
 import { CalendarService, calColor } from '../../../../../services/calendar-service.service';
 import { FbAuthService } from '../../../../../services/fb-auth.service';
-import { CalendarModalComponent } from '../../../../cross/calendar-modal/calendar-modal.component';
 import { CalendarModalPatComponent } from '../calendar-modal-pat/calendar-modal-pat.component';
 
 @Component({
@@ -14,7 +13,7 @@ import { CalendarModalPatComponent } from '../calendar-modal-pat/calendar-modal-
     templateUrl: './calendar-pat.component.html',
     styleUrls: ['./calendar-pat.component.scss']
 })
-export class CalendarPatComponent implements OnInit {
+export class CalendarPatComponent implements OnInit,AfterViewInit{
 
     @Input() events: CalendarEvent<Appointment>[] = []
     @Input() selectProfesional: Profesional;
@@ -28,11 +27,15 @@ export class CalendarPatComponent implements OnInit {
             // console.log("current user calendar", user)
         })
     }
+    ngAfterViewInit(){
+        this.disableHours()
+    }
 
     // attentionSpaces: AttentionSpaces[];
     // profesionals: Profesional[];
     // specialties: Specialties[];
     // selectAttentionSpace: AttentionSpaces;
+
 
 
     currentUser: ClinicUser
@@ -58,21 +61,6 @@ export class CalendarPatComponent implements OnInit {
         // },
     ];
 
-
-    activeDayIsOpen: boolean = true;
-    // dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }): void {
-    //     if (isSameMonth(date, this.viewDate)) {
-    //         if (
-    //             (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true) ||
-    //             events.length === 0
-    //         ) {
-    //             this.activeDayIsOpen = false;
-    //         } else {
-    //             this.activeDayIsOpen = true;
-    //         }
-    //         this.viewDate = date;
-    //     }
-    // }
 
     eventTimesChanged({ event, newStart, newEnd }: CalendarEventTimesChangedEvent): void {
         console.log("eventTimesChanged: ", { event, newStart, newEnd })
@@ -101,7 +89,6 @@ export class CalendarPatComponent implements OnInit {
             actions: this.actions,
             draggable: true,
         }
-        // this.events = [...this.events, newEvent]
         this.handleEvent("new", newEvent)
     }
     handleEvent(action: string, event: CalendarEvent): void {
@@ -118,25 +105,11 @@ export class CalendarPatComponent implements OnInit {
             console.log('The dialog was closed', result);
         });
     }
-    beforeViewRender(event) {
+    beforeViewRender(event: CalendarEvent) {
+        // if (!this.dateIsValid(event.start)) {
+        //     event.cssClass = 'cal-disabled';
+        // }
         console.log("beforeViewRender", event)
-    }
-
-    addEvent(): void {
-        // this.events = [
-        //     ...this.events,
-        //     {
-        //         title: 'New event',
-        //         start: startOfDay(new Date()),
-        //         end: endOfDay(new Date()),
-        //         color: calColor.red,
-        //         draggable: false,
-        //         resizable: {
-        //             beforeStart: true,
-        //             afterEnd: true,
-        //         },
-        //     },
-        // ];
     }
 
     deleteEvent(eventToDelete: CalendarEvent) {
@@ -147,8 +120,87 @@ export class CalendarPatComponent implements OnInit {
         this.view = view;
     }
 
-    closeOpenMonthViewDay() {
-        this.activeDayIsOpen = false;
+    // closeOpenMonthViewDay() {
+    //     this.activeDayIsOpen = false;
+    // }
+
+
+
+
+    // TODO validar fecha
+
+    disableHours() {
+        let nodes: NodeListOf<Element> = document.querySelectorAll('.cal-day-columns');
+        // let first = nodes[0];
+        let sabado:Element = nodes[nodes.length - 1];
+        console.log("ultima hora del sabado",sabado.querySelector('.cal-hour'))
     }
 
+
+    // minDate: Date = addWeeks(new Date(), 1);
+
+    // maxDate: Date = addWeeks(new Date(), 1);
+    prevBtnDisabled: boolean = false;
+    nextBtnDisabled: boolean = false;
+
+    // dateIsValid(date: Date): boolean {
+    //     return date >= this.minDate && date <= this.maxDate;
+    // }
+    // dateOrViewChanged(): void {
+    //     this.prevBtnDisabled = !this.dateIsValid(
+    //         endOfPeriod(this.view, subPeriod(this.view, this.viewDate, 1))
+    //     );
+    //     this.nextBtnDisabled = !this.dateIsValid(
+    //         startOfPeriod(this.view, addPeriod(this.view, this.viewDate, 1))
+    //     );
+    //     if (this.viewDate < this.minDate) {
+    //         this.changeDate(this.minDate);
+    //     } else if (this.viewDate > this.maxDate) {
+    //         this.changeDate(this.maxDate);
+    //     }
+    // }
+    // changeDate(date: Date): void {
+    //     this.viewDate = date;
+    //     this.dateOrViewChanged();
+    // }
+
+    // changeView(view: CalendarPeriod): void {
+    //     this.view = view;
+    //     this.dateOrViewChanged();
+    // }
+
+
 }
+// type CalendarPeriod = 'day' | 'week' | 'month';
+
+// function addPeriod(period: CalendarPeriod, date: Date, amount: number): Date {
+//     return {
+//         day: addDays,
+//         week: addWeeks,
+//         month: addMonths,
+//     }[period](date, amount);
+// }
+
+// function subPeriod(period: CalendarPeriod, date: Date, amount: number): Date {
+//     return {
+//         day: subDays,
+//         week: subWeeks,
+//         month: subMonths,
+//     }[period](date, amount);
+// }
+
+// function startOfPeriod(period: CalendarPeriod, date: Date): Date {
+//     return {
+//         day: startOfDay,
+//         week: startOfWeek,
+//         month: startOfMonth,
+//     }[period](date);
+// }
+
+// function endOfPeriod(period: CalendarPeriod, date: Date): Date {
+//     return {
+//         day: endOfDay,
+//         week: endOfWeek,
+//         month: endOfMonth,
+//     }[period](date);
+// }

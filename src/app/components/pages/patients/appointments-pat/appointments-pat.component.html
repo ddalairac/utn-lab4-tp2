@@ -1,68 +1,65 @@
 <h2>Turnos</h2>
 <mat-tab-group dynamicHeight>
-            <mat-tab label="Por especialidad">
-                <div class="row ">
-                    <div class="col-md-4">
-                        <mat-form-field>
-                            <mat-label>Especialidades</mat-label>
-                            <mat-select matNativeControl [(ngModel)]="selectSpecialty" (selectionChange)="onFilterEvents()">
-                                <mat-option value="">Ninguno</mat-option>
-                                <mat-option *ngFor="let item of specialties" [value]="item">{{item.name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                
-                    <div class="col-md-4" *ngIf="selectSpecialty">
-                        <mat-form-field>
-                            <mat-label>Profesionales</mat-label>
-                            <mat-select matNativeControl [(ngModel)]="selectProfesional" (selectionChange)="onFilterEvents()">
-                                <mat-option value="">Ninguno</mat-option>
-                                <mat-option *ngFor="let item of profesionals" [value]="item">{{item.name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                
-                    <div class="col-md-4">
-                        {{selectProfesional?.name}} {{selectSpecialty?.name}}
-                    </div>
-                </div>
-            </mat-tab>
+    <mat-tab label="Por especialidad">
+        <div class="row ">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Especialidades</mat-label>
+                    <mat-select matNativeControl [(ngModel)]="selectSpecialty" (selectionChange)="onFilterEvents()">
+                        <mat-option value="">Ninguno</mat-option>
+                        <mat-option *ngFor="let item of specialties" [value]="item">{{item.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
+            <div class="col-md-4" *ngIf="selectSpecialty">
+                <mat-form-field>
+                    <mat-label>Profesionales</mat-label>
+                    <mat-select matNativeControl [(ngModel)]="selectProfesional" (selectionChange)="onFilterEvents()">
+                        <mat-option value="">Ninguno</mat-option>
+                        <mat-option *ngFor="let item of profesionals" [value]="item">{{item.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
 
+            <div class="col-md-4">
+                {{selectProfesional?.name}} {{selectSpecialty?.name}}
+            </div>
+        </div>
+    </mat-tab>
 
-
-            <mat-tab label="Por profesional">
-                <div class="row ">
-                    <div class="col-md-4" >
-                        <mat-form-field>
-                            <mat-label>Profesionales</mat-label>
-                            <mat-select matNativeControl [(ngModel)]="selectProfesional" (selectionChange)="onFilterEvents()">
-                                <mat-option value="">Ninguno</mat-option>
-                                <mat-option *ngFor="let item of profesionals" [value]="item">{{item.name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-4" *ngIf="selectProfesional">
-                        <mat-form-field>
-                            <mat-label>Especialidades</mat-label>
-                            <mat-select matNativeControl [(ngModel)]="selectSpecialty" (selectionChange)="onFilterEvents()">
-                                <mat-option value="">Ninguno</mat-option>
-                                <mat-option *ngFor="let item of specialties" [value]="item">{{item.name}}</mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-4">
-                        {{selectProfesional?.name}} {{selectSpecialty?.name}}
-                    </div>
-                </div>
-            </mat-tab>
-        </mat-tab-group>
+    <mat-tab label="Por profesional">
+        <div class="row ">
+            <div class="col-md-4">
+                <mat-form-field>
+                    <mat-label>Profesionales</mat-label>
+                    <mat-select matNativeControl [(ngModel)]="selectProfesional" (selectionChange)="onFilterEvents()">
+                        <mat-option value="">Ninguno</mat-option>
+                        <mat-option *ngFor="let item of profesionals" [value]="item">{{item.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4" *ngIf="selectProfesional">
+                <mat-form-field>
+                    <mat-label>Especialidades</mat-label>
+                    <mat-select matNativeControl [(ngModel)]="selectSpecialty" (selectionChange)="onFilterEvents()">
+                        <mat-option value="">Ninguno</mat-option>
+                        <mat-option *ngFor="let item of specialties" [value]="item">{{item.name}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-md-4">
+                {{selectProfesional?.name}} {{selectSpecialty?.name}}
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>
 
 <!-- <ng-container *ngIf="!selectProfesional && !selectSpecialty">Seleccione un profesional o especialidad para buscar turnos <br> -->
-    <!-- <pre>{{events | json}}</pre> -->
+<!-- <pre>{{events | json}}</pre> -->
 <!-- </ng-container>
 <ng-container *ngIf="selectProfesional && selectSpecialty"> -->
-    <app-calendar-pat [events]="events" [selectProfesional]="selectProfesional" [selectSpecialty]="selectSpecialty" ></app-calendar-pat>
+<app-calendar-pat [events]="events" [selectProfesional]="selectProfesional" [selectSpecialty]="selectSpecialty"></app-calendar-pat>
 <!-- </ng-container> -->
 
 <!-- <pre>{{filterdEvents | json}}</pre> -->
