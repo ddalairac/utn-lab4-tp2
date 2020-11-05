@@ -10,8 +10,6 @@ import { FbAuthService } from '../../../../services/fb-auth.service';
     styleUrls: ['./appointments-pat.component.scss']
 })
 export class AppointmentsPatComponent implements OnInit {
-
-
     attentionSpaces: AttentionSpaces[];
     profesionals: Profesional[];
     specialties: Specialties[];
@@ -20,25 +18,13 @@ export class AppointmentsPatComponent implements OnInit {
     selectSpecialty: Specialties;
 
     currentUser: ClinicUser
-    filterdEvents: CalendarEvent<Appointment>[] = []
+    // filterdEvents: CalendarEvent<Appointment>[] = []
     appointmentsForomService: Appointment[]
-    events: CalendarEvent<Appointment>[] = [
-        // {
-        //     // start: new Date('2020-10-23 15:00'),
-        //     // end: new Date('2020-10-23 15:30'),
-        //     // title: '',
-        //     // color: CALCOLORS.red,
-        //     // actions: this.actions,
-        //     // allDay: true,
-        //     // resizable: {
-        //     //     beforeStart: true,
-        //     //     afterEnd: true,
-        //     // },
-        //     // draggable: true,
-        // },
-    ];
+    // filterdAppointments: Appointment[] = []
+    events: CalendarEvent<Appointment>[] = [];
 
     constructor(private calendar: CalendarService, private authservice: FbAuthService) { }
+
     ngOnInit(): void {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
@@ -50,14 +36,22 @@ export class AppointmentsPatComponent implements OnInit {
     }
     private listenEvents() {
         this.calendar.getCalendarEvents()
-        this.calendar.events$.subscribe(
+        this.calendar.appointments$.subscribe(
             (list: Appointment[]) => {
                 this.appointmentsForomService = list
-                this.setEvents(this.appointmentsForomService)
+                this.events = this.setEvents(this.getUserOnlyAppointments(this.appointmentsForomService));
             })
     }
-
-    private setEvents(list: Appointment[]):void {
+    private getUserOnlyAppointments(list: Appointment[]): Appointment[] {
+        let userOnlyAp: Appointment[] = []
+        if (this.currentUser) {
+            userOnlyAp = list.filter((ap: Appointment) => {
+                return (ap.patient.id == this.currentUser.id)
+            })
+        }
+        return userOnlyAp
+    }
+    private setEvents(list: Appointment[]): CalendarEvent<Appointment>[] {
         let events: CalendarEvent<Appointment>[] = []
         if (list) {
             events = list.map((appointment: Appointment) => {
@@ -73,6 +67,10 @@ export class AppointmentsPatComponent implements OnInit {
                             color = CALCOLORS.yellow
                         }
                     }
+                    if (this.selectProfesional && this.calendar.isOutOfProTime(appointment, this.selectProfesional)) {
+                        // title = 'Fuera del horario de atencion'
+                        color = CALCOLORS.red
+                    }
                     let event: CalendarEvent<Appointment> = {
                         start: new Date(appointment.start),
                         end: new Date(appointment.end),
@@ -85,48 +83,47 @@ export class AppointmentsPatComponent implements OnInit {
                 }
             })
         }
-        this.events = [
+        events = [
             ...events,
             ...this.calendar.getDisableSaturdaysEvents(),
             ...this.calendar.getDisableProfesionalDisablesEvents(this.selectProfesional)
         ]
-        console.log("events", this.events)
+        console.log("events", events)
+        return events
+    }
+
+
+    public onFilterEvents(): void {
+        console.log("onFilterEvents")
+        let appointments: Appointment[] = []
+        appointments = this.getUserOnlyAppointments(this.appointmentsForomService)
+        if (this.selectProfesional) {
+            let filterdAppointments = this.appointmentsForomService.filter((ap: Appointment) => {
+                if (ap.patient.id == this.currentUser.id) {
+                    return false;
+                }
+                return (ap.profesional && ap.profesional.id != this.selectProfesional.id)
+
+                // if (this.selectSpecialty) {
+                //     return (ap.meta && ap.meta.specialty == this.selectSpecialty.name)
+                // }
+                // return true
+            })
+            appointments = [...appointments, ...filterdAppointments]
+            console.log("filterdAppointments", filterdAppointments)
+        }
+
+        this.events = this.setEvents(appointments);
     }
     private getTablas() {
         this.calendar.getAttentionSpaces().then((list: AttentionSpaces[]) => { this.attentionSpaces = list })
-        this.calendar.getProfecionals().then((list: Profesional[]) => { this.profesionals = list })
-        this.calendar.getSpecialties().then((list: Specialties[]) => { this.specialties = list })
-    }
-    public onFilterEvents(): void {
-        this.setEvents(this.appointmentsForomService)
-        this.filterdEvents = this.events.filter((ev: CalendarEvent<Appointment>) => {
-            // if (this.selectProfesional) {
-            //     return (ev.meta.profesional && ev.meta.profesional.id != this.selectProfesional.id)
-            // }
-            // if (this.selectSpecialty) {
-            //     return (ev.meta && ev.meta.specialty == this.selectSpecialty.name)
-            // }
-            return true
+        this.calendar.getProfecionals().then((list: Profesional[]) => {
+            this.profesionals = list;
+            //  this.selectProfesional = list[0]
         })
-        // console.log("onFilterEvents", this.filterdEvents)
+        this.calendar.getSpecialties().then((list: Specialties[]) => {
+            this.specialties = list;
+            // this.selectSpecialty = list[0] 
+        })
     }
-    // actionsUser: CalendarEventAction[] = [
-    //     {
-    //         label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-    //         a11yLabel: 'Edit',
-    //         onClick: ({ event }: { event: CalendarEvent }): void => {
-    //             this.handleEvent('Edited', event);
-    //         },
-    //     },
-    //     {
-    //         label: '<i class="fas fa-fw fa-trash-alt"></i>',
-    //         a11yLabel: 'Delete',
-    //         onClick: ({ event }: { event: CalendarEvent }): void => {
-    //             this.events = this.events.filter((iEvent) => iEvent !== event);
-    //             this.handleEvent('Deleted', event);
-    //         },
-    //     },
-    // ];
-
-
 }

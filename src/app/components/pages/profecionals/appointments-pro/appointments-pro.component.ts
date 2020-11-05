@@ -19,114 +19,75 @@ export class AppointmentsProComponent implements OnInit {
     selectProfesional: Profesional;
     selectSpecialty: Specialties;
 
+    appointmentsForomService: Appointment[]
     currentUser: ClinicUser
     filterdEvents: CalendarEvent<Appointment>[] = []
-    events: CalendarEvent<Appointment>[] = [
-        //     // {
-        //     //     start: new Date('2020-10-23 15:00'),
-        //     //     end: new Date('2020-10-23 15:30'),
-        //     //     title: '',
-        //     //     color: CALCOLORS.red,
-        //     //     actions: this.actions,
-        //     //     // allDay: true,
-        //     //     // resizable: {
-        //     //     //     beforeStart: true,
-        //     //     //     afterEnd: true,
-        //     //     // },
-        //     //     // draggable: true,
-        //     // },
-    ];
+    events: CalendarEvent<Appointment>[] = [    ];
 
     constructor(private calendar: CalendarService, private authservice: FbAuthService) { }
 
     ngOnInit(): void {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
-            // console.log("current user appointment", user)
-            // this.getCalendarEvents()
             this.listenEvents()
-            // this.getTablas();
         })
     }
+
     private listenEvents() {
         this.calendar.getCalendarEvents()
-        this.calendar.events$.subscribe(
+        this.calendar.appointments$.subscribe(
             (list: Appointment[]) => {
-                let events: CalendarEvent<Appointment>[] = []
-                events = list.map((appointment: Appointment) => {
-                    if (this.currentUser && appointment) {
-                        let color = CALCOLORS.grey
-                        let title: string = ''
-                        let resizable = {
-                            beforeStart: false,
-                            afterEnd: false,
-                        }
-                        let draggable = false;
-
-                        let actions: CalendarEventAction[] = []
-                        if (this.currentUser.id == appointment.profesional.id) {
-                            title = appointment.patient.lastname + ', ' + appointment.patient.name + ' ' + appointment.specialty;
-                            if (appointment.acceptance) {
-                                color = CALCOLORS.green;
-                            } else {
-                                color = CALCOLORS.yellow
-                            }
-                            resizable = {
-                                beforeStart: true,
-                                afterEnd: true,
-                            }
-                            draggable = true
-                        }
-                        let event: CalendarEvent<Appointment> = {
-                            start: new Date(appointment.start),
-                            end: new Date(appointment.end),
-                            actions: actions,
-                            meta: appointment,
-                            title: title,
-                            color: color,
-                            resizable: resizable,
-                            draggable: draggable
-                        }
-                        return event;
-                    }
-                })
-                console.log("appointment events", events)
-                this.events = events;
+                this.appointmentsForomService = list
+                this.events = this.setEvents(this.getUserOnlyAppointments(this.appointmentsForomService));
             })
     }
-    // private getTablas() {
-    //     // this.calendar.getAttentionSpaces().then((list: AttentionSpaces[]) => { this.attentionSpaces = list })
-    //     // this.calendar.getProfecionals().then((list: Profesional[]) => { this.profesionals = list })
-    //     // this.calendar.getSpecialties().then((list: Specialties[]) => { this.specialties = list })
-    // }
-    public onFilterEvents(): void {
-        this.filterdEvents = this.events.filter((ev: CalendarEvent<Appointment>) => {
-            // if (this.selectProfesional) {
-            //     return (ev.meta.profesional && ev.meta.profesional.id != this.selectProfesional.id)
-            // }
-            // if (this.selectSpecialty) {
-            //     return (ev.meta && ev.meta.specialty == this.selectSpecialty.name)
-            // }
-            return true
+    private getUserOnlyAppointments(list: Appointment[]): Appointment[] {
+        let userOnlyAp: Appointment[] = list.filter((ap: Appointment) => {
+            return (ap.profesional.id == this.currentUser.id)
         })
-        // console.log("onFilterEvents", this.filterdEvents)
+        return userOnlyAp
     }
-    // actionsUser: CalendarEventAction[] = [
-    //     {
-    //         label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-    //         a11yLabel: 'Edit',
-    //         onClick: ({ event }: { event: CalendarEvent }): void => {
-    //             this.handleEvent('Edited', event);
-    //         },
-    //     },
-    //     {
-    //         label: '<i class="fas fa-fw fa-trash-alt"></i>',
-    //         a11yLabel: 'Delete',
-    //         onClick: ({ event }: { event: CalendarEvent }): void => {
-    //             this.events = this.events.filter((iEvent) => iEvent !== event);
-    //             this.handleEvent('Deleted', event);
-    //         },
-    //     },
-    // ];
+    private setEvents(list: Appointment[]): CalendarEvent<Appointment>[] {
+        let events: CalendarEvent<Appointment>[] = []
+        events = list.map((appointment: Appointment) => {
+            if (this.currentUser && appointment) {
+                let color = CALCOLORS.grey
+                let title: string = ''
+                let resizable = {
+                    beforeStart: false,
+                    afterEnd: false,
+                }
+                let draggable = false;
 
+                let actions: CalendarEventAction[] = []
+                if (this.currentUser.id == appointment.profesional.id) {
+                    title = appointment.patient.lastname + ', ' + appointment.patient.name + ' ' + appointment.specialty;
+                    if (appointment.acceptance) {
+                        color = CALCOLORS.green;
+                    } else {
+                        color = CALCOLORS.yellow
+                    }
+                    // resizable = {
+                    //     beforeStart: true,
+                    //     afterEnd: true,
+                    // }
+                    // draggable = true
+                }
+                let event: CalendarEvent<Appointment> = {
+                    start: new Date(appointment.start),
+                    end: new Date(appointment.end),
+                    actions: actions,
+                    meta: appointment,
+                    title: title,
+                    color: color,
+                    resizable: resizable,
+                    draggable: draggable
+                }
+                return event;
+            }
+        })
+        console.log("appointment events", events)
+        return events
+    }
+   
 }
