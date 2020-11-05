@@ -8,5 +8,7 @@ export const environment = {
     storageBucket: "lab4-tp-clinic.appspot.com",
     messagingSenderId: "834788398553",
     appId: "1:834788398553:web:f49828546eb00a0f0e35c8"
-  }
+  },
+  reCAPTCHAWeb:'6Lcffd8ZAAAAAN96QTZ7IRhQzWPZHAIfAte3ZCjK',
+  reCAPTCHASecret:'6Lcffd8ZAAAAADKelKM6WTlnhAuJI5HecXbpZD2-'
 };

@@ -33,6 +33,7 @@
     "express": "^4.17.1",
     "firebase": "^7.24.0",
     "jquery": "^3.5.1",
+    "ng-recaptcha": "^6.0.2",
     "path": "^0.12.7",
     "rxjs": "~6.6.0",
     "tslib": "^2.0.0",

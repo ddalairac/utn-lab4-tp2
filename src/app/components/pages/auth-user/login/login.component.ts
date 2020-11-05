@@ -13,6 +13,7 @@ import { FbAuthService } from '../../../../services/fb-auth.service';
     animations: [AnimateGallery]
 })
 export class LoginComponent implements OnInit {
+
     constructor(private fbauthservice: FbAuthService, private router: Router, private _snackBar: MatSnackBar) { }
 
     email = new FormControl('', [Validators.required, Validators.email]);
@@ -99,5 +100,6 @@ export class LoginComponent implements OnInit {
         this.state = "slideInLeft"
         this.state2 = "slideOutRight"
     }
+
 
 }

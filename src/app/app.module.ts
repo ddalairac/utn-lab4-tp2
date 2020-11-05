@@ -42,6 +42,8 @@ import { CalendarModalPatComponent } from './components/pages/patients/appointme
 import { AppointmentsProComponent } from './components/pages/profecionals/appointments-pro/appointments-pro.component';
 import { CalendarProComponent } from './components/pages/profecionals/appointments-pro/calendar-pro/calendar-pro.component';
 import { CalendarModalProComponent } from './components/pages/profecionals/appointments-pro/calendar-modal-pro/calendar-modal-pro.component';
+import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -81,6 +83,7 @@ import { CalendarModalProComponent } from './components/pages/profecionals/appoi
     BrowserModule,
     BrowserAnimationsModule,
     AppRoutingModule,
+    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
     CommonModule,
@@ -89,7 +92,9 @@ import { CalendarModalProComponent } from './components/pages/profecionals/appoi
     AngularFireAuthModule, // auth
     AngularFirestoreModule, // storage
     AngularFireStorageModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }),
+    RecaptchaModule,  //this is the recaptcha main module
+    RecaptchaFormsModule, //this is the module for form incase form validation
   ],
   providers: [],
   bootstrap: [AppComponent]

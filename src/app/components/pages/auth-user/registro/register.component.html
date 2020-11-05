@@ -74,6 +74,11 @@
         <mat-checkbox [formControl]="rememberMe" name="rememberMe" id="remember">Recordarme</mat-checkbox>
     </div>
 
+    <div class="captcha">        
+        <re-captcha (resolved)="onReCaptcha($event)" [siteKey]="reCaptchaKey"></re-captcha>
+        <!-- <div *ngIf="captcha.invalid && captcha.touched" class="mat-error error">El campo es obligatorio</div> -->
+    </div>
+    
     <button mat-raised-button color="secondary" type="submit">Registrarme</button>
 
 </form>
