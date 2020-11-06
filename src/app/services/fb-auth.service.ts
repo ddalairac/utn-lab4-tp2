@@ -43,7 +43,7 @@ export class FbAuthService {
                     // this.router.navigateByUrl('patients/appointments');
                     // this.router.navigateByUrl('profesionals/appointments');
                     // this.router.navigateByUrl('profile');
-                })
+                }).catch(error=>console.error("getUserInfoByUid",error))
             } else {
                 // this.userMail$.next(null);
                 this.userFB$.next(null)
@@ -61,15 +61,17 @@ export class FbAuthService {
     }
 
     public recoverPass(email) {
-        this.fireAuth.sendPasswordResetEmail(email).then(function () {
+        this.fireAuth.sendPasswordResetEmail(email).then(()=> {
             // console.log("Recover Email sent")
-        }).catch(function (error) {
-            // console.log("Recover Email error",error)
+        }).catch( (error)=> {
+            console.error("recoverPass",error)
         });
     }
     public async SendVerificationMail() {
         (await this.fireAuth.currentUser).sendEmailVerification().then(() => {
             console.log('email sent');
+        }).catch( (error)=> {
+            console.error("SendVerificationMail",error)
         });
     }
 
@@ -86,6 +88,7 @@ export class FbAuthService {
                         }
                     )
                 }).catch((error: iAuthError) => {
+                    console.error("registerNewUser",error)
                     reject(error)
                 }).finally(() => this.loader.hide())
         })
@@ -101,6 +104,7 @@ export class FbAuthService {
                     this.saveAuthInData(email, clave, rememberMe, "register");
                     resolve(true)
                 }).catch((error: iAuthError) => {
+                    console.error("register",error)
                     reject(error)
                 }).finally(() => this.loader.hide())
         })
@@ -116,6 +120,7 @@ export class FbAuthService {
                     resolve(true)
                 }).catch(
                     (error: iAuthError) => {
+                        console.error("singIn",error)
                         reject(error)
                     }
                 ).finally(() => {
@@ -126,14 +131,14 @@ export class FbAuthService {
 
     public async singOut() {
         this.loader.show();
-        await this.fireAuth.signOut();
+        await this.fireAuth.signOut().catch(error=>console.error("singOut",error));
         this.loader.hide();
         this.router.navigateByUrl('/authuser');
     }
 
     private async createUserInfoRegiuster(uid: string, userData: ClinicUser) {
         userData.uid = uid;
-        this.fbsorageservice.create(eCollections.users, userData)
+        this.fbsorageservice.create(eCollections.users, userData).catch(error=>console.error("createUserInfoRegiuster",error));
     }
 
     private async saveAuthInData(email, clave, rememberMe, type) {

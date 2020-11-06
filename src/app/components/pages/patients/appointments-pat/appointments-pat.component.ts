@@ -1,3 +1,4 @@
+
 import { Component, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
 import { ClinicUser, Appointment, AttentionSpaces, Profesional, Specialties } from '../../../../class/data.model';
@@ -29,17 +30,18 @@ export class AppointmentsPatComponent implements OnInit {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
             // console.log("current user appointment", user)
-            // this.getCalendarEvents()
+            this.calendar.getCalendarEvents() 
             this.listenEvents()
             this.getTablas();
         })
     }
     private listenEvents() {
-        this.calendar.getCalendarEvents()
         this.calendar.appointments$.subscribe(
             (list: Appointment[]) => {
-                this.appointmentsForomService = list
-                this.events = this.setEvents(this.getUserOnlyAppointments(this.appointmentsForomService));
+                if (this.currentUser) {
+                    this.appointmentsForomService = list
+                    this.events = this.setEvents(this.getUserOnlyAppointments(this.appointmentsForomService));
+                }
             })
     }
     private getUserOnlyAppointments(list: Appointment[]): Appointment[] {

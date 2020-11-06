@@ -207,7 +207,7 @@ export class ProfileComponent implements OnInit {
             img => {
                 console.log("uploaded img: ", img)
                 this.userInfo.picture = img
-                this.fbStorage.update(eCollections.users, this.userInfo.id, this.userInfo)
+                this.fbStorage.update(eCollections.users, this.userInfo.id, this.userInfo).catch(error=>console.error("onFileLoad update",error))
             }
         )
     }
@@ -257,6 +257,7 @@ export class ProfileComponent implements OnInit {
     public onSubmit() {
         if (this.userForm.valid && this.validateHous()) {
             this.fbStorage.update(eCollections.users, this.userInfo.id, this.getUserValues()).then(res => console.log("res: ", res))
+            .catch(error=>console.error("onSubmit update profile",error))
         }
     }
 }

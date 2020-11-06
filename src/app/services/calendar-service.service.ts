@@ -34,7 +34,6 @@ export class CalendarService {
             this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
                 this.appointments$.next(list);
             })
-
         }).catch((error) => {
             console.error("updateCalendarEvent error: ", error)
         }).finally(() => this.loader.hide());
@@ -73,7 +72,8 @@ export class CalendarService {
                 resolve(list);
             }).catch((error) => {
                 console.log("attentionSpaces error: ", error)
-                reject(error)
+                resolve([])
+                // reject(error)
             }).finally(() => this.loader.hide());
         });
     }
@@ -86,7 +86,8 @@ export class CalendarService {
                 resolve(profesionals);
             }).catch((error) => {
                 console.log("profesionals error: ", error)
-                reject(error)
+                resolve([])
+                // reject(error)
             }).finally(() => this.loader.hide());
         });
     }
@@ -99,7 +100,8 @@ export class CalendarService {
                 resolve(list);
             }).catch((error) => {
                 console.log("specialties error: ", error)
-                reject(error)
+                resolve([])
+                // reject(error)
             }).finally(() => this.loader.hide());
         });
     }

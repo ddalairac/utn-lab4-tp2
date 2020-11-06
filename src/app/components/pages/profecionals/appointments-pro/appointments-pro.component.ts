@@ -22,23 +22,25 @@ export class AppointmentsProComponent implements OnInit {
     appointmentsForomService: Appointment[]
     currentUser: ClinicUser
     filterdEvents: CalendarEvent<Appointment>[] = []
-    events: CalendarEvent<Appointment>[] = [    ];
+    events: CalendarEvent<Appointment>[] = [];
 
     constructor(private calendar: CalendarService, private authservice: FbAuthService) { }
 
     ngOnInit(): void {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
+            this.calendar.getCalendarEvents()
             this.listenEvents()
         })
     }
 
     private listenEvents() {
-        this.calendar.getCalendarEvents()
         this.calendar.appointments$.subscribe(
             (list: Appointment[]) => {
-                this.appointmentsForomService = list
-                this.events = this.setEvents(this.getUserOnlyAppointments(this.appointmentsForomService));
+                if (this.currentUser) {
+                    this.appointmentsForomService = list
+                    this.events = this.setEvents(this.getUserOnlyAppointments(this.appointmentsForomService));
+                }
             })
     }
     private getUserOnlyAppointments(list: Appointment[]): Appointment[] {
@@ -89,5 +91,5 @@ export class AppointmentsProComponent implements OnInit {
         console.log("appointment events", events)
         return events
     }
-   
+
 }

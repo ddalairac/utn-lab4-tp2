@@ -39,12 +39,6 @@
         <mat-error *ngIf="lastname.invalid">El campo es obligatorio</mat-error>
     </mat-form-field>
 
-   
-    <!-- <div>
-        <label>Foto</label>
-        <input placeholder="Ingrese apellido" type="file" accept=".png, .jpg" [formControl]="picture" name="picture" (change)="onFileLoad($event)">
-    </div> -->
-
 
     <div *ngIf="type && type.value=='Profesional'">
         <mat-form-field>
@@ -56,18 +50,6 @@
         </mat-form-field>
 
 
-        <!-- <mat-form-field>
-        <mat-label>Tiempo de turno</mat-label>
-        <mat-select matNativeControl [formControl]="tiempoTurno" required > 
-            <mat-option *ngFor="let item of tiempoTurnoList" [value]="item">{{item}}</mat-option>
-        </mat-select>
-        <mat-hint>El tiempo esa expresado en minutos</mat-hint>
-    </mat-form-field>
-
-        <mat-form-field>
-            <mat-label>horarios atencion</mat-label>
-            <input matInput placeholder="Ingrese apellido" [formControl]="horarios_atencion" name="lastname" required>
-        </mat-form-field> -->
     </div>
     
     <div class="checkbox-field">
@@ -76,7 +58,7 @@
 
     <div class="captcha">        
         <re-captcha (resolved)="onReCaptcha($event)" [siteKey]="reCaptchaKey"></re-captcha>
-        <!-- <div *ngIf="captcha.invalid && captcha.touched" class="mat-error error">El campo es obligatorio</div> -->
+        <div *ngIf="captchaError" class="mat-error error">El campo es obligatorio</div>
     </div>
     
     <button mat-raised-button color="secondary" type="submit">Registrarme</button>

@@ -1,1 +1,20 @@
-<p>clinic-history-form works!</p>
+<h2>Historias Clinicas</h2>
+<div class="container">
+    <div class="card">
+        <mat-tab-group dynamicHeight>
+            <mat-tab label="Sin completar">
+                <div *ngIf="incompleteList">
+                    <app-table [objList]="incompleteList" [actions]="incompletedActions" [hideCols]="incompletedHideCols"
+                        (action)="onIncompletedTableEvent($event)"></app-table>
+                </div>
+            </mat-tab>
+            
+            <mat-tab label="Completos">
+                <div *ngIf="completedList">
+                    <app-table [objList]="completedList" [actions]="completedActions" [hideCols]="completedHideCols"
+                        (action)="onIncompletedTableEvent($event)"></app-table>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

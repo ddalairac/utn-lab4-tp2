@@ -18,7 +18,11 @@ import { FbStorageService } from '../../../../services/fb-storage.service';
 })
 export class RegisterComponent implements OnInit {
 
-    constructor(private fbauthservice: FbAuthService, private router: Router, private fbsorageservice: FbStorageService, private captchaService: CaptchaService) { }
+    constructor(private fbauthservice: FbAuthService,
+        private router: Router,
+        private fbsorageservice: FbStorageService,
+        private captchaService: CaptchaService
+    ) { }
 
     email = new FormControl('', [Validators.required, Validators.email]);
     pass = new FormControl('', [Validators.required, Validators.minLength(6)]);
@@ -27,15 +31,14 @@ export class RegisterComponent implements OnInit {
     lastname = new FormControl('', [Validators.required]);
     specialty = new FormControl();
     picture = new FormControl();
-    captcha = new FormControl('', [Validators.required]);
-    // tiempoTurno = new FormControl();
-    // horarios_atencion = new FormControl();
+    captcha = new FormControl(undefined, [Validators.required]);
     rememberMe = new FormControl(true);
 
 
     newUserForm = new FormGroup({ email: this.email, pass: this.pass }) //! arreglar con todos los atributos
 
     errorMensaje: string;
+    captchaError:boolean
 
     specialtiesList: Specialties[] = []
     tytpesList: any[] = [
@@ -64,13 +67,18 @@ export class RegisterComponent implements OnInit {
         this.fbsorageservice.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
     }
     private isValid(): boolean {
+        let res:boolean = true
         if (this.email.invalid || this.pass.invalid || this.type.invalid || this.name.invalid || this.lastname.invalid) {
-            return false;
+            res = false;
         }
-        if (this.captcha.value != true) { 
-            return false 
+        if (this.captcha.value == undefined) {
+            this.captchaError = true
+            res = false;
+        } else {
+            this.captchaError = false
         }
-        return true;
+        console.log("captchaError",this.captchaError,"value",this.captcha.value)
+        return res;
     }
     onSubmit() {
         this.errorMensaje = ""
@@ -96,12 +104,12 @@ export class RegisterComponent implements OnInit {
         }
     }
 
-    public onReCaptcha(captchaResponse: string) {
+    public onReCaptcha(token: string) {
         // console.log(this.captcha)
-        // console.log(`Resolved captcha with response: ${captchaResponse}`);
-        let value: boolean = this.captchaService.validate(captchaResponse);
+        // console.log(`Resolved captcha with response: ${token}`);
+        let value: boolean = this.captchaService.validate(token);
         this.captcha.setValue(value)
-        // console.log(this.captcha)
+        this.isValid()
     }
 
 

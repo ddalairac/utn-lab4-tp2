@@ -1,0 +1,37 @@
+<h1>Historia Clinica</h1>
+<p><strong>Paciente:</strong> {{data.patient.lastname}}, {{data.patient.name}}</p>
+<p><strong>Turno:</strong> {{data.specialty}}</p>
+<p><strong>Turno:</strong> {{data.start}}</p>
+<form [formGroup]="clinicHistoryForm" (ngSubmit)="onSubmit()">
+<div class="row">
+    <div class="col-md-4">
+        <mat-form-field>
+            <mat-label>Edad</mat-label>
+            <input matInput placeholder="Ingrese edad" type="number" [formControl]="age" name="age">
+            <mat-error *ngIf="age.invalid">El campo es obligatorio</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-md-4">
+        <mat-form-field>
+            <mat-label>Temperatura corporal</mat-label>
+            <input matInput placeholder="Ingrese temperatura corporal" type="number" [formControl]="body_temperature" name="body_temperature">
+            <mat-error *ngIf="body_temperature.invalid">El campo es obligatorio</mat-error>
+        </mat-form-field>
+    </div>
+    <div class="col-md-4">
+        <mat-form-field>
+            <mat-label>Presión</mat-label>
+            <input matInput placeholder="Ingrese presion" [formControl]="blood_pressure" name="blood_pressure">
+            <mat-error *ngIf="blood_pressure.invalid">El campo es obligatorio</mat-error>
+        </mat-form-field>
+    </div>
+</div>
+
+<mat-form-field>
+    <mat-label>Descripción</mat-label>
+    <input matInput placeholder="Ingrese descripcion" [formControl]="text" name="text">
+    <!-- <mat-error *ngIf="text.invalid">El campo es obligatorio</mat-error> -->
+</mat-form-field>
+
+<button mat-raised-button color="secondary" type="submit">Aceptar</button>
+</form>

@@ -94,7 +94,8 @@ export class CalendarModalPatComponent implements OnInit {
             start: start as string,
             end: end as string,
             patient: patient,
-            acceptance: acceptance
+            acceptance: acceptance,
+            clinicHistoryCompleted:false
         }
     }
 }

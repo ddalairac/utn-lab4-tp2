@@ -40,7 +40,7 @@ export class TableComponent implements OnChanges {
             }
         }
         cols = cols.sort()
-        // console.log("cols",cols)
+        console.log("cols",cols)
         return cols
     }
     public rowData(row: any): string[] {

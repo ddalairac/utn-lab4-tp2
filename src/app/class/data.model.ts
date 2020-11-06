@@ -108,14 +108,14 @@ export enum eSpacesTypes {
     laboratory = "Laboratory"
 }
 export class ClinicHistory {
-    id: string;
-    profesional: string; // id profesional
-    patient: string; // id paciente
-    specialty: string; // la del turno 
-    date: number; // la del turno
+    id?: string;
+    profesional: Profesional; 
+    patient: Patient; 
+    specialty: string; 
+    date: string; 
     age: number;
     body_temperature: number;
-    blood_pressure: number[];
+    blood_pressure: string;
     extra_data: ExtraData[]
     text: string;
 }
@@ -134,6 +134,7 @@ export class Appointment {
     end: string
     patient: Patient
     acceptance: boolean; //el profesional debe aceptar el turno (se avisa al cliente el resultado), puede cancelar la aceptacion
+    clinicHistoryCompleted:boolean;
 }
 // export interface  AppointmentEvent extends Appointment, CalendarEvent{
 //     start: Date;

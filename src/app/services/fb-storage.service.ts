@@ -43,7 +43,7 @@ export class FbStorageService {
 
     public async create(collection: eCollections, data: any): Promise<DocumentReference> {
         this.loader.show();
-        let res = await this.firestore.collection(collection).add(Object.assign({}, data));
+        let res = await this.firestore.collection(collection).add(Object.assign({}, data))
         this.loader.hide();
         return res;
     }
@@ -65,8 +65,9 @@ export class FbStorageService {
                     resolve(list)
                 },
                 error => {
-                    // console.log("Error Listado:", error, list);
-                    reject(error);
+                    console.log("Error Listado:",collection, error, list);
+                    resolve([])
+                    // reject(error);
                 },
                 () => this.loader.hide()
             )
@@ -84,7 +85,7 @@ export class FbStorageService {
                     return null
                 }
             }).catch((error) => {
-                console.log("readOne error:", error);
+                console.error("readOne:", error);
 
             }).finally(() => this.loader.hide());
     }
