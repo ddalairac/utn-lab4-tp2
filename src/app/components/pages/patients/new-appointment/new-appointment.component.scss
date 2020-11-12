@@ -1,0 +1,16 @@
+.steps{
+    // display: flex;
+    // flex-direction: row;
+    // flex-wrap: nowrap;
+    position: relative;
+    min-width: 100%;
+}
+.step{
+    display: none;
+    min-width: 100%;
+    min-height: 10px;
+    height: auto;
+    position: absolute;
+    top: 0;
+    opacity: 0;
+}

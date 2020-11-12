@@ -1,0 +1,9 @@
+<ng-container *ngIf="colName && dato">
+    <td [attr.data-before]="colName">
+        <img [src]="dato" alt="" *ngIf="isImg(dato)">
+        <spam *ngIf="!isImg(dato)">{{dato}} </spam>
+    </td>
+</ng-container>
+<ng-container *ngIf="!colName || !dato">
+    <td>Falta Dato o colName</td>
+</ng-container>

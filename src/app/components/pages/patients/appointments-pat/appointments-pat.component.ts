@@ -30,12 +30,12 @@ export class AppointmentsPatComponent implements OnInit {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
             // console.log("current user appointment", user)
-            this.calendar.getCalendarEvents() 
-            this.listenEvents()
+            this.calendar.setCalendarAppointments() 
+            this.subscribeToAppointments()
             this.getTablas();
         })
     }
-    private listenEvents() {
+    private subscribeToAppointments() {
         this.calendar.appointments$.subscribe(
             (list: Appointment[]) => {
                 if (this.currentUser) {

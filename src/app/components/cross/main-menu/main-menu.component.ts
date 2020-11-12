@@ -71,6 +71,10 @@ export class MainMenuComponent implements OnInit {
     ]
     private menuPatients = [
         {
+            label: "Nuevo Turno",
+            path: "/patients/new-appointment"
+        },
+        {
             label: "Turnos",
             path: "/patients/appointments"
         },

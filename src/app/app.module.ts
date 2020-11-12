@@ -45,6 +45,7 @@ import { CalendarModalProComponent } from './components/pages/profecionals/appoi
 import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { HttpClientModule } from '@angular/common/http';
 import { ClinicHistoryModalProComponent } from './components/pages/profecionals/clinic-history-form/clinic-history-modal-pro/clinic-history-modal-pro.component';
+import { NewAppointmentComponent } from './components/pages/patients/new-appointment/new-appointment.component';
 
 @NgModule({
   declarations: [
@@ -79,7 +80,8 @@ import { ClinicHistoryModalProComponent } from './components/pages/profecionals/
     AppointmentsProComponent,
     CalendarProComponent,
     CalendarModalProComponent,
-    ClinicHistoryModalProComponent
+    ClinicHistoryModalProComponent,
+    NewAppointmentComponent
   ],
   imports: [
     BrowserModule,

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { CalendarEvent } from 'angular-calendar';
-import { addDays, addHours, addWeeks, endOfDay, startOfDay } from 'date-fns';
+import { addDays, addHours, addMinutes, addWeeks, endOfDay, startOfDay } from 'date-fns';
 import { BehaviorSubject } from 'rxjs';
-import { Appointment, AttentionSpaces, ClinicUser, eUserTypes, Profesional, Specialties, iHorarioAtencion } from '../class/data.model';
+import { Appointment, AttentionSpaces, ClinicUser, eUserTypes, Profesional, Specialties, iHorarioAtencion, eSpacesTypes, Patient } from '../class/data.model';
 import { eCollections } from '../class/firebase.model';
 import { FbStorageService } from './fb-storage.service';
 import { LoaderService } from './loader.service';
@@ -20,9 +20,9 @@ export class CalendarService {
     public appointments$: BehaviorSubject<Appointment[]>;
 
 
-    public getCalendarEvents(): void {
+    public setCalendarAppointments(): void {
         this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
-            // console.log("appointments: ", list)
+            console.log("setCalendarAppointments: ", list)
             this.appointments$.next(list);
         }).catch((error) => {
             console.error("appointments error: ", error)
@@ -60,10 +60,7 @@ export class CalendarService {
         }).finally(() => this.loader.hide());
     }
 
-
     /////////////////////////////////////////////////
-
-
 
     async getAttentionSpaces(): Promise<AttentionSpaces[]> {
         return new Promise((resolve, reject) => {
@@ -77,7 +74,6 @@ export class CalendarService {
             }).finally(() => this.loader.hide());
         });
     }
-
     async getProfecionals(): Promise<Profesional[]> {
         return new Promise((resolve, reject) => {
             this.fbsorageservice.readAll(eCollections.users).then((list: ClinicUser[]) => {
@@ -91,8 +87,6 @@ export class CalendarService {
             }).finally(() => this.loader.hide());
         });
     }
-
-
     async getSpecialties(): Promise<Specialties[]> {
         return new Promise((resolve, reject) => {
             this.fbsorageservice.readAll(eCollections.specialties).then((list: Specialties[]) => {
@@ -117,6 +111,21 @@ export class CalendarService {
         }
         // console.log("disabled day", event)
         return event
+    }
+    private setDisableAppointment(start: Date, end: Date): Appointment {
+        let appointment: Appointment = {
+            space: eSpacesTypes.laboratory,
+            spaceName: '1',
+            profesional: new Profesional(eUserTypes.profesional, '', '', ''),
+            specialty: '',
+            start: start.toString(),
+            end: end.toString(),
+            patient: new Patient(eUserTypes.patient, '', '', ''),
+            acceptance: false,
+            clinicHistoryCompleted: false
+        }
+        // console.log("disabled day", appointment)
+        return appointment
     }
     private getWeekDaybyKey(key: eDay | string): Date {
         let day: Date
@@ -145,6 +154,23 @@ export class CalendarService {
         return day
     }
     public getDisableSaturdaysEvents(): CalendarEvent<Appointment>[] {
+        let appointments: Appointment[] = this.getDisableSaturdaysAppointments()
+        let events: CalendarEvent<Appointment>[] = []
+        appointments.forEach(ap => {
+            events.push(this.setDisableEvent(new Date(ap.start), new Date(ap.end)))
+        });
+        return events
+    }
+    public getDisableProfesionalDisablesEvents(profesional: Profesional): CalendarEvent<Appointment>[] {
+        let appointments: Appointment[] = this.getDisableProfesionalDisablesAppointments(profesional)
+        let events: CalendarEvent<Appointment>[] = []
+        appointments.forEach(ap => {
+            events.push(this.setDisableEvent(new Date(ap.start), new Date(ap.end)))
+        });
+        console.log("pro disable events", events)
+        return events
+    }
+    public getDisableSaturdaysAppointments(): Appointment[] {
         let today: Date = new Date()
         let sabado: number = today.getDate() - today.getDay() + 6; // dia mes - dia semana => domingo + 6 => sabado
 
@@ -152,13 +178,12 @@ export class CalendarService {
         let end: Date = addHours(startOfDay(new Date(today.setDate(sabado))), 19);
 
         return [
-            this.setDisableEvent(start, end),
-            this.setDisableEvent(addWeeks(start, 1), addWeeks(end, 1)),
-            this.setDisableEvent(addWeeks(start, -1), addWeeks(end, -1))
+            this.setDisableAppointment(start, end),
+            this.setDisableAppointment(addWeeks(start, 1), addWeeks(end, 1))
         ]
     }
-    public getDisableProfesionalDisablesEvents(profesional: Profesional): CalendarEvent<Appointment>[] {
-        let events: CalendarEvent<Appointment>[] = []
+    public getDisableProfesionalDisablesAppointments(profesional: Profesional): Appointment[] {
+        let appointments: Appointment[] = []
         if (profesional) {
             let phh = profesional.horarios_atencion;
             for (let key in phh) {
@@ -180,19 +205,23 @@ export class CalendarService {
 
                     // console.log("pro disable dates", firstStart, firstEnd, lastStart, lastEnd)
 
-                    let disableStart: CalendarEvent<Appointment> = this.setDisableEvent(firstStart, firstEnd)
-                    let disableEnd: CalendarEvent<Appointment> = this.setDisableEvent(lastStart, lastEnd)
-                    events = [...events, disableStart, disableEnd]
+                    let disableStart: Appointment = this.setDisableAppointment(firstStart, firstEnd)
+                    let disableEnd: Appointment = this.setDisableAppointment(lastStart, lastEnd)
+                    let disableStartWeek2: Appointment = this.setDisableAppointment(addWeeks(firstStart, 1), addWeeks(firstEnd, 1))
+                    let disableEndWeek2: Appointment = this.setDisableAppointment(addWeeks(lastStart, 1), addWeeks(lastEnd, 1))
+                    appointments = [...appointments, disableStart, disableEnd, disableStartWeek2, disableEndWeek2]
                 } else {
                     let start: Date = addHours(startOfDay(new Date(day)), 8)
                     let end: Date = addHours(startOfDay(new Date(day)), lasClinicHour)
-                    let disableDay: CalendarEvent<Appointment> = this.setDisableEvent(start, end)
-                    events = [...events, disableDay]
+                    let disableDay: Appointment = this.setDisableAppointment(start, end)
+                    let disableDayWeek2: Appointment = this.setDisableAppointment(addWeeks(start, 1), addWeeks(end, 1))
+
+                    appointments = [...appointments, disableDay, disableDayWeek2]
                 }
             }
         }
-        console.log("pro disable events", events)
-        return events
+        console.log("pro disable appointments", appointments)
+        return appointments
     }
     public isOutOfProTime(appointment: Appointment, profesional: Profesional): boolean {
         if (profesional && appointment && appointment.profesional.id == profesional.id) {
@@ -205,7 +234,7 @@ export class CalendarService {
                 if (key == eDay.sat.toLowerCase()) {
                     lasClinicHour = 14
                 }
-                
+
                 if (!dhh.active) {// si no atiende ese dia
                     return true
                 } else { // Si empeza antes o termina despues del horario del medico
@@ -215,12 +244,64 @@ export class CalendarService {
                     let proEnd: Date = addHours(startOfDay(new Date(day)), prolastHour)
                     let apStart: Date = new Date(appointment.start);
                     let apEnd: Date = new Date(appointment.end);
-                    if(apStart < proStart) return true
-                    if(apEnd > proEnd) return true
+                    if (apStart < proStart) return true
+                    if (apEnd > proEnd) return true
                 }
             }
             return false
         }
+    }
+    public async getAvailableAppointment(profesional: Profesional, speciality: string, patient: Patient) {//:Appointment || null
+        return new Promise(async(resolve, reject) => {
+            let appDuration: number = profesional.tiempoTurno
+            console.log("getAvailableAppointment appDuration", appDuration)
+            let appointments: Appointment[] = []
+            try {
+                appointments = this.appointments$.getValue()
+            } catch (error) {
+                console.error("getAvailableAppointment",appointments)
+            }
+            console.log("getAvailableAppointment appointments", appointments)
+            appointments = [
+                ...appointments,
+                ...this.getDisableSaturdaysAppointments(),
+                ...this.getDisableProfesionalDisablesAppointments(profesional)
+            ]
+            if (profesional) {
+                let phh = profesional.horarios_atencion;
+                for (let dayKey in phh) {
+                    let dhh: iHorarioAtencion = phh[dayKey] as iHorarioAtencion;
+                    let day: Date = this.getWeekDaybyKey(dayKey)
+                    console.log(dayKey, dhh, day)
+                    if (dhh.active) {
+                        let firsthour: number = parseInt(dhh.start.split(':')[0])
+                        let lastHour: number = parseInt(dhh.end.split(':')[0])
+                        let first: Date = addHours(startOfDay(new Date(day)), firsthour)
+                        let last: Date = addHours(startOfDay(new Date(day)), lastHour)
+                        this.findAvailableAppointmentInDay(first, last, appointments, appDuration)
+                    }
+                }
+            }
+            resolve(true)
+        })
+    }
+    private findAvailableAppointmentInDay(first: Date, last: Date, appointments: Appointment[], appDuration: number) {
+        let search = true
+        let newApStart: Date = new Date(first)
+        let newApEnd: Date = addMinutes(new Date(first), appDuration)
+        console.log("Turnos buscar", newApStart, newApEnd)
+        // do {
+        //     appointments.forEach(ap => {
+        //         let apStart: Date = new Date(ap.start)
+        //         let apEnd: Date = new Date(ap.end)
+        //         if (first >= apStart && apEnd <= last) {
+
+
+
+
+        //         }
+        //     });    //statements 
+        // } while (search)
     }
 }
 

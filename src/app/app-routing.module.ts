@@ -17,6 +17,7 @@ import { ValidateEmailComponent } from './components/pages/auth-user/validate-em
 import { NewUserComponent } from './components/pages/admin/users-list/new-user/new-user.component';
 import { AppointmentsPatComponent } from './components/pages/patients/appointments-pat/appointments-pat.component';
 import { AppointmentsProComponent } from './components/pages/profecionals/appointments-pro/appointments-pro.component';
+import { NewAppointmentComponent } from './components/pages/patients/new-appointment/new-appointment.component';
 
 const routes: Routes = [
     { path: 'authuser', component: AuthUserComponent },
@@ -24,6 +25,7 @@ const routes: Routes = [
     { path: 'validate-email', component: ValidateEmailComponent },
     {
         path: 'patients', component: PatientsComponent, canActivate: [UrlValidateService], children: [
+            { path: 'new-appointment', component: NewAppointmentComponent },
             { path: 'appointments', component: AppointmentsPatComponent },
             { path: 'appointmentSurvey', component: AttentionSurveyComponent },
             { path: '', redirectTo: 'appointmentList', pathMatch: 'full' }

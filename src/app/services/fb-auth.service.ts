@@ -31,29 +31,31 @@ export class FbAuthService {
         this.isLogged$ = new BehaviorSubject(false);
         this.userFB$ = new BehaviorSubject(null);
 
-        this.fireAuth.authState.subscribe(async (userFB: firebase.User) => {
-            if (userFB) {
-                this.userFB$.next(userFB)
-                this.fbsorageservice.getUserInfoByUid(userFB.uid).then((user: ClinicUser) => {
-                    this.type = user.type
-                    this.userInfo$.next(user)
-                    this.isLogged$.next(true);
+        this.fireAuth.authState.subscribe(
+            async (userFB: firebase.User) => {
+                if (userFB) {
+                    this.userFB$.next(userFB)
+                    this.fbsorageservice.getUserInfoByUid(userFB.uid).then((user: ClinicUser) => {
+                        this.type = user.type
+                        this.userInfo$.next(user)
+                        this.isLogged$.next(true);
 
-                    this.router.navigateByUrl('home');
-                    // this.router.navigateByUrl('patients/appointments');
-                    // this.router.navigateByUrl('profesionals/appointments');
-                    // this.router.navigateByUrl('profile');
-                }).catch(error=>console.error("getUserInfoByUid",error))
-            } else {
-                // this.userMail$.next(null);
-                this.userFB$.next(null)
-                this.userInfo$.next(null);
-                this.isLogged$.next(false);
-                this.type = null;
+                        this.router.navigateByUrl('home');
+                        // this.router.navigateByUrl('patients/appointments');
+                        // this.router.navigateByUrl('profesionals/appointments');
+                        // this.router.navigateByUrl('profile');
+                    }).catch(error => console.error("getUserInfoByUid", error))
+                } else {
+                    // this.userMail$.next(null);
+                    this.userFB$.next(null)
+                    this.userInfo$.next(null);
+                    this.isLogged$.next(false);
+                    this.type = null;
 
-                this.router.navigateByUrl('authuser');
-            }
-        })
+                    this.router.navigateByUrl('authuser');
+                }
+            }, (error) => console.error("authState", error)
+        )
         // // this.userMail$.subscribe(data => console.log("userMail: ", data))
         // this.userFB$.subscribe((data) => {console.log("userFB: ", data); if(data)console.log("userFB email: ", data.email)})
         // this.userInfo$.subscribe(data => console.log("userInfo: ", data))
@@ -61,35 +63,35 @@ export class FbAuthService {
     }
 
     public recoverPass(email) {
-        this.fireAuth.sendPasswordResetEmail(email).then(()=> {
+        this.fireAuth.sendPasswordResetEmail(email).then(() => {
             // console.log("Recover Email sent")
-        }).catch( (error)=> {
-            console.error("recoverPass",error)
+        }).catch((error) => {
+            console.error("recoverPass", error)
         });
     }
     public async SendVerificationMail() {
         (await this.fireAuth.currentUser).sendEmailVerification().then(() => {
             console.log('email sent');
-        }).catch( (error)=> {
-            console.error("SendVerificationMail",error)
+        }).catch((error) => {
+            console.error("SendVerificationMail", error)
         });
     }
 
     public async registerNewUser(email: string, clave: string, userData: ClinicUser) {
         this.loader.show();
         return new Promise((resolve, reject) => {
-
             this.fireAuth.createUserWithEmailAndPassword(email, clave)
                 .then((res: firebase.auth.UserCredential) => {
                     this.createUserInfoRegiuster(res.user.uid, userData).then(
-                        ()=>{
-                            this.singIn(this.loggUser.mail,this.loggUser.pass,this.loggUser.rememberMe);
+                        () => {
+                            this.singIn(this.loggUser.mail, this.loggUser.pass, this.loggUser.rememberMe);
                             resolve(true)
                         }
                     )
                 }).catch((error: iAuthError) => {
-                    console.error("registerNewUser",error)
-                    reject(error)
+                    console.error("registerNewUser", error)
+                    resolve(false)
+                    // reject(error)
                 }).finally(() => this.loader.hide())
         })
     }
@@ -100,11 +102,11 @@ export class FbAuthService {
             this.fireAuth.createUserWithEmailAndPassword(email, clave)
                 .then((res: firebase.auth.UserCredential) => {
                     this.createUserInfoRegiuster(res.user.uid, userData)
-                    this.loggUser = { mail: email, pass: clave,rememberMe:rememberMe };
+                    this.loggUser = { mail: email, pass: clave, rememberMe: rememberMe };
                     this.saveAuthInData(email, clave, rememberMe, "register");
                     resolve(true)
                 }).catch((error: iAuthError) => {
-                    console.error("register",error)
+                    console.error("register", error)
                     reject(error)
                 }).finally(() => this.loader.hide())
         })
@@ -115,12 +117,12 @@ export class FbAuthService {
         return new Promise((resolve, reject) => {
             this.fireAuth.signInWithEmailAndPassword(email, clave)
                 .then(() => {
-                    this.loggUser = { mail: email, pass: clave,rememberMe:rememberMe };
+                    this.loggUser = { mail: email, pass: clave, rememberMe: rememberMe };
                     this.saveAuthInData(email, clave, rememberMe, "login");
                     resolve(true)
                 }).catch(
                     (error: iAuthError) => {
-                        console.error("singIn",error)
+                        console.error("singIn", error)
                         reject(error)
                     }
                 ).finally(() => {
@@ -131,14 +133,18 @@ export class FbAuthService {
 
     public async singOut() {
         this.loader.show();
-        await this.fireAuth.signOut().catch(error=>console.error("singOut",error));
+        try {
+            await this.fireAuth.signOut().catch(error => console.error("singOut", error));
+        } catch (error) {
+            console.error("singOut", error)
+        }
         this.loader.hide();
         this.router.navigateByUrl('/authuser');
     }
 
     private async createUserInfoRegiuster(uid: string, userData: ClinicUser) {
         userData.uid = uid;
-        this.fbsorageservice.create(eCollections.users, userData).catch(error=>console.error("createUserInfoRegiuster",error));
+        this.fbsorageservice.create(eCollections.users, userData).catch(error => console.error("createUserInfoRegiuster", error));
     }
 
     private async saveAuthInData(email, clave, rememberMe, type) {
@@ -157,5 +163,5 @@ export class FbAuthService {
 interface iCurrentUser {
     mail: string;
     pass: string;
-    rememberMe:boolean;
+    rememberMe: boolean;
 }
