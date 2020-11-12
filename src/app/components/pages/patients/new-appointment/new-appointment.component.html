@@ -5,20 +5,38 @@
         <app-table *ngIf="specialties" [objList]="specialties" (selection)="onSelectSpecialty($event)"></app-table>
     </div>
     <div class="step" *ngIf="profesionalsFiltered" [@animateGallery]="state2">
-        <h3> <button mat-button color="secondary" (click)="stepper('back1')"><i class="fas fa-chevron-left"></i></button> Selecciones un profesional</h3>
+        <h3> <button mat-button color="secondary" (click)="stepper('back1')"><i class="fas fa-chevron-left"></i></button> Selecciones un profesional
+        </h3>
         <div *ngIf="profesionalsFiltered.length < 1">
             <p>Lo sentimos no hay {{selectSpecialty?.name}} disponibles</p>
         </div>
         <div *ngIf="profesionalsFiltered.length > 0">
-            <app-table [objList]="profesionalsFiltered" (selection)="onSelectProfesional($event)" [hideCols]="['meta']" ></app-table>
+            <app-table [objList]="profesionalsFiltered" (selection)="onSelectProfesional($event)" [hideCols]="['meta']"></app-table>
         </div>
     </div>
-    <div class="step" *ngIf="newAppointment" [@animateGallery]="state3" >
+    <div class="step" *ngIf="newAppointment" [@animateGallery]="state3">
         <h3><button mat-button color="secondary" (click)="stepper('back2')"><i class="fas fa-chevron-left"></i></button> Turno</h3>
-        <p>El turno mas proximo es</p>
-        <p>{{newAppointment?.start}}</p>
-        <p>{{newAppointment?.end}}</p>
-        <p>{{newAppointment?.specialty}}</p>
-        <p>{{newAppointment?.profesional?.lastname}}, {{newAppointment?.profesional?.lastname}}</p>
+        <div class="cont">
+            <ng-container *ngIf="newAppointment">
+                <div class="card">
+                    <h4>Mas proximo</h4>
+                    <p>{{newAppointment?.specialty}}</p>
+                    <p>{{newAppointment?.profesional?.lastname}}, {{newAppointment?.profesional?.lastname}}</p>
+                    <p>{{newAppointment?.start}}</p>
+                    <p>{{newAppointment?.end}}</p>
+                    <button mat-raised-button  color="primary">Solicitar turno</button>
+                </div>
+                <div class="card">
+                    <h4>Sellecionar del calendario</h4>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!newAppointment">
+                <div class="card">
+                    <p>Lo sentimos no hay turnos disponibles</p>
+                </div>
+            </ng-container>
+        </div>
+
     </div>
 </div>

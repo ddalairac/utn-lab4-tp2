@@ -113,14 +113,18 @@ export class CalendarService {
         return event
     }
     private setDisableAppointment(start: Date, end: Date): Appointment {
+        return this.setAppointment(start, end, new Profesional(eUserTypes.profesional, '', '', ''), '', new Patient(eUserTypes.patient, '', '', ''))
+    }
+
+    private setAppointment(start: Date, end: Date, profesional: Profesional, speciality: string, patient: Patient, spaceName: string = '1', space: eSpacesTypes = eSpacesTypes.laboratory): Appointment {
         let appointment: Appointment = {
-            space: eSpacesTypes.laboratory,
-            spaceName: '1',
-            profesional: new Profesional(eUserTypes.profesional, '', '', ''),
-            specialty: '',
+            space: space,
+            spaceName: spaceName,
+            profesional: profesional,
+            specialty: speciality,
             start: start.toString(),
             end: end.toString(),
-            patient: new Patient(eUserTypes.patient, '', '', ''),
+            patient: patient,
             acceptance: false,
             clinicHistoryCompleted: false
         }
@@ -251,15 +255,15 @@ export class CalendarService {
             return false
         }
     }
-    public async getAvailableAppointment(profesional: Profesional, speciality: string, patient: Patient) {//:Appointment || null
-        return new Promise(async(resolve, reject) => {
+    public async getAvailableAppointment(profesional: Profesional, speciality: string, patient: Patient): Promise<Appointment | null> {
+        return new Promise(async (resolve, reject) => {
             let appDuration: number = profesional.tiempoTurno
             console.log("getAvailableAppointment appDuration", appDuration)
             let appointments: Appointment[] = []
             try {
                 appointments = this.appointments$.getValue()
             } catch (error) {
-                console.error("getAvailableAppointment",appointments)
+                console.error("getAvailableAppointment", appointments)
             }
             console.log("getAvailableAppointment appointments", appointments)
             appointments = [
@@ -269,39 +273,57 @@ export class CalendarService {
             ]
             if (profesional) {
                 let phh = profesional.horarios_atencion;
-                for (let dayKey in phh) {
-                    let dhh: iHorarioAtencion = phh[dayKey] as iHorarioAtencion;
-                    let day: Date = this.getWeekDaybyKey(dayKey)
-                    console.log(dayKey, dhh, day)
+
+                for (let dayKey of DAYS) {
+                    let dhh: iHorarioAtencion = phh[dayKey.toLowerCase()] as iHorarioAtencion;
+                    let day: Date = this.getWeekDaybyKey(dayKey.toLowerCase())
+                    // console.log(dayKey, dhh, day)
                     if (dhh.active) {
                         let firsthour: number = parseInt(dhh.start.split(':')[0])
                         let lastHour: number = parseInt(dhh.end.split(':')[0])
                         let first: Date = addHours(startOfDay(new Date(day)), firsthour)
                         let last: Date = addHours(startOfDay(new Date(day)), lastHour)
-                        this.findAvailableAppointmentInDay(first, last, appointments, appDuration)
+                        let newApDates = this.findAvailableAppointmentInDay(first, last, appointments, appDuration)
+                        if (newApDates) {
+                            console.log("new appointment dates", newApDates)
+                            let newAppointment = this.setAppointment(newApDates[0], newApDates[1], profesional, speciality, patient)
+                            console.log("new appointment dates", newAppointment)
+                            resolve(newAppointment)
+                            break
+                        }
                     }
                 }
+                resolve(null)
             }
-            resolve(true)
+
         })
     }
-    private findAvailableAppointmentInDay(first: Date, last: Date, appointments: Appointment[], appDuration: number) {
-        let search = true
+    private findAvailableAppointmentInDay(first: Date, last: Date, appointments: Appointment[], appDuration: number): Date[] | boolean {
+        let found = false
         let newApStart: Date = new Date(first)
         let newApEnd: Date = addMinutes(new Date(first), appDuration)
         console.log("Turnos buscar", newApStart, newApEnd)
-        // do {
-        //     appointments.forEach(ap => {
-        //         let apStart: Date = new Date(ap.start)
-        //         let apEnd: Date = new Date(ap.end)
-        //         if (first >= apStart && apEnd <= last) {
+        for (let index = 0; index < appointments.length; index++) {
+            const ap = appointments[index];
 
-
-
-
-        //         }
-        //     });    //statements 
-        // } while (search)
+            let apStart: Date = new Date(ap.start)
+            let apEnd: Date = new Date(ap.end)
+            if (first >= apStart && apEnd <= last) {
+                if ((apStart < newApStart && newApStart < apEnd) || (apStart < newApEnd && newApEnd < apEnd)) {
+                    newApStart = addMinutes(newApStart, appDuration)
+                    newApEnd = addMinutes(newApEnd, appDuration)
+                } else {
+                    console.log("Turnos ENCONTRADO", newApStart, newApEnd)
+                    found = true;
+                    break;
+                }
+            }
+        }
+        if (found) {
+            return [newApStart, newApEnd]
+        } else {
+            return found
+        }
     }
 }
 
