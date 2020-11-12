@@ -22,7 +22,6 @@ import { NewAppointmentComponent } from './components/pages/patients/new-appoint
 const routes: Routes = [
     { path: 'authuser', component: AuthUserComponent },
     { path: 'validate-email', component: ValidateEmailComponent },
-    { path: 'validate-email', component: ValidateEmailComponent },
     {
         path: 'patients', component: PatientsComponent, canActivate: [UrlValidateService], children: [
             { path: 'new-appointment', component: NewAppointmentComponent },
