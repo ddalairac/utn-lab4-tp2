@@ -89,22 +89,17 @@ export class NewAppointmentComponent implements OnInit {
 
     }
 
-    private async findClosestAppointment() {        
-        this.calendar.getAvailableAppointment(this.selectProfesional, this.selectSpecialty.name, this.currentUser)
+    private async findClosestAppointment() {
+        this.newAppointment = await this.calendar.getAvailableAppointment(this.selectProfesional, this.selectSpecialty.name, this.currentUser)
+        console.log("findClosestAppointment", this.newAppointment)
+        // if (newAppointment) {
+            
+        // }
+        // else {
 
-        this.newAppointment = {
-            space: eSpacesTypes.laboratory,
-            spaceName: "1",
-            profesional: this.selectProfesional,
-            specialty: this.selectSpecialty.name,
-            start: Date.now().toString(),
-            end: Date.now().toString(),
-            patient: this.currentUser,
-            acceptance: false,
-            clinicHistoryCompleted: false
-        }
+        // }
     }
-    
+
     public stepper(goto: eNavSteps) {
         setTimeout(() => {
             // console.log("goto", goto)
