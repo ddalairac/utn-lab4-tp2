@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { AnimateGallery } from '../../../../class/animations.component';
 import { Appointment, AttentionSpaces, ClinicUser, eSpacesTypes, Profesional, Specialties } from '../../../../class/data.model';
 import { CalendarService } from '../../../../services/calendar-service.service';
@@ -24,7 +25,7 @@ export class NewAppointmentComponent implements OnInit {
     state1: eSteps = eSteps.accordionOpen;
     state2: eSteps;
     state3: eSteps;
-    constructor(private calendar: CalendarService, private authservice: FbAuthService) { }
+    constructor(private calendar: CalendarService, private authservice: FbAuthService, private router:Router) { }
 
     ngOnInit(): void {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
@@ -92,12 +93,10 @@ export class NewAppointmentComponent implements OnInit {
     private async findClosestAppointment() {
         this.newAppointment = await this.calendar.getAvailableAppointment(this.selectProfesional, this.selectSpecialty.name, this.currentUser)
         console.log("findClosestAppointment", this.newAppointment)
-        // if (newAppointment) {
-            
-        // }
-        // else {
-
-        // }
+    }
+    onAceptAppointment(){
+        this.calendar.createCalendarEvent(this.newAppointment);
+        this.router.navigateByUrl('/home')
     }
 
     public stepper(goto: eNavSteps) {
