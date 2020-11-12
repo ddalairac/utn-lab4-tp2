@@ -16,6 +16,7 @@
     </div>
     <div class="step" *ngIf="newAppointment" [@animateGallery]="state3">
         <h3><button mat-button color="secondary" (click)="stepper('back2')"><i class="fas fa-chevron-left"></i></button> Turno</h3>
+
         <div class="cont">
             <ng-container *ngIf="newAppointment">
                 <div class="card">
@@ -36,6 +37,7 @@
                     <p>Lo sentimos no hay turnos disponibles</p>
                 </div>
             </ng-container>
+
         </div>
 
     </div>
