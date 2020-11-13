@@ -31,7 +31,7 @@ export class NewAppointmentComponent implements OnInit {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
             // console.log("current user appointment", user)
-            this.calendar.setCalendarAppointments()
+            this.calendar.getAppointmentsList()
             this.getTablas();
         })
     }
@@ -95,7 +95,7 @@ export class NewAppointmentComponent implements OnInit {
         console.log("findClosestAppointment", this.newAppointment)
     }
     onAceptAppointment(){
-        this.calendar.createCalendarEvent(this.newAppointment);
+        this.calendar.createAppointment(this.newAppointment);
         this.router.navigateByUrl('/home')
     }
 

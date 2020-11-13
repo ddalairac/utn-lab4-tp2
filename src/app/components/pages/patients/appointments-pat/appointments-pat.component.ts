@@ -30,7 +30,7 @@ export class AppointmentsPatComponent implements OnInit {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
             // console.log("current user appointment", user)
-            this.calendar.setCalendarAppointments() 
+            this.calendar.getAppointmentsList() 
             this.subscribeToAppointments()
             this.getTablas();
         })
@@ -88,7 +88,7 @@ export class AppointmentsPatComponent implements OnInit {
         events = [
             ...events,
             ...this.calendar.getDisableSaturdaysEvents(),
-            ...this.calendar.getDisableProfesionalDisablesEvents(this.selectProfesional)
+            ...this.calendar.getDisableProfesionalEvents(this.selectProfesional)
         ]
         console.log("events", events)
         return events

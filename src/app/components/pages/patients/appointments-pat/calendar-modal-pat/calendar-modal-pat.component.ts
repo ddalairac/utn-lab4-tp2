@@ -38,13 +38,13 @@ export class CalendarModalPatComponent implements OnInit {
     public onAcept() {
         console.log("onAcept")
         if (this.data.action == "new" && this.appointment) {
-            this.calendar.createCalendarEvent(this.appointment);
+            this.calendar.createAppointment(this.appointment);
         }
         this.dialogRef.close();
     }
     public onDelete() {
         console.log("onDelete")
-        this.calendar.deleteCalendarEvent(this.data.event.meta.id);
+        this.calendar.deleteAppointment(this.data.event.meta.id);
         this.dialogRef.close();
     }
     private parseApointment() {
@@ -54,8 +54,8 @@ export class CalendarModalPatComponent implements OnInit {
         let spaceName: string;
         let profesional: Profesional;
         let specialty: string;
-        let start: Date | string;
-        let end: Date | string;
+        let start: Date | number;
+        let end: Date | number;
         let patient: Patient;
         let acceptance: boolean
 
@@ -74,8 +74,8 @@ export class CalendarModalPatComponent implements OnInit {
             spaceName = "1";
             profesional = this.data.selectProfesional;
             specialty = this.data.selectSpecialty.name;
-            start = this.data.event.start.toString();
-            end = this.data.event.end.toString();
+            start = this.data.event.start;
+            end = this.data.event.end;
             patient = this.currentUser as Patient;
             acceptance = false
             this.setAppointment(space, spaceName, profesional, specialty, start, end, patient, acceptance);
@@ -85,14 +85,14 @@ export class CalendarModalPatComponent implements OnInit {
 
 
     }
-    private setAppointment(space: eSpacesTypes, spaceName: string, profesional: Profesional, specialty: string, start: Date | string, end: Date | string, patient: Patient, acceptance: boolean): void {
+    private setAppointment(space: eSpacesTypes, spaceName: string, profesional: Profesional, specialty: string, start: Date | number, end: Date | number, patient: Patient, acceptance: boolean): void {
         this.appointment = {
             space: space,
             spaceName: spaceName,
             profesional: profesional,
             specialty: specialty,
-            start: start as string,
-            end: end as string,
+            start: start,
+            end: end,
             patient: patient,
             acceptance: acceptance,
             clinicHistoryCompleted:false

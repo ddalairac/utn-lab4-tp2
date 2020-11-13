@@ -35,16 +35,27 @@ export class FbAuthService {
             async (userFB: firebase.User) => {
                 if (userFB) {
                     this.userFB$.next(userFB)
-                    this.fbsorageservice.getUserInfoByUid(userFB.uid).then((user: ClinicUser) => {
-                        this.type = user.type
-                        this.userInfo$.next(user)
-                        this.isLogged$.next(true);
+                        this.fbsorageservice.getUserInfoByUid(userFB.uid).then((user: ClinicUser) => {
+                            this.type = user.type
+                            this.userInfo$.next(user)
+                            this.isLogged$.next(true);
 
-                        this.router.navigateByUrl('home');
-                        // this.router.navigateByUrl('patients/appointments');
-                        // this.router.navigateByUrl('profesionals/appointments');
-                        // this.router.navigateByUrl('profile');
-                    }).catch(error => console.error("getUserInfoByUid", error))
+                            if (!userFB.emailVerified && this.type != eUserTypes.admin 
+                                && user.mail != 'paciente@gmail.com'
+                                && user.mail != 'profesional@gmail.com'
+                                && user.mail != 'admin@gmail.com'
+                                ) {
+                                console.log("emailVerified", userFB.emailVerified)
+                                this.router.navigateByUrl('validate-email');
+                            }else {
+                                this.router.navigateByUrl('home');
+                            }
+                            // this.router.navigateByUrl('patients/appointments');
+                            // this.router.navigateByUrl('profesionals/appointments');
+                            // this.router.navigateByUrl('profile');
+                        }).catch(error => console.error("getUserInfoByUid", error))
+                    
+
                 } else {
                     // this.userMail$.next(null);
                     this.userFB$.next(null)

@@ -17,9 +17,8 @@ export class UrlValidateService {
 
         let type: eUserTypes | null = this.fbauthservice.type;
 
-        console.log("valid url:", type, path)
+        // console.log("valid url:", type, path)
         if (!type) {
-
             this.router.navigate(['/authuser'])
             return false;
         } else {

@@ -38,12 +38,12 @@ export class CalendarModalProComponent implements OnInit {
     public onAcept() {
         console.log("onAcept")
         this.appointment.acceptance = true;
-        this.calendar.updateCalendarEvent(this.appointment.id, this.appointment);
+        this.calendar.updateAppointment(this.appointment.id, this.appointment);
         this.dialogRef.close();
     }
     public onDelete() {
         console.log("onDelete")
-        this.calendar.deleteCalendarEvent(this.appointment.id);
+        this.calendar.deleteAppointment(this.appointment.id);
         this.dialogRef.close();
     }
     private parseApointment() {

@@ -112,7 +112,7 @@ export class ClinicHistory {
     profesional: Profesional; 
     patient: Patient; 
     specialty: string; 
-    date: string; 
+    date: Date | number; 
     age: number;
     body_temperature: number;
     blood_pressure: string;
@@ -130,8 +130,8 @@ export class Appointment {
     spaceName: string
     profesional: Profesional; // id
     specialty: string
-    start: string
-    end: string
+    start: Date | number
+    end: Date | number
     patient: Patient
     acceptance: boolean; //el profesional debe aceptar el turno (se avisa al cliente el resultado), puede cancelar la aceptacion
     clinicHistoryCompleted:boolean;

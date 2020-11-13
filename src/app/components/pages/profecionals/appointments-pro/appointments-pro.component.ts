@@ -29,7 +29,7 @@ export class AppointmentsProComponent implements OnInit {
     ngOnInit(): void {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
-            this.calendar.setCalendarAppointments()
+            this.calendar.getAppointmentsList()
             this.subscribeToAppointments()
         })
     }

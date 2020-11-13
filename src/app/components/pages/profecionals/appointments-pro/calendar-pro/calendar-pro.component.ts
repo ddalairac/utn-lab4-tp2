@@ -80,7 +80,7 @@ export class CalendarProComponent implements OnInit {
         
         event.meta.start = newStart.toString()
         event.meta.end = newEnd.toString()
-        this.calendar.updateCalendarEvent(event.meta.id, event.meta);
+        this.calendar.updateAppointment(event.meta.id, event.meta);
 
         this.events = this.events.map((iEvent) => {
             if (iEvent === event) {

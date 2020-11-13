@@ -60,7 +60,7 @@ export class ClinicHistoryModalProComponent implements OnInit {
         }
         this.fbsorageservice.create(eCollections.clinicHistory, ch).then(()=>{
             this.data.clinicHistoryCompleted = true;
-            this.calendarService.updateCalendarEvent(this.data.id,this.data)
+            this.calendarService.updateAppointment(this.data.id,this.data)
             this.dialogRef.close();
         }).catch(error=>console.error("setNewCH",error))
     } 
