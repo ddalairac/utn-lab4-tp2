@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { Specialties, eUserTypes, ClinicUser, Admin, Patient, Profesional } from '../../../../../class/data.model';
 import { eCollections, iAuthError } from '../../../../../class/firebase.model';
 import { FbAuthService } from '../../../../../services/fb-auth.service';
-import { FbStorageService } from '../../../../../services/fb-storage.service';
+import { FbDBService } from '../../../../../services/fb-db.service';
 
 @Component({
   selector: 'app-new-user',
@@ -14,7 +14,7 @@ import { FbStorageService } from '../../../../../services/fb-storage.service';
 export class NewUserComponent implements OnInit {
 
   
-    constructor(private fbauthservice: FbAuthService, private router: Router, private fbsorageservice: FbStorageService) { }
+    constructor(private fbauthservice: FbAuthService, private router: Router, private fbDBservice: FbDBService) { }
 
     email = new FormControl('', [Validators.required, Validators.email]);
     pass = new FormControl('', [Validators.required, Validators.minLength(6)]);
@@ -49,7 +49,7 @@ export class NewUserComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.fbsorageservice.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
+        this.fbDBservice.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
     }
     private isValid(): boolean {
         if (this.email.invalid || this.pass.invalid || this.type.invalid || this.name.invalid || this.lastname.invalid) {
@@ -63,13 +63,13 @@ export class NewUserComponent implements OnInit {
         if (this.isValid()) {
             switch (this.type.value) {
                 case eUserTypes.admin:
-                    userInfo = new Admin(this.type.value, this.name.value, this.lastname.value, this.picture.value);
+                    userInfo = new Admin(this.email.value,this.pass.value, this.name.value, this.lastname.value, this.picture.value);
                     break;
                 case eUserTypes.patient:
-                    userInfo = new Patient(this.type.value, this.name.value, this.lastname.value, this.picture.value);
+                    userInfo = new Patient(this.email.value,this.pass.value, this.name.value, this.lastname.value, this.picture.value);
                     break;
                 case eUserTypes.profesional:
-                    userInfo = new Profesional(this.type.value, this.name.value, this.lastname.value, this.picture.value, this.specialty.value);
+                    userInfo = new Profesional(this.email.value,this.pass.value, this.name.value, this.lastname.value, this.picture.value, this.specialty.value);
                     break;
             }
             this.fbauthservice.registerNewUser(this.email.value, this.pass.value,  userInfo)

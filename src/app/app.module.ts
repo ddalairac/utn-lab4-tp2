@@ -53,7 +53,6 @@ import { TypeFormatDirective } from './utils/type-format.directive';
 @NgModule({
   declarations: [
     AppComponent,
-    //cross
     GoBackComponent,
     LoaderComponent,
     MenuComponent,
@@ -61,7 +60,6 @@ import { TypeFormatDirective } from './utils/type-format.directive';
     TableComponent,
     Table2Component,
     CalendarModalComponent,
-    // pages
     AuthUserComponent,
     LoginComponent,
     RegisterComponent,

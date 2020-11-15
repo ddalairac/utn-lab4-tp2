@@ -4,7 +4,7 @@ import { Appointment, ClinicHistory, ClinicUser } from '../../../../class/data.m
 import { eCollections } from '../../../../class/firebase.model';
 import { CalendarService } from '../../../../services/calendar-service.service';
 import { FbAuthService } from '../../../../services/fb-auth.service';
-import { FbStorageService } from '../../../../services/fb-storage.service';
+import { FbDBService } from '../../../../services/fb-db.service';
 import { iTableAction, iTableEvent } from '../../../cross/table/table.model';
 import { ClinicHistoryModalProComponent } from './clinic-history-modal-pro/clinic-history-modal-pro.component';
 
@@ -16,7 +16,7 @@ import { ClinicHistoryModalProComponent } from './clinic-history-modal-pro/clini
 export class ClinicHistoryFormComponent implements OnInit {
 
     constructor(private calendar: CalendarService, private authservice: FbAuthService, public dialog: MatDialog,
-        private fbsorageservice: FbStorageService,) { }
+        private fbDBservice: FbDBService,) { }
 
     currentUser: ClinicUser
     incompleteList: iIncompleteList[] = []
@@ -58,7 +58,7 @@ export class ClinicHistoryFormComponent implements OnInit {
         })
 
         this.completedList = []
-        this.fbsorageservice.readAll(eCollections.clinicHistory).then((data: ClinicHistory[]) => {
+        this.fbDBservice.readAll(eCollections.clinicHistory).then((data: ClinicHistory[]) => {
             this.clinicHistoryForomService = data
             this.clinicHistoryForomService.forEach((item: ClinicHistory) => {
                 if (item.profesional.id == this.currentUser.id) {

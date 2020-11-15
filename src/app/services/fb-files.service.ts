@@ -7,7 +7,7 @@ import { LoaderService } from './loader.service';
 @Injectable({
     providedIn: 'root'
 })
-export class FbStoreService {
+export class FbFilesService {
 
     constructor(private fbStorage: AngularFireStorage,
         private loader: LoaderService,) {

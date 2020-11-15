@@ -7,7 +7,7 @@ export class TypeFormatDirective implements AfterViewInit {
 
     constructor(private element: ElementRef) { }
     ngAfterViewInit() {
-        console.log("innerText: ", this.element.nativeElement.innerText)
+        // console.log("innerText: ", this.element.nativeElement.innerText)
         let dato: string = this.element.nativeElement.innerText
         if (dato == 'true') {
             this.element.nativeElement.innerHTML = "<i class='fas fa-check'></i>"

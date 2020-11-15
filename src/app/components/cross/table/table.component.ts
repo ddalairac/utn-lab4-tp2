@@ -24,7 +24,7 @@ export class TableComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         let list: any[] = changes.objList.currentValue
         if (list) {
-            console.log("objList", list)
+            // console.log("objList", list)
             this.colNames = this.setColNames(list)
         }
     }

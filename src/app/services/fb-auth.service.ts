@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { Profesional, Admin, Patient, ClinicUser, eUserTypes } from '../class/data.model';
 import { iAuthError, eCollections } from '../class/firebase.model';
-import { FbStorageService } from './fb-storage.service';
+import { FbDBService } from './fb-db.service';
 import { LoaderService } from './loader.service';
 
 @Injectable({
@@ -24,7 +24,7 @@ export class FbAuthService {
         private fireAuth: AngularFireAuth,
         private router: Router,
         private loader: LoaderService,
-        private fbsorageservice: FbStorageService
+        private fbDBservice: FbDBService
     ) {
         // this.userMail$ = new BehaviorSubject(null)
         this.userInfo$ = new BehaviorSubject(null);
@@ -35,37 +35,37 @@ export class FbAuthService {
             async (userFB: firebase.User) => {
                 if (userFB) {
                     this.userFB$.next(userFB)
-                        this.fbsorageservice.getUserInfoByUid(userFB.uid).then((user: ClinicUser) => {
-                            this.type = user.type
-                            this.userInfo$.next(user)
-                            this.isLogged$.next(true);
+                    this.fbDBservice.getUserInfoByUid(userFB.uid).then((user: ClinicUser) => {
+                        this.type = user.type
+                        this.userInfo$.next(user)
+                        this.isLogged$.next(true);
 
-                            if (!userFB.emailVerified && this.type != eUserTypes.admin 
-                                && user.mail != 'paciente@gmail.com'
-                                && user.mail != 'profesional@gmail.com'
-                                && user.mail != 'admin@gmail.com'
-                                ) {
-                                console.log("emailVerified", userFB.emailVerified)
-                                this.router.navigateByUrl('validate-email');
-                            }else {
-                                this.router.navigateByUrl('home');
-                                switch (this.type) {
-                                    case eUserTypes.admin:
-                                                this.router.navigate(['/admins/users'])
-                                        break
-                                    case eUserTypes.patient:
-                                                this.router.navigate(['/patients/new-appointment'])
-                                        break
-                                    case eUserTypes.profesional:
-                                                this.router.navigate(['/profesionals/appointments'])
-                                        break
-                                }
+                        if (!userFB.emailVerified && this.type != eUserTypes.admin
+                            && user.mail != 'paciente@gmail.com'
+                            && user.mail != 'profesional@gmail.com'
+                            && user.mail != 'admin@gmail.com'
+                        ) {
+                            console.log("emailVerified", userFB.emailVerified)
+                            this.router.navigateByUrl('validate-email');
+                        } else {
+                            this.router.navigateByUrl('home');
+                            switch (this.type) {
+                                case eUserTypes.admin:
+                                    this.router.navigate(['/admins/users'])
+                                    break
+                                case eUserTypes.patient:
+                                    this.router.navigate(['/patients/new-appointment'])
+                                    break
+                                case eUserTypes.profesional:
+                                    this.router.navigate(['/profesionals/appointments'])
+                                    break
                             }
-                            // this.router.navigateByUrl('patients/appointments');
-                            // this.router.navigateByUrl('profesionals/appointments');
-                            // this.router.navigateByUrl('profile');
-                        }).catch(error => console.error("getUserInfoByUid", error))
-                    
+                        }
+                        // this.router.navigateByUrl('patients/appointments');
+                        // this.router.navigateByUrl('profesionals/appointments');
+                        // this.router.navigateByUrl('profile');
+                    }).catch(error => console.error("getUserInfoByUid", error))
+
 
                 } else {
                     // this.userMail$.next(null);
@@ -116,6 +116,52 @@ export class FbAuthService {
                 }).finally(() => this.loader.hide())
         })
     }
+    public async removeUser(DBuser: ClinicUser) {
+        this.loader.show();
+
+        let backUser = this.userInfo$.getValue()
+        let rememberMe: boolean = (window.localStorage.getItem("user")) ? true : false;
+        let FBuser: firebase.User
+        let FBDelete: boolean
+        console.log("DBuser", DBuser)
+        setTimeout(() => {
+            return new Promise(async (resolve) => {
+                // loguear al usuario a borrar
+                await this.fireAuth.signInWithEmailAndPassword(DBuser.mail, DBuser.pass).then(async () => {
+                    console.log("sing in DBuser")
+                    // borrar usuario
+                    FBuser = await this.fireAuth.currentUser;
+                    console.log("FBuser", FBuser)
+                    await FBuser.delete().then(async () => { })
+                    console.log("delete FBuser")
+                    FBDelete = true
+                }).catch((error: iAuthError) => {
+                    console.error("removeFBUser", error)
+                    this.loader.hide()
+                    resolve(false)
+                }).finally(() => this.loader.hide())
+
+                setTimeout(() => {
+                    // borrar usuario de la DB
+                    console.log("logg user", backUser)
+                    // loguear al Admin / user anterior
+                    if (FBDelete) {
+                        this.singIn(backUser.mail, backUser.pass, rememberMe).then(() => {
+                            this.fbDBservice.delete(eCollections.users, DBuser.id).then(() => {
+                                resolve(true)
+                            })
+                        }).catch((error: iAuthError) => {
+                            console.error("removeDBUser", error)
+                            resolve(false)
+                        }).finally(() => this.loader.hide())
+                    } else {
+                        console.log("Problema al eleiminar usuario de FB")
+                    }
+                }, 100);
+
+            })
+        }, 0);
+    }
 
     public async register(email: string, clave: string, rememberMe: boolean, userData: ClinicUser) {
         this.loader.show();
@@ -165,7 +211,7 @@ export class FbAuthService {
 
     private async createUserInfoRegiuster(uid: string, userData: ClinicUser) {
         userData.uid = uid;
-        this.fbsorageservice.create(eCollections.users, userData).catch(error => console.error("createUserInfoRegiuster", error));
+        this.fbDBservice.create(eCollections.users, userData).catch(error => console.error("createUserInfoRegiuster", error));
     }
 
     private async saveAuthInData(email, clave, rememberMe, type) {
@@ -184,5 +230,5 @@ export class FbAuthService {
 interface iCurrentUser {
     mail: string;
     pass: string;
-    rememberMe: boolean;
+    rememberMe?: boolean;
 }

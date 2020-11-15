@@ -3,7 +3,8 @@ import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Admin, ClinicUser, eUserTypes, Patient, Profesional, Specialties } from '../../../../class/data.model';
 import { eCollections } from '../../../../class/firebase.model';
-import { FbStorageService } from '../../../../services/fb-storage.service';
+import { FbAuthService } from '../../../../services/fb-auth.service';
+import { FbDBService } from '../../../../services/fb-db.service';
 import { iTableAction, iTableEvent } from '../../../cross/table/table.model';
 import { iTableCol } from '../../../cross/table2/table2.model';
 
@@ -16,14 +17,18 @@ export class UsersListComponent implements OnInit {
 
     // date:Date = new Date(Date.now())
     // date:Date = new Date('1-1-2020')
-    constructor(private fbsorageservice: FbStorageService, private router: Router) { }
+    constructor(private fbDBservice: FbDBService, private fbauthservice: FbAuthService, private router: Router) { }
 
     ngOnInit(): void {
-        this.fbsorageservice.readAll(eCollections.users).then((list: ClinicUser[]) => {
+        this.getUsers()
+    }
+    private getUsers() {
+        this.fbDBservice.readAll(eCollections.users).then((list: ClinicUser[]) => {
             // this.users = list;
             this.tablelist = this.setList(list)
             this.onFilter()
         })
+
     }
     tablelist: iUserslist[] = []
     tablelistFiltered: iUserslist[] = []
@@ -40,27 +45,31 @@ export class UsersListComponent implements OnInit {
     // users: ClinicUser[] = [] //Array<Profesional | Patient | Admin | null> = []
     // tableCols: iTableCol[] = [{ key: 'picture', translate: 'Foto' },{ key: 'lastname', translate: 'apellido' }, { key: 'name', translate: 'nombre' }, { key: 'mail', translate: 'Mail' },  { key: 'type', translate: 'Tipo' }]
 
-    /* actions: iTableAction[] = [
+    actions: iTableAction[] = [
         {
-            description: "ver",
-            icon: "fas fa-eye",
-            event: "ver"
-        }, {
-            description: "editar",
-            icon: "fas fa-edit",
-            event: "editar"
-        }, {
+            //     description: "ver",
+            //     icon: "fas fa-eye",
+            //     event: "ver"
+            // }, {
+            //     description: "editar",
+            //     icon: "fas fa-edit",
+            //     event: "editar"
+            // }, {
             description: "borrar",
             icon: "fas fa-times",
             event: "borrar"
         }
-    ] */
+    ]
     public onTableEvent(event: iTableEvent) {
         console.log("event", event)
+        if (event.action == "borrar") {
+            // console.log('Borrar usuario')
+            this.fbauthservice.removeUser(event.obj.meta).then(() => this.getUsers())
+        }
     }
-    public onSelect(user: ClinicUser){
-        console.log("user", user)
-    }
+    // public onSelect(user: ClinicUser){
+    //     console.log("user", user)
+    // }
     public onNewUser() {
         this.router.navigateByUrl('/admins/user-new')
     }
@@ -75,7 +84,7 @@ export class UsersListComponent implements OnInit {
 
             let listItem: iUserslist = {
                 // apellido: item.lastname,
-                nombre: item.name+', '+item.lastname,
+                nombre: item.name + ', ' + item.lastname,
                 mail: item.mail,
                 foto: item.picture,
                 tipo: type,

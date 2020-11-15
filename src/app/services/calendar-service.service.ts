@@ -4,7 +4,7 @@ import { addDays, addHours, addMinutes, addWeeks, endOfDay, startOfDay } from 'd
 import { BehaviorSubject } from 'rxjs';
 import { Appointment, AttentionSpaces, ClinicUser, eUserTypes, Profesional, Specialties, iHorarioAtencion, eSpacesTypes, Patient } from '../class/data.model';
 import { eCollections } from '../class/firebase.model';
-import { FbStorageService } from './fb-storage.service';
+import { FbDBService } from './fb-db.service';
 import { LoaderService } from './loader.service';
 
 @Injectable({
@@ -12,7 +12,7 @@ import { LoaderService } from './loader.service';
 })
 export class CalendarService {
 
-    constructor(private fbsorageservice: FbStorageService,
+    constructor(private fbDBservice: FbDBService,
         private loader: LoaderService) {
         this.appointments$ = new BehaviorSubject<Appointment[]>([]);
     }
@@ -45,7 +45,7 @@ export class CalendarService {
         })
     }
     public getAppointmentsList(): void {
-        this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
+        this.fbDBservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
             list = list.map((itm) => { return this.apTimestampToDate(itm) })
             list = this.sortAppointments(list)
             console.log("getAppointmentsList: ", list)
@@ -56,7 +56,7 @@ export class CalendarService {
     }
     public updateAppointment(id: string, event: Appointment): void {
         event = this.apDatesToTimestamp(event)
-        this.fbsorageservice.update(eCollections.appointments, id, event).then((data) => {
+        this.fbDBservice.update(eCollections.appointments, id, event).then((data) => {
             // console.log("updateAppointment: ", data)
             this.getAppointmentsList();
         }).catch((error) => {
@@ -65,7 +65,7 @@ export class CalendarService {
     }
     public createAppointment(event: Appointment): void {
         event = this.apDatesToTimestamp(event)
-        this.fbsorageservice.create(eCollections.appointments, event).then((data) => {
+        this.fbDBservice.create(eCollections.appointments, event).then((data) => {
             // console.log("createAppointment: ", data)
             this.getAppointmentsList();
         }).catch((error) => {
@@ -73,7 +73,7 @@ export class CalendarService {
         }).finally(() => this.loader.hide());
     }
     public deleteAppointment(id: string): void {
-        this.fbsorageservice.delete(eCollections.appointments, id).then((data) => {
+        this.fbDBservice.delete(eCollections.appointments, id).then((data) => {
             // console.log("deleteAppointment: ", data)
             this.getAppointmentsList();
         }).catch((error) => {
@@ -85,7 +85,7 @@ export class CalendarService {
 
     async getAttentionSpaces(): Promise<AttentionSpaces[]> {
         return new Promise((resolve, reject) => {
-            this.fbsorageservice.readAll(eCollections.attentionSpaces).then((list: AttentionSpaces[]) => {
+            this.fbDBservice.readAll(eCollections.attentionSpaces).then((list: AttentionSpaces[]) => {
                 // console.log("attentionSpaces: ", list)
                 resolve(list);
             }).catch((error) => {
@@ -97,7 +97,7 @@ export class CalendarService {
     }
     async getProfecionals(): Promise<Profesional[]> {
         return new Promise((resolve, reject) => {
-            this.fbsorageservice.readAll(eCollections.users).then((list: ClinicUser[]) => {
+            this.fbDBservice.readAll(eCollections.users).then((list: ClinicUser[]) => {
                 let profesionals: Profesional[] = list.filter((user: ClinicUser) => user.type == eUserTypes.profesional) as Profesional[];
                 // console.log("profesionals: ", profesionals)
                 resolve(profesionals);
@@ -110,7 +110,7 @@ export class CalendarService {
     }
     async getSpecialties(): Promise<Specialties[]> {
         return new Promise((resolve, reject) => {
-            this.fbsorageservice.readAll(eCollections.specialties).then((list: Specialties[]) => {
+            this.fbDBservice.readAll(eCollections.specialties).then((list: Specialties[]) => {
                 // console.log("specialties: ", list)
                 resolve(list);
             }).catch((error) => {

@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <app-table [objList]="tablelistFiltered" [hideCols]="hideCols" (selection)="onSelect($event)"></app-table><!-- [actions]="actions" (action)="onTableEvent($event)" -->
+    <app-table [objList]="tablelistFiltered" [hideCols]="hideCols" [actions]="actions" (action)="onTableEvent($event)"></app-table><!--  (selection)="onSelect($event)"  -->
 </div>
 <!-- <div *ngIf="users">
     <c-table [objList]="users" [actions]="actions" [cols]="tableCols" (action)="onTableEvent($event)"></c-table>

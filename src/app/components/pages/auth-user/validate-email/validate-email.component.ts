@@ -16,7 +16,9 @@ export class ValidateEmailComponent implements OnInit {
             (userFB: firebase.User) => {
                 console.log("profile userFB", userFB)
                 this.userMail = (userFB) ? userFB.email : null;
-                if (this.userMail) this.fbauthservice.SendVerificationMail();
+                setTimeout(() => {
+                    if (this.userMail) this.fbauthservice.SendVerificationMail();
+                }, 2000);
             }
         )
     }

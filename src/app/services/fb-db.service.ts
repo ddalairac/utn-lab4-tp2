@@ -7,7 +7,7 @@ import { LoaderService } from './loader.service';
 @Injectable({
     providedIn: 'root'
 })
-export class FbStorageService {
+export class FbDBService {
 
     constructor(
         private loader: LoaderService,

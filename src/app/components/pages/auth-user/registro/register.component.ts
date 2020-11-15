@@ -8,7 +8,7 @@ import { Admin, ClinicUser, eUserTypes, Patient, Profesional, Specialties } from
 import { eCollections, iAuthError } from '../../../../class/firebase.model';
 import { CaptchaService } from '../../../../services/captcha.service';
 import { FbAuthService } from '../../../../services/fb-auth.service';
-import { FbStorageService } from '../../../../services/fb-storage.service';
+import { FbDBService } from '../../../../services/fb-db.service';
 //para poder hacer las validaciones
 //import { Validators, FormBuilder, FormControl, FormGroup} from '@angular/forms';
 @Component({
@@ -20,7 +20,7 @@ export class RegisterComponent implements OnInit {
 
     constructor(private fbauthservice: FbAuthService,
         private router: Router,
-        private fbsorageservice: FbStorageService,
+        private fbDBservice: FbDBService,
         private captchaService: CaptchaService
     ) { }
 
@@ -64,7 +64,7 @@ export class RegisterComponent implements OnInit {
 
     ngOnInit() {
         this.reCaptchaKey = environment.reCAPTCHAWeb;
-        this.fbsorageservice.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
+        this.fbDBservice.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
     }
     private isValid(): boolean {
         let res:boolean = true
@@ -86,13 +86,13 @@ export class RegisterComponent implements OnInit {
         if (this.isValid()) {
             switch (this.type.value) {
                 case eUserTypes.admin:
-                    userInfo = new Admin(this.type.value, this.email.value, this.name.value, this.lastname.value, this.picture.value);
+                    userInfo = new Admin(this.email.value,this.pass.value, this.name.value, this.lastname.value);
                     break;
                 case eUserTypes.patient:
-                    userInfo = new Patient(this.type.value, this.email.value, this.name.value, this.lastname.value, this.picture.value);
+                    userInfo = new Patient(this.email.value,this.pass.value, this.name.value, this.lastname.value);
                     break;
                 case eUserTypes.profesional:
-                    userInfo = new Profesional(this.type.value, this.email.value, this.name.value, this.lastname.value, this.picture.value, this.specialty.value);
+                    userInfo = new Profesional(this.email.value,this.pass.value, this.name.value, this.lastname.value, this.specialty.value);
                     break;
             }
             this.fbauthservice.register(this.email.value, this.pass.value, this.rememberMe.value, userInfo)

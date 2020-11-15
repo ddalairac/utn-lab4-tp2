@@ -4,8 +4,8 @@ import { Profesional, Patient, Admin, eUserTypes, Specialties } from '../../../c
 import { eCollections } from '../../../class/firebase.model';
 import { DAYS } from '../../../services/calendar-service.service';
 import { FbAuthService } from '../../../services/fb-auth.service';
-import { FbStorageService } from '../../../services/fb-storage.service';
-import { FbStoreService } from '../../../services/fb-store.service';
+import { FbDBService } from '../../../services/fb-db.service';
+import { FbFilesService } from '../../../services/fb-files.service';
 
 @Component({
     selector: 'app-profile',
@@ -51,7 +51,7 @@ export class ProfileComponent implements OnInit {
 
     userForm: FormGroup = new FormGroup({})
 
-    constructor(private fbauthservice: FbAuthService, private fbStore: FbStoreService, private fbStorage: FbStorageService) { }
+    constructor(private fbauthservice: FbAuthService, private fbFiles: FbFilesService, private fbStorage: FbDBService) { }
 
     ngOnInit(): void {
         this.fbStorage.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
@@ -203,7 +203,7 @@ export class ProfileComponent implements OnInit {
     }
     public onFileLoad(event) {
         console.log("onFileLoad: ", event)
-        this.fbStore.fileupLoad('users', event).then(
+        this.fbFiles.fileupLoad('users', event).then(
             img => {
                 console.log("uploaded img: ", img)
                 this.userInfo.picture = img

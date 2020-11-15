@@ -5,7 +5,7 @@ import { Appointment, ClinicHistory, ClinicUser, ExtraData } from '../../../../.
 import { eCollections, iAuthError } from '../../../../../class/firebase.model';
 import { CalendarService } from '../../../../../services/calendar-service.service';
 import { FbAuthService } from '../../../../../services/fb-auth.service';
-import { FbStorageService } from '../../../../../services/fb-storage.service';
+import { FbDBService } from '../../../../../services/fb-db.service';
 import { CalendarModalComponent } from '../../../../cross/calendar-modal/calendar-modal.component';
 
 @Component({
@@ -18,7 +18,7 @@ export class ClinicHistoryModalProComponent implements OnInit {
     currentUser: ClinicUser;
     constructor(private authservice: FbAuthService,
         private calendarService:CalendarService,
-        private fbsorageservice: FbStorageService,
+        private fbDBservice: FbDBService,
         public dialogRef: MatDialogRef<CalendarModalComponent>,
         @Inject(MAT_DIALOG_DATA) public data: Appointment) { }
 
@@ -58,7 +58,7 @@ export class ClinicHistoryModalProComponent implements OnInit {
             extra_data: extra_data,
             text: text
         }
-        this.fbsorageservice.create(eCollections.clinicHistory, ch).then(()=>{
+        this.fbDBservice.create(eCollections.clinicHistory, ch).then(()=>{
             this.data.clinicHistoryCompleted = true;
             this.calendarService.updateAppointment(this.data.id,this.data)
             this.dialogRef.close();

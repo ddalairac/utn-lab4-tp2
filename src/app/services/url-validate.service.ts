@@ -13,99 +13,50 @@ export class UrlValidateService {
         return this.checkRoute(this.router.url);
         // return this.checkRoute(state.url);
     }
-    private checkRoute(path:string):boolean{
+    private checkRoute(path: string): boolean {
 
-        let type: eUserTypes | null = this.fbauthservice.type;
+        // let type: eUserTypes | null = this.fbauthservice.type;
+        let userData = this.fbauthservice.userInfo$.getValue()
+        let userFB = this.fbauthservice.userFB$.getValue()
 
-        console.log("valid url:", type, path)
-        if (!type) {
+        // console.log("valid url:", path)
+        if (!userData || !userData.type) {
             this.router.navigate(['/authuser'])
             return false;
         } else {
-            switch (type) {
-                case eUserTypes.admin:
-                    switch (path) {
-                        case './patients':
-                        case './profesionals':
-                            this.router.navigate(['/home'])
-                            return false
-                    }
-                    break
-                case eUserTypes.patient:
-                    switch (path) {
-                        case './admin':
-                        case './profesionals':
-                            this.router.navigate(['/home'])
-                            return false
-                    }
-                    break
-                case eUserTypes.profesional:
-                    switch (path) {
-                        case './admin':
-                        case './patients':
-                            this.router.navigate(['/home'])
-                            return false
-                    }
-                    break
+            if (!userFB.emailVerified && !(userFB.email == 'paciente@gmail.com'  || userFB.email == 'profesional@gmail.com' || userFB.email == 'admin@gmail.com')) {
+                this.router.navigateByUrl('validate-email');
+            } else {
+                switch (userData.type) {
+                    case eUserTypes.admin:
+                        switch (path) {
+                            case './patients':
+                            case './profesionals':
+                                this.router.navigate(['/home'])
+                                return false
+                        }
+                        break
+                    case eUserTypes.patient:
+                        switch (path) {
+                            case './admin':
+                            case './profesionals':
+                                this.router.navigate(['/home'])
+                                return false
+                        }
+                        break
+                    case eUserTypes.profesional:
+                        switch (path) {
+                            case './admin':
+                            case './patients':
+                                this.router.navigate(['/home'])
+                                return false
+                        }
+                        break
+                }
             }
         }
         return true;
 
-
-        // console.log("checkRoute: ",this.router.url)
-        // if (path === '/authuser') {
-        //     return true;
-
-        // } else if(this.fbauthservice.isLogged$){
-        //     return true;
-        // }
-        // this.router.navigate(['/authuser'])
-        // return false;
-
-
-
-
-
-        // this.fbauthservice.userInfo$.subscribe(
-        //     (user: ClinicUser) => {
-        //         console.log("valid url user:", user)
-        //         if (!user) {
-        //             this.router.navigate(['/authuser'])
-        //             return false;
-        //         } else {
-        //             switch (user.type) {
-        //                 case eUserTypes.admin:
-        //                     switch (path) {
-        //                         case './patients':
-        //                         case './profesionals':
-        //                             this.router.navigate(['/home'])
-        //                             return false
-        //                     }
-        //                     break
-        //                 case eUserTypes.patient:
-        //                     switch (path) {
-        //                         case './admin':
-        //                         case './profesionals':
-        //                             this.router.navigate(['/home'])
-        //                             return false
-        //                     }
-        //                     break
-        //                 case eUserTypes.profesional:
-        //                     switch (path) {
-        //                         case './admin':
-        //                         case './patients':
-        //                             this.router.navigate(['/home'])
-        //                             return false
-        //                     }
-        //                     break
-        //                 default:
-        //                     return true
-        //             }
-        //         }
-        //     }
-        // );
-        // console.log("valid url path:",path )
-        // return true
     }
 }
 
