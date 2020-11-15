@@ -24,9 +24,9 @@ export class UrlValidateService {
             this.router.navigate(['/authuser'])
             return false;
         } else {
-            if (!userFB.emailVerified && !(userFB.email == 'paciente@gmail.com'  || userFB.email == 'profesional@gmail.com' || userFB.email == 'admin@gmail.com')) {
-                this.router.navigateByUrl('validate-email');
-            } else {
+            // if (!userFB.emailVerified && !(userFB.email == 'paciente@gmail.com'  || userFB.email == 'profesional@gmail.com' || userFB.email == 'admin@gmail.com')) {
+            //     this.router.navigateByUrl('validate-email');
+            // } else {
                 switch (userData.type) {
                     case eUserTypes.admin:
                         switch (path) {
@@ -53,7 +53,7 @@ export class UrlValidateService {
                         }
                         break
                 }
-            }
+            // }
         }
         return true;
 

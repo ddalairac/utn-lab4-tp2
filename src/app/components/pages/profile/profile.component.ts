@@ -57,13 +57,13 @@ export class ProfileComponent implements OnInit {
         this.fbStorage.readAll(eCollections.specialties).then((list) => this.specialtiesList = list)
         this.fbauthservice.userFB$.subscribe(
             (userFB: firebase.User) => {
-                console.log("profile userFB", userFB)
+                // console.log("profile userFB", userFB)
                 this.userMail = (userFB) ? userFB.email : null;
             }
         )
         this.fbauthservice.userInfo$.subscribe(
             (userInfo: Profesional | Patient | Admin) => {
-                console.log("profile userInfo", userInfo)
+                // console.log("profile userInfo", userInfo)
                 this.userInfo = userInfo;
                 if (userInfo) {
                     this.createFormGroup(userInfo.type)

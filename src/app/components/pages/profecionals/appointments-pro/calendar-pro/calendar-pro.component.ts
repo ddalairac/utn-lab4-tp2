@@ -130,7 +130,7 @@ export class CalendarProComponent implements OnInit {
         console.log("handleEvent: ", action, event)
     }
     beforeViewRender(event) {
-        console.log("beforeViewRender", event)
+        // console.log("beforeViewRender", event)
     }
     deleteEvent(eventToDelete: CalendarEvent) {
         this.events = this.events.filter((event) => event !== eventToDelete);

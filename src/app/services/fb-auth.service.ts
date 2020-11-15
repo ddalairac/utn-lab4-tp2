@@ -91,12 +91,19 @@ export class FbAuthService {
             console.error("recoverPass", error)
         });
     }
+    esperaEnvioMail: boolean
     public async SendVerificationMail() {
-        (await this.fireAuth.currentUser).sendEmailVerification().then(() => {
-            console.log('email sent');
-        }).catch((error) => {
-            console.error("SendVerificationMail", error)
-        });
+        if (this.esperaEnvioMail) {
+            setTimeout(() => {
+                this.esperaEnvioMail = false
+            }, 50000);
+            (await this.fireAuth.currentUser).sendEmailVerification().then(() => {
+                console.log('email sent');
+            }).catch((error) => {
+                console.error("SendVerificationMail", error)
+            });
+        }
+        this.esperaEnvioMail = true
     }
     public async registerNewUser(email: string, clave: string, userData: ClinicUser) {
         this.loader.show();
@@ -123,17 +130,17 @@ export class FbAuthService {
         let rememberMe: boolean = (window.localStorage.getItem("user")) ? true : false;
         let FBuser: firebase.User
         let FBDelete: boolean
-        console.log("DBuser", DBuser)
+        // console.log("DBuser", DBuser)
         setTimeout(() => {
             return new Promise(async (resolve) => {
                 // loguear al usuario a borrar
                 await this.fireAuth.signInWithEmailAndPassword(DBuser.mail, DBuser.pass).then(async () => {
-                    console.log("sing in DBuser")
+                    // console.log("sing in DBuser")
                     // borrar usuario
                     FBuser = await this.fireAuth.currentUser;
-                    console.log("FBuser", FBuser)
+                    // console.log("FBuser", FBuser)
                     await FBuser.delete().then(async () => { })
-                    console.log("delete FBuser")
+                    // console.log("delete FBuser")
                     FBDelete = true
                 }).catch((error: iAuthError) => {
                     console.error("removeFBUser", error)
@@ -143,7 +150,7 @@ export class FbAuthService {
 
                 setTimeout(() => {
                     // borrar usuario de la DB
-                    console.log("logg user", backUser)
+                    // console.log("logg user", backUser)
                     // loguear al Admin / user anterior
                     if (FBDelete) {
                         this.singIn(backUser.mail, backUser.pass, rememberMe).then(() => {
@@ -155,7 +162,7 @@ export class FbAuthService {
                             resolve(false)
                         }).finally(() => this.loader.hide())
                     } else {
-                        console.log("Problema al eleiminar usuario de FB")
+                        // console.log("Problema al eleiminar usuario de FB")
                     }
                 }, 100);
 
@@ -211,6 +218,8 @@ export class FbAuthService {
 
     private async createUserInfoRegiuster(uid: string, userData: ClinicUser) {
         userData.uid = uid;
+        userData = JSON.parse(JSON.stringify(userData));
+
         this.fbDBservice.create(eCollections.users, userData).catch(error => console.error("createUserInfoRegiuster", error));
     }
 

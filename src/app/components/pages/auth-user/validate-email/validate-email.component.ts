@@ -14,11 +14,9 @@ export class ValidateEmailComponent implements OnInit {
     ngOnInit(): void {
         this.fbauthservice.userFB$.subscribe(
             (userFB: firebase.User) => {
-                console.log("profile userFB", userFB)
+                // console.log("profile userFB", userFB)
                 this.userMail = (userFB) ? userFB.email : null;
-                setTimeout(() => {
                     if (this.userMail) this.fbauthservice.SendVerificationMail();
-                }, 2000);
             }
         )
     }

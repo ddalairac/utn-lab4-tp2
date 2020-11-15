@@ -88,7 +88,7 @@ export class AppointmentsProComponent implements OnInit {
                 return event;
             }
         })
-        console.log("appointment events", events)
+        // console.log("appointment events", events)
         return events
     }
 

@@ -36,12 +36,13 @@ export class Profesional extends ClinicUser {
         this.horarios_atencion = horarios_atencion
         this.estaAceptado = estaAceptado
         this.valoracion = valoracion
+
     }
     specialty: string[];
     tiempoTurno: number; // 30m o mas
-    horarios_atencion: HorariosAtencion; //dentro del rango
     estaAceptado: boolean;
     valoracion: number; // 1 a 5 
+    horarios_atencion: HorariosAtencion; //dentro del rango
 }
 export class Patient extends ClinicUser {
     constructor(mail: string, pass: string, name: string, lastname: string, uid: string = '') {
