@@ -23,8 +23,8 @@
                     <h4>Mas proximo</h4>
                     <p>{{newAppointment?.specialty}}</p>
                     <p>{{newAppointment?.profesional?.lastname}}, {{newAppointment?.profesional?.lastname}}</p>
-                    <p>{{newAppointment?.start}}</p>
-                    <p>{{newAppointment?.end}}</p>
+                    <p>{{newAppointment?.start | dateFormat}}</p>
+                    <p>{{newAppointment?.end | dateFormat}}</p>
                     <button mat-raised-button  color="primary" (click)="onAceptAppointment()">Solicitar turno</button>
                 </div>
                 <div class="card">

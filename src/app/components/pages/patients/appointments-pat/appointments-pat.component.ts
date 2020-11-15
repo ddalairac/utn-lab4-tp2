@@ -32,7 +32,7 @@ export class AppointmentsPatComponent implements OnInit {
             // console.log("current user appointment", user)
             // this.calendar.getAppointmentsList() 
             this.subscribeToAppointments()
-            // this.getTablas();
+            this.getTablas();
         })
     }
     private subscribeToAppointments() {

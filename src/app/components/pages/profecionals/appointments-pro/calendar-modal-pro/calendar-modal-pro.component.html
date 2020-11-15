@@ -3,8 +3,8 @@
     <!-- <pre>{{appointment | json}}</pre> -->
 
     <div *ngIf="appointment">
-        <p>{{appointment?.start}}</p>
-        <p>{{appointment?.end}}</p>
+        <p>{{appointment?.start | dateFormat}}</p>
+        <p>{{appointment?.end | dateFormat}}</p>
         <p>{{appointment?.specialty}}</p>
         <p>{{appointment?.pacient?.lastname}}, {{appointment?.pacient?.lastname}}</p>
     </div>

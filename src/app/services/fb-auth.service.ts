@@ -98,7 +98,6 @@ export class FbAuthService {
             console.error("SendVerificationMail", error)
         });
     }
-
     public async registerNewUser(email: string, clave: string, userData: ClinicUser) {
         this.loader.show();
         return new Promise((resolve, reject) => {

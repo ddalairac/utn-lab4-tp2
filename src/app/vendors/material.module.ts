@@ -13,6 +13,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatSliderModule } from '@angular/material/slider';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatIconModule } from '@angular/material/icon';
 // import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 @NgModule({
@@ -30,7 +31,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
         // MatDividerModule,
         // MatExpansionModule,
         // MatGridListModule,
-        // MatIconModule,
+        MatIconModule,
         MatInputModule,
         // MatListModule,
         // MatMenuModule,

@@ -1,7 +1,31 @@
 <h2>Listado de usuarios</h2>
 
-<div *ngIf="tablelist">
-    <app-table [objList]="tablelist" [actions]="actions" [hideCols]="hideCols" (action)="onTableEvent($event)"></app-table>
+<p>{{date | dateFormat}}</p>
+<div *ngIf="tablelistFiltered">
+    <div class="card">
+        <!-- <h3>Filtros</h3> -->
+        <div class="row">
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-label>Buscar</mat-label>
+                    <button mat-button *ngIf="filtroTexto" matSuffix mat-icon-button aria-label="Borrar" (click)="filtroTexto=''; onFilter()">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                    <input type="text" matInput [(ngModel)]="filtroTexto" (keyup)="onFilter()">
+                </mat-form-field>
+            </div>
+            <div class="col-md-6">
+                <mat-form-field>
+                    <mat-label>Tipo</mat-label>
+                    <mat-select matNativeControl [(ngModel)]="filtroTipo" (selectionChange)="onFilter()">
+                        <mat-option *ngFor="let item of tytpesList" [value]="item.value">{{item.viewValue}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+
+    <app-table [objList]="tablelistFiltered" [hideCols]="hideCols" (selection)="onSelect($event)"></app-table><!-- [actions]="actions" (action)="onTableEvent($event)" -->
 </div>
 <!-- <div *ngIf="users">
     <c-table [objList]="users" [actions]="actions" [cols]="tableCols" (action)="onTableEvent($event)"></c-table>

@@ -47,6 +47,8 @@ import { RecaptchaModule, RecaptchaFormsModule } from 'ng-recaptcha';
 import { HttpClientModule } from '@angular/common/http';
 import { ClinicHistoryModalProComponent } from './components/pages/profecionals/clinic-history-form/clinic-history-modal-pro/clinic-history-modal-pro.component';
 import { NewAppointmentComponent } from './components/pages/patients/new-appointment/new-appointment.component';
+import { DateFormatPipe } from './utils/date-format.pipe';
+import { BooleanCheckDirective } from './utils/boolean-check.directive';
 
 @NgModule({
   declarations: [
@@ -83,7 +85,9 @@ import { NewAppointmentComponent } from './components/pages/patients/new-appoint
     CalendarProComponent,
     CalendarModalProComponent,
     ClinicHistoryModalProComponent,
-    NewAppointmentComponent
+    NewAppointmentComponent,
+    DateFormatPipe,
+    BooleanCheckDirective
   ],
   imports: [
     BrowserModule,

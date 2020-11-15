@@ -1,7 +1,7 @@
 <h1>Historia Clinica</h1>
 <p><strong>Paciente:</strong> {{data.patient.lastname}}, {{data.patient.name}}</p>
 <p><strong>Turno:</strong> {{data.specialty}}</p>
-<p><strong>Turno:</strong> {{data.start}}</p>
+<p><strong>Turno:</strong> {{data.start | dateFormat}}</p>
 <form [formGroup]="clinicHistoryForm" (ngSubmit)="onSubmit()">
 <div class="row">
     <div class="col-md-4">
