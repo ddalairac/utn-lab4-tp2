@@ -1,5 +1,5 @@
 
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CalendarEvent, CalendarEventAction } from 'angular-calendar';
 import { ClinicUser, Appointment, AttentionSpaces, Profesional, Specialties } from '../../../../class/data.model';
 import { CalendarService, CALCOLORS } from '../../../../services/calendar-service.service';
@@ -15,8 +15,8 @@ export class AppointmentsPatComponent implements OnInit {
     profesionals: Profesional[];
     specialties: Specialties[];
     selectAttentionSpace: AttentionSpaces;
-    selectProfesional: Profesional;
-    selectSpecialty: Specialties;
+    @Input()selectSpecialty: Specialties;
+    @Input()selectProfesional: Profesional;
 
     currentUser: ClinicUser
     // filterdEvents: CalendarEvent<Appointment>[] = []
@@ -30,9 +30,9 @@ export class AppointmentsPatComponent implements OnInit {
         this.authservice.userInfo$.subscribe((user: ClinicUser) => {
             this.currentUser = user;
             // console.log("current user appointment", user)
-            this.calendar.getAppointmentsList() 
+            // this.calendar.getAppointmentsList() 
             this.subscribeToAppointments()
-            this.getTablas();
+            // this.getTablas();
         })
     }
     private subscribeToAppointments() {

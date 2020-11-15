@@ -1,13 +1,22 @@
+
 <table class="table" *ngIf="objList">
-    <!-- <thead>
+    <thead *ngIf="cols.length > 1 || actions.length > 0">
         <tr>
-            <th *ngFor="let col of colNames" (click)="onSortByCol(col)">{{col}}</th>
+            <th *ngFor="let col of cols" (click)="onSortByCol(col.key)">{{col.translate}}</th>
             <th *ngIf="actions.length > 0">Acciones</th>
         </tr>
-    </thead> -->
+    </thead>
     <tbody>
-        <t2-row *ngFor="let obj of objList; let rowIndex = index" [obj]="obj" [objSelected]="objSelected" [index]="rowIndex" [actions]="actions">
-            <t2-col *ngFor="let dato of rowData(obj); let colIndex = index" [colName]="colNames[colIndex]" [dato]="dato"></t2-col>
-        </t2-row>
+        <tr *ngFor="let obj of objList; let rowIndex = index" (click)="onSelect(obj)" [class.active]="obj == objSelected">
+            <td *ngFor="let dato of rowData(obj); let colIndex = index" [attr.data-before]="cols[colIndex].translate" [class.cols]="rowData(obj).length > 1">
+                <img [src]="dato" alt="" *ngIf="isImg(dato)">
+                <spam *ngIf="!isImg(dato)">{{dato}} </spam>
+            </td>
+            <td *ngIf="actions.length > 0">
+                <button mat-icon-button aria-label="{{act.description}}" *ngFor="let act of actions" (click)="onAction(act.event, rowIndex)">
+                    <i class="{{act.icon}}"></i>
+                </button>
+            </td>
+        </tr>
     </tbody>
 </table>

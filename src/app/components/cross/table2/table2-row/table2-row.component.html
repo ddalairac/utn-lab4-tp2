@@ -1,9 +1,0 @@
-<tr  (click)="onSelect(obj)" [class.active]="obj == objSelected">
-    <!-- <t2Col *ngFor="let dato of rowData(obj); let colIndex = index" [colName]="colNames[colIndex]"></t2Col> -->
-    <ng-content></ng-content>
-    <td *ngIf="actions.length > 0">
-        <button mat-icon-button aria-label="{{act.description}}" *ngFor="let act of actions" (click)="onAction(act.event, rowIndex)">
-            <i class="{{act.icon}}"></i><!-- {{act.description}} {{rowIndex}} -->
-        </button>
-    </td>
-</tr>

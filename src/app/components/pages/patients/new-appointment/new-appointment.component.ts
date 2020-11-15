@@ -96,7 +96,7 @@ export class NewAppointmentComponent implements OnInit {
     }
     onAceptAppointment(){
         this.calendar.createAppointment(this.newAppointment);
-        this.router.navigateByUrl('/home')
+        // this.router.navigateByUrl('/home')
     }
 
     public stepper(goto: eNavSteps) {

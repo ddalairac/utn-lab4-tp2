@@ -34,6 +34,7 @@ import { MainMenuComponent } from './components/cross/main-menu/main-menu.compon
 import { ProfileComponent } from './components/pages/profile/profile.component';
 import { UsersListComponent } from './components/pages/admin/users-list/users-list.component';
 import { TableComponent } from './components/cross/table/table.component';
+import { Table2Component } from './components/cross/table2/table2.component';
 import { ValidateEmailComponent } from './components/pages/auth-user/validate-email/validate-email.component';
 import { NewUserComponent } from './components/pages/admin/users-list/new-user/new-user.component';
 import { AppointmentsPatComponent } from './components/pages/patients/appointments-pat/appointments-pat.component';
@@ -56,6 +57,7 @@ import { NewAppointmentComponent } from './components/pages/patients/new-appoint
     MenuComponent,
     MainMenuComponent,
     TableComponent,
+    Table2Component,
     CalendarModalComponent,
     // pages
     AuthUserComponent,

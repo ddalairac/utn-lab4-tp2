@@ -6,5 +6,9 @@ export interface iTableAction{
 export interface iTableEvent{
     action:string
     index:number
-    obj:any
 }
+export interface iTableCol{
+    key:string
+    translate:string
+}
+

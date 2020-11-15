@@ -37,10 +37,17 @@ export class CalendarService {
         }
         return appointment
     }
-
+    public sortAppointments(list: Appointment[]){
+        return list.sort((a:Appointment,b:Appointment)=>{
+            if (a.start > b.start) return 1
+            if (a.start < b.start) return -1
+            return 0
+        })
+    }
     public getAppointmentsList(): void {
         this.fbsorageservice.readAll(eCollections.appointments).then((list: Appointment[]) => {
             list = list.map((itm) => { return this.apTimestampToDate(itm) })
+            list = this.sortAppointments(list)
             console.log("getAppointmentsList: ", list)
             this.appointments$.next(list);
         }).catch((error) => {
@@ -288,6 +295,8 @@ export class CalendarService {
                 ...this.getDisableSaturdaysAppointments(),
                 ...this.getDisableProfesionalAppointments(profesional)
             ]
+            appointments = this.sortAppointments(appointments)
+            // console.log("appointments", appointments)
             if (profesional) {
                 let phh = profesional.horarios_atencion;
 
@@ -299,13 +308,13 @@ export class CalendarService {
                     let day: Date = addDays(today, index)
                     let dayName = this.getDayName(day)
                     let dhh: iHorarioAtencion = phh[dayName.toLowerCase()] as iHorarioAtencion;
-                    console.log(day, dayName, dhh)
+                    console.log(dayName, day, dhh)
                     let firsthour: number = parseInt(dhh.start.split(':')[0])
                     let lastHour: number = parseInt(dhh.end.split(':')[0])
                     let first: Date = addHours(startOfDay(new Date(day)), firsthour)
                     let last: Date = addHours(startOfDay(new Date(day)), lastHour)
-                    let newApDates = this.findAvailableAppointmentInDay(first, last, appointments, appDuration)
-                    console.log("new appointment dates", newApDates)
+                    let newApDates = this.findAvailableAppointmentInDay(today, first, last, appointments, appDuration)
+                    // console.log("new appointment dates", newApDates)
                     if (newApDates) {
                         let newAppointment = this.setAppointment(newApDates[0], newApDates[1], profesional, speciality, patient)
                         console.log("new appointment dates", newAppointment)
@@ -318,24 +327,44 @@ export class CalendarService {
 
         })
     }
-    private findAvailableAppointmentInDay(first: Date, last: Date, appointments: Appointment[], appDuration: number): Date[] | boolean {
+    private findAvailableAppointmentInDay(today: Date, first: Date, last: Date, appointments: Appointment[], appDuration: number): Date[] | boolean {
         let found = false
         let newApStart: Date = new Date(first)
         let newApEnd: Date = addMinutes(new Date(first), appDuration)
-        console.log("Turnos buscar", newApStart, newApEnd)
+        // console.log("Turnos buscar", newApStart, newApEnd)
+        console.log("--------------------------------")
         for (let index = 0; index < appointments.length; index++) {
             const ap = appointments[index];
 
-            let apStart: Date = new Date(ap.start)
-            let apEnd: Date = new Date(ap.end)
-            if (first >= apStart && apEnd <= last) {
-                if ((apStart < newApStart && newApStart < apEnd) || (apStart < newApEnd && newApEnd < apEnd)) {
-                    newApStart = addMinutes(newApStart, appDuration)
-                    newApEnd = addMinutes(newApEnd, appDuration)
-                } else {
-                    console.log("Turnos ENCONTRADO", newApStart, newApEnd)
-                    found = true;
-                    break;
+            // console.log("today      ", today,)
+            // console.log("ap.start   ", ap.start,)
+            // console.log("newApStart ", newApStart)
+            // console.log("ap.end     ", ap.end)
+            console.log("first      ", first)
+            console.log("last       ", last)
+            // console.log("today < newApStart ", today < newApStart)
+            // console.log("(first <= ap.start) ", (first <= ap.start))
+            // console.log("(ap.end >= last) ", (ap.end >= last))
+            if (today < newApStart) {
+                if (first <= ap.start && ap.end >= last) {
+
+                    console.log("ap.start   ", ap.start,)
+                    console.log("ap.end     ", ap.end)
+                    console.log("newApStart ", newApStart)
+                    console.log("(ap.start < newApStart && newApStart < ap.end) ", (ap.start < newApStart && newApStart < ap.end))
+                    console.log("(ap.start < newApEnd && newApEnd < ap.end) ", (ap.start < newApEnd && newApEnd < ap.end))
+                    while (newApEnd < last) {
+                        if ((ap.start < newApStart && newApStart < ap.end) || (ap.start < newApEnd && newApEnd < ap.end)) {
+                            newApStart = addMinutes(newApStart, appDuration)
+                            newApEnd = addMinutes(newApEnd, appDuration)
+                            console.log("newApStart ", newApStart)
+                        } else {
+                            console.log("Turnos ENCONTRADO", newApStart, newApEnd)
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (found) break
                 }
             }
         }

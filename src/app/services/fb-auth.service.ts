@@ -49,6 +49,17 @@ export class FbAuthService {
                                 this.router.navigateByUrl('validate-email');
                             }else {
                                 this.router.navigateByUrl('home');
+                                switch (this.type) {
+                                    case eUserTypes.admin:
+                                                this.router.navigate(['/admins/users'])
+                                        break
+                                    case eUserTypes.patient:
+                                                this.router.navigate(['/patients/new-appointment'])
+                                        break
+                                    case eUserTypes.profesional:
+                                                this.router.navigate(['/profesionals/appointments'])
+                                        break
+                                }
                             }
                             // this.router.navigateByUrl('patients/appointments');
                             // this.router.navigateByUrl('profesionals/appointments');

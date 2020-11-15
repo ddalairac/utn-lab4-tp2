@@ -1,9 +1,11 @@
-<p>users-list works!</p>
+<h2>Listado de usuarios</h2>
 
-<div *ngIf="users">
-    <app-table [objList]="users" [actions]="actions" [hideCols]="hideCols" (action)="onTableEvent($event)"></app-table>
+<div *ngIf="tablelist">
+    <app-table [objList]="tablelist" [actions]="actions" [hideCols]="hideCols" (action)="onTableEvent($event)"></app-table>
 </div>
+<!-- <div *ngIf="users">
+    <c-table [objList]="users" [actions]="actions" [cols]="tableCols" (action)="onTableEvent($event)"></c-table>
+</div> -->
 <button mat-fab color aria-label="nuevo usuario" (click)="onNewUser()">
-<!-- <button mat-icon-button aria-label="nuevo usuario" (click)="onNewUser()"> -->
     <i class="fas fa-plus"></i>
 </button>

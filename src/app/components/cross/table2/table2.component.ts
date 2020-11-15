@@ -1,61 +1,36 @@
-import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
-import { iTableAction, iTableEvent } from '../table/table.model';
+import { OnChanges, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { iTableAction, iTableCol, iTableEvent } from './table2.model';
 
 @Component({
-  selector: 'table2',
-  templateUrl: './table2.component.html',
-  styleUrls: ['./table2.component.scss']
+    selector: 'c-table',
+    templateUrl: './table2.component.html',
+    styleUrls: ['./table2.component.scss']
 })
-export class Table2Component implements OnChanges {
+export class Table2Component {
 
-  
-    @Input() objList: any[];
-    @Input() hideCols: string[] = ['id'];
+    @Input() objList: any[] = [];
+    @Input() cols: iTableCol[] = [];
     @Input() actions: iTableAction[] = [];
     @Output() selection: EventEmitter<any> = new EventEmitter<any>();
     @Output() action: EventEmitter<iTableEvent> = new EventEmitter<iTableEvent>();
-    colNames: string[];
+    // rows: any[];
     objSelected: any;
     sortBy: string;
     sortOrientation: boolean;
     private lastSortBy: string;
     constructor() { }
 
-    ngOnChanges(changes: SimpleChanges): void {
-        let list: any[] = changes.objList.currentValue
-        if (list) {
-            console.log("objList", list)
-            this.colNames = this.setColNames(list)
-        }
-    }
-    public setColNames(objList: any[]): string[] {
-        let cols: string[] = []
-        if (objList && objList[0]) {
-            for (let col in objList[0]) {
-                // console.log("col",col)
-                if (!this.hideCols.includes(col)) {
-                    col = col.split("_").join(" ")
-                    cols.push(col)
-                }
-            }
-        }
-        cols = cols.sort()
-        console.log("cols",cols)
-        return cols
-    }
     public rowData(row: any): string[] {
         let datos: string[] = []
-        // console.log("row", row)
-        let aux = this.sortByKey(row)
-        if (aux) {
-            for (let col in aux) {
-                // console.log("dato",row[dato])
-                if (!this.hideCols.includes(col)) {
-                    datos.push(aux[col])
-                }
+        this.cols.forEach(e => {
+            if (row[e.key]) {
+                datos.push(row[e.key]);
+            } else {
+                datos.push('');
             }
-        }
-        // console.log("datos",datos)
+        });
+        // console.log("datos", datos)
         return datos
     }
     public isImg(dato): boolean {
@@ -66,11 +41,6 @@ export class Table2Component implements OnChanges {
             }
         }
         return false
-    }
-    private sortByKey(obj): any {
-        let sortObj: any = Object.entries(obj).sort().reduce((o, [k, v]) => (o[k] = v, o), {})
-        // console.log("sort", sortObj)
-        return sortObj
     }
     public onSortByCol(col: string): void {
         col = col.split(" ").join("_")
@@ -92,11 +62,10 @@ export class Table2Component implements OnChanges {
         if (this.actions.length == 0) {
             this.objSelected = obj;
             this.selection.emit(obj)
-            console.log("objSelected", this.objSelected)
+            // console.log("objSelected", this.objSelected)
         }
     }
     public onAction(action: string, index: number) {
         this.action.emit({ action: action, index: index });
     }
-
 }

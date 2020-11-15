@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Admin, Patient, Profesional, Specialties } from '../../../../class/data.model';
+import { Admin, ClinicUser, eUserTypes, Patient, Profesional, Specialties } from '../../../../class/data.model';
 import { eCollections } from '../../../../class/firebase.model';
 import { FbStorageService } from '../../../../services/fb-storage.service';
 import { iTableAction, iTableEvent } from '../../../cross/table/table.model';
+import { iTableCol } from '../../../cross/table2/table2.model';
 
 @Component({
     selector: 'app-users-list',
@@ -13,13 +14,18 @@ import { iTableAction, iTableEvent } from '../../../cross/table/table.model';
 export class UsersListComponent implements OnInit {
 
 
-    constructor(private fbsorageservice: FbStorageService, private router:Router) { }
+    constructor(private fbsorageservice: FbStorageService, private router: Router) { }
 
     ngOnInit(): void {
-        this.fbsorageservice.readAll(eCollections.users).then((list: Array<Profesional | Patient | Admin | null>) => { this.users = list; console.log(list) })
+        this.fbsorageservice.readAll(eCollections.users).then((list: ClinicUser[]) => {
+            // this.users = list;
+            this.tablelist =  this.setList(list)
+        })
     }
-    users: Array<Profesional | Patient | Admin | null> = []
-    hideCols: string[] = ['id', 'uid', 'specialty', 'tiempoTurno', 'horarios_atencion', 'estaAceptado', 'valoracion']
+    tablelist: iUserslist[] = []
+    hideCols: string[] = ['meta']
+    // users: ClinicUser[] = [] //Array<Profesional | Patient | Admin | null> = []
+    // tableCols: iTableCol[] = [{ key: 'picture', translate: 'Foto' },{ key: 'lastname', translate: 'apellido' }, { key: 'name', translate: 'nombre' }, { key: 'mail', translate: 'Mail' },  { key: 'type', translate: 'Tipo' }]
 
     actions: iTableAction[] = [
         {
@@ -36,10 +42,41 @@ export class UsersListComponent implements OnInit {
             event: "borrar"
         }
     ]
-    onTableEvent(event: iTableEvent) {
+    public onTableEvent(event: iTableEvent) {
         console.log("event", event)
     }
-    onNewUser(){
+    public onNewUser() {
         this.router.navigateByUrl('/admins/user-new')
     }
+
+    private setList(list: ClinicUser[]): iUserslist[] {
+        let tablelist: iUserslist[] = []
+        list.forEach((item: ClinicUser) => {
+            let type = ''
+            if (item.type == eUserTypes.admin) { type = "Administrador" }
+            if (item.type == eUserTypes.patient) { type = "Paciente" }
+            if (item.type == eUserTypes.profesional) { type = "Profesional" }
+
+            let listItem: iUserslist = {
+                apellido: item.lastname,
+                nombre: item.name,
+                mail: item.mail,
+                foto: item.picture,
+                tipo: type,
+                meta: item
+            }
+            tablelist.push(listItem)
+        })
+        // console.log("tablelist",tablelist)
+        return tablelist
+    }
+}
+
+interface iUserslist {
+    apellido: string;
+    nombre: string;
+    mail: string;
+    foto: string;
+    tipo: string;
+    meta: any
 }

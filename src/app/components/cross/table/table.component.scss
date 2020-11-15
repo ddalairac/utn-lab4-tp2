@@ -1,10 +1,9 @@
 @import "src/assets/scss/variables";
 
-img {
-    max-height: 40px;
-    margin: 8px 0;
+app-table {
+    display: block;
+    width: 100%;
 }
-
 table {
     border-collapse: collapse;
     width: 100%;
@@ -14,11 +13,18 @@ table {
     box-shadow: 3px 3px 5px 0px rgba(0, 0, 0, 0.5);
     border-radius: 5px;
     overflow: hidden;
+
+    img {
+        max-height: 40px;
+        margin: 8px 0;
+    }
+
     td,
     th {
         padding: 8px;
         text-align: left;
-        border-bottom: 1px solid $border-color;
+        border-bottom: 1px solid $border-color; 
+        vertical-align: middle;
         &:first-child {
             padding-left: 20px;
         }
@@ -43,9 +49,9 @@ table {
                 background-color: rgb(231, 231, 231);
             }
             &.active {
-                    background-color: $primary !important;
-                    color: white;
-                td:before{
+                background-color: $primary !important;
+                color: white;
+                td:before {
                     color: white;
                 }
             }
@@ -79,7 +85,6 @@ table {
             padding: 15px 6px;
             td {
                 position: relative;
-                padding-left: 50% !important;
                 border: none;
                 &:first-child {
                     border-radius: 5px 5px 0 0;
@@ -87,19 +92,21 @@ table {
                 &:last-child {
                     border-radius: 0 0 5px 5px;
                 }
-            }
-
-            td:before {
-                position: absolute;
-                color: black;
-                top: 6px;
-                left: 6px;
-                width: 45%;
-                padding-right: 10px;
-                white-space: nowrap;
-                content: attr(data-before);
-                font-weight: 300;
-                text-transform: capitalize;
+                &.cols {
+                    padding-left: 50% !important;
+                    &:before {
+                        position: absolute;
+                        color: black;
+                        top: 6px;
+                        left: 6px;
+                        width: 45%;
+                        padding-right: 10px;
+                        white-space: nowrap;
+                        content: attr(data-before);
+                        font-weight: 300;
+                        text-transform: capitalize;
+                    }
+                }
             }
         }
     }

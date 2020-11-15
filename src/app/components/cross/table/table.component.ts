@@ -24,7 +24,7 @@ export class TableComponent implements OnChanges {
     ngOnChanges(changes: SimpleChanges): void {
         let list: any[] = changes.objList.currentValue
         if (list) {
-            // console.log("objList", list)
+            console.log("objList", list)
             this.colNames = this.setColNames(list)
         }
     }
@@ -95,7 +95,7 @@ export class TableComponent implements OnChanges {
             // console.log("objSelected", this.objSelected)
         }
     }
-    public onAction(action: string, index: number) {
-        this.action.emit({ action: action, index: index });
+    public onAction(action: string, index: number, obj:any) {
+        this.action.emit({ action: action, index: index, obj:obj });
     }
 }
