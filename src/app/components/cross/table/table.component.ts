@@ -58,15 +58,15 @@ export class TableComponent implements OnChanges {
         // console.log("datos",datos)
         return datos
     }
-    public isImg(dato): boolean {
-        if (typeof dato == 'string') {
-            if (dato.includes('.jpg') || dato.includes('.jpeg') || dato.includes('.png') || dato.includes('.gif') || dato.includes('.svg')) {
-                // console.log("img",dato)
-                return true
-            }
-        }
-        return false
-    }
+    // public isImg(dato): boolean {
+    //     if (typeof dato == 'string') {
+    //         if (dato.includes('.jpg') || dato.includes('.jpeg') || dato.includes('.png') || dato.includes('.gif') || dato.includes('.svg')) {
+    //             // console.log("img",dato)
+    //             return true
+    //         }
+    //     }
+    //     return false
+    // }
     private sortByKey(obj): any {
         let sortObj: any = Object.entries(obj).sort().reduce((o, [k, v]) => (o[k] = v, o), {})
         // console.log("sort", sortObj)

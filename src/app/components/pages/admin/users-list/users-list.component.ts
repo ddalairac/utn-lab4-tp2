@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Meta } from '@angular/platform-browser';
 import { Router } from '@angular/router';
 import { Admin, ClinicUser, eUserTypes, Patient, Profesional, Specialties } from '../../../../class/data.model';
 import { eCollections } from '../../../../class/firebase.model';
@@ -13,6 +14,8 @@ import { iTableCol } from '../../../cross/table2/table2.model';
 })
 export class UsersListComponent implements OnInit {
 
+    // date:Date = new Date(Date.now())
+    // date:Date = new Date('1-1-2020')
     constructor(private fbsorageservice: FbStorageService, private router: Router) { }
 
     ngOnInit(): void {

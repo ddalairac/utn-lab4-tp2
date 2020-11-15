@@ -8,9 +8,8 @@
     </thead>
     <tbody>
         <tr *ngFor="let obj of objList; let rowIndex = index" (click)="onSelect(obj)" [class.active]="obj == objSelected">
-            <td *ngFor="let dato of rowData(obj); let colIndex = index" [attr.data-before]="colNames[colIndex]" [class.cols]="rowData(obj).length > 1">
-                <img [src]="dato" alt="" *ngIf="isImg(dato)">
-                <spam *ngIf="!isImg(dato)">{{dato}} </spam>
+            <td *ngFor="let dato of rowData(obj); let colIndex = index" [attr.data-before]="colNames[colIndex]" [class.cols]="rowData(obj).length > 1" typeFormat>
+                {{dato}}
             </td>
             <td *ngIf="actions.length > 0">
                 <button mat-icon-button aria-label="{{act.description}}" *ngFor="let act of actions" (click)="onAction(act.event, rowIndex,obj)">
