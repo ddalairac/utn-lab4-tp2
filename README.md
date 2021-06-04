@@ -1,6 +1,6 @@
 # UTN Tecnicatura en Programación
 
-### Materia Laboratorio 4 - TP2
+## Materia Laboratorio 4 - TP2
 
 # TP2 Clinica
 
